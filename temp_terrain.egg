@@ -1,0 +1,134 @@
+<CoordinateSystem> { Y-Up }
+
+<Comment> {
+  "maya2egg2012 -cs y-up -a model -cn bike -o 'C:\Users\Rook\GameDev1_project3\temp_terrain.egg' 'C:\Users\Rook\GameDev1_project3\temp_terrain.mb'"
+}
+<Group> bike {
+  <Dart> { 1 }
+  <Group> groundPlane_transform {
+  }
+  <Group> pPlane1 {
+    <VertexPool> pPlaneShape1.verts {
+      <Vertex> 0 {
+        -11.9067 -2.64381e-015 11.9067
+        <Normal> { 0 1 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 1 {
+        11.9067 -2.64381e-015 11.9067
+        <Normal> { 0 1 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 2 {
+        11.9067 2.64381e-015 -11.9067
+        <Normal> { 0 1 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 3 {
+        -11.9067 2.64381e-015 -11.9067
+        <Normal> { 0 1 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 4 {
+        11.9067 -2.64381e-015 11.9067
+        <Normal> { 0 0 -1 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 5 {
+        -11.9067 -2.64381e-015 11.9067
+        <Normal> { 0 0 -1 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 6 {
+        -11.9067 9.0571 11.9067
+        <Normal> { 0 0 -1 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 7 {
+        11.9067 9.0571 11.9067
+        <Normal> { 0 0 -1 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 8 {
+        -11.9067 -2.64381e-015 11.9067
+        <Normal> { 1 0 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 9 {
+        -11.9067 2.64381e-015 -11.9067
+        <Normal> { 1 0 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 10 {
+        -11.9067 9.0571 -11.9067
+        <Normal> { 1 0 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 11 {
+        -11.9067 9.0571 11.9067
+        <Normal> { 1 0 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 12 {
+        11.9067 2.64381e-015 -11.9067
+        <Normal> { -1 0 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 13 {
+        11.9067 -2.64381e-015 11.9067
+        <Normal> { -1 0 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 14 {
+        11.9067 9.0571 11.9067
+        <Normal> { -1 0 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 15 {
+        11.9067 9.0571 -11.9067
+        <Normal> { -1 0 0 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 16 {
+        -11.9067 2.64381e-015 -11.9067
+        <Normal> { 0 0 1 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 17 {
+        11.9067 2.64381e-015 -11.9067
+        <Normal> { 0 0 1 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 18 {
+        11.9067 9.0571 -11.9067
+        <Normal> { 0 0 1 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+      <Vertex> 19 {
+        -11.9067 9.0571 -11.9067
+        <Normal> { 0 0 1 }
+        <RGBA> { 0.4878 0.4878 0.4878 1 }
+      }
+    }
+    <Polygon> {
+      <Normal> { 0 1 0 }
+      <VertexRef> { 0 1 2 3 <Ref> { pPlaneShape1.verts } }
+    }
+    <Polygon> {
+      <Normal> { 0 0 -1 }
+      <VertexRef> { 4 5 6 7 <Ref> { pPlaneShape1.verts } }
+    }
+    <Polygon> {
+      <Normal> { 1 0 0 }
+      <VertexRef> { 8 9 10 11 <Ref> { pPlaneShape1.verts } }
+    }
+    <Polygon> {
+      <Normal> { -1 0 0 }
+      <VertexRef> { 12 13 14 15 <Ref> { pPlaneShape1.verts } }
+    }
+    <Polygon> {
+      <Normal> { 0 0 1 }
+      <VertexRef> { 16 17 18 19 <Ref> { pPlaneShape1.verts } }
+    }
+  }
+}
