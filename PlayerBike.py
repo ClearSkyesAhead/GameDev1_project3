@@ -16,7 +16,6 @@ class PlayerBike(DirectObject):
         self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
         self.bike.reparentTo(render)
         
-        
         #setup a move task for the bike
         taskMgr.add(self.move, "moveTask")
         self.prevTime = 0
@@ -24,6 +23,26 @@ class PlayerBike(DirectObject):
         
         #setup a moving dictionary
         self.moveMap = {"left":0, "right":0, "forward":0}
+        
+        
+        #setup collision sphere
+        base.cTrav = CollisionTraverser()
+        self.cHandler = CollisionHandlerEvent()
+        
+        cSphere = CollisionSphere((0,0,.75), .75)
+        cNode = CollisionNode("p_bike")
+        cNode.addSolid(cSphere)
+        cNodePath = self.bike.attachNewNode(cNode)
+        
+        #setup the node as a pusher
+        pusher = CollisionHandlerPusher()
+        pusher.addCollider(cNodePath, self.bike)
+        
+        #show the node
+        cNodePath.show()
+        
+        #add the collider to the traverser
+        base.cTrav.addCollider(cNodePath, pusher)
         
     def setDirection(self, key, value):
         #set the direction as on or off
@@ -56,3 +75,8 @@ class PlayerBike(DirectObject):
         
         self.prevTime = task.time
         return Task.cont
+        
+    def setupCollisions(self):
+        pass
+        
+        
