@@ -16,3 +16,5 @@ class Terrain(DirectObject):
         self.terrain = loader.loadModel("temp_terrain.egg")
         self.terrain.reparentTo(render)
         
+        #set a collide mask
+        self.terrain.setCollideMask(1)
