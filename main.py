@@ -20,6 +20,7 @@ class World(DirectObject):
         
         #disable mouse
         base.disableMouse()
+        
         #parent the camera to the player bike and offset the initial location
         camera.reparentTo(self.p_bike.bike)
         camera.setZ(7)
@@ -27,7 +28,10 @@ class World(DirectObject):
         camera.setY(-15)
         
         #set up accept tasks
+        #close the game
         self.accept("escape", sys.exit)
+        
+        #handle movement
         self.accept("arrow_up", self.p_bike.setDirection, ["forward", 1])
         self.accept("arrow_right", self.p_bike.setDirection, ["right", 1])
         self.accept("arrow_left", self.p_bike.setDirection, ["left", 1])
