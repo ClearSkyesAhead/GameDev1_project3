@@ -43,7 +43,12 @@ class World(DirectObject):
         self.accept("space", self.p_bike.setShoot, [1])
         self.accept("space-up", self.p_bike.setShoot, [0])
         
-        
+        #setup basic environment lighting
+        self.ambientLight = AmbientLight("ambientLight")
+        self.ambientLight.setColor((.25, .25, .25, 1))
+        self.ambientLightNP = render.attachNewNode(self.ambientLight)
+        render.setLight(self.ambientLightNP)
+        render.setShaderAuto()
         
         
 w = World()
