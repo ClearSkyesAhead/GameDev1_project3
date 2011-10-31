@@ -27,7 +27,18 @@ class PlayerBike(DirectObject):
         self.gun2.setPos(.46, 0, 1)
         self.gun2.setH(180)
         self.gun2.setR(180)
-        #self.gun2.reparentTo(self.bike)
+        
+        #load the headlight models
+        self.headlight1 = loader.loadModel("temp_light.egg")
+        self.headlight1.reparentTo(self.bike)
+        self.headlight1.setPos(.3, .55, .4)
+        self.headlight1.setScale(.75)
+        
+        #load the headlight models
+        self.headlight2 = loader.loadModel("temp_light.egg")
+        self.headlight2.reparentTo(self.bike)
+        self.headlight2.setPos(-.3, .55, .4)
+        self.headlight2.setScale(.75)
         
         #setup a move task for the bike
         taskMgr.add(self.move, "moveTask")
@@ -67,7 +78,7 @@ class PlayerBike(DirectObject):
         base.cTrav.addCollider(cNodePath, pusher)
         
         
-        
+        #attempt at each gun to get its own collision sphere
         """
         #setup collision spheres on gun1
         #self.cHandler = CollisionHandlerEvent()
@@ -104,6 +115,24 @@ class PlayerBike(DirectObject):
         
         #add the collider to the traverser
         base.cTrav.addCollider(cNodePath, pusher)"""
+        
+        #setup and parent spotlights to the player
+        self.spotlight1 = Spotlight("headlight1")
+        self.spotlight1.setColor((1, 1, 1, 1))
+        lens = PerspectiveLens()
+        #can change size of cone
+        lens.setFov(20)
+        self.spotlight1.setLens(lens)
+        self.spotlight1.setExponent(100)
+        lightNode = self.headlight1.attachNewNode(self.spotlight1)
+        render.setLight(lightNode)
+        
+        self.spotlight2 = Spotlight("headlight2")
+        self.spotlight2.setColor((1, 1, 1, 1))
+        self.spotlight2.setLens(lens)
+        self.spotlight2.setExponent(100)
+        lightNode = self.headlight2.attachNewNode(self.spotlight2)
+        render.setLight(lightNode)
         
     def setDirection(self, key, value):
         #set the direction as on or off
