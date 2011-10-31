@@ -14,6 +14,16 @@ from Terrain import Terrain
 
 class World(DirectObject):
     def __init__(self):
+        #load physics
+        base.enableParticles()
+        
+        #add gravity
+        gravityFN=ForceNode('world-forces')
+        gravityFNP=render.attachNewNode(gravityFN)
+        gravityForce=LinearVectorForce(0,0,-9.8)
+        gravityFN.addForce(gravityForce)
+        base.physicsMgr.addLinearForce(gravityForce)
+        
         #load all the models
         self.w_terrain = Terrain()
         self.p_bike = PlayerBike()
@@ -49,6 +59,8 @@ class World(DirectObject):
         self.ambientLightNP = render.attachNewNode(self.ambientLight)
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
+        
+        
         
         
 w = World()
