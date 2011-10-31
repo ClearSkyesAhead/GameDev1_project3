@@ -34,8 +34,17 @@ class PlayerBike(DirectObject):
         self.prevTime = 0
         self.isMoving = False
         
+        #setup a shoot task for the bike
+        taskMgr.add(self.shoot, "shootTask")
+        self.shotClock = 25
+        # for shooting anim self.isShooting = False
+        
         #setup a moving dictionary
         self.moveMap = {"left":0, "right":0, "forward":0}
+        
+        #setup a shoot check
+        self.shootCheck = 0
+        
         
         
         #setup collision spheres on bike
@@ -99,6 +108,25 @@ class PlayerBike(DirectObject):
     def setDirection(self, key, value):
         #set the direction as on or off
         self.moveMap[key] = value
+        
+    def setShoot(self, value):
+        
+        self.shootCheck = value
+        print("set shoot =", self.shootCheck)
+    
+    def shoot(self, task):
+        #check if space bar is pressed
+        if self.shootCheck:
+            #TO DO: create a moving bullet
+            #check if able to shoot
+            if self.shotClock >= 25:
+                print("Shooting a bullet!")
+                self.shotClock = 0
+            else:
+                self.shotClock += 1
+        else:
+            self.shotClock += 1
+        return Task.cont
         
     def move(self, task):
         elapsed = task.time - self.prevTime
