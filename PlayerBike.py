@@ -12,9 +12,14 @@ import sys, math, random
 
 class PlayerBike(DirectObject):
     def __init__(self):
-        #load the bike actor
+        #load the bike actor and parent it to a physics node
+        physNode = NodePath("PhysicsNode")
+        physNode.reparentTo(render)
+        actNode = ActorNode("player-bike-phys")
+        actNodePath = physNode.attachNewNode(actNode)
+        base.physicsMgr.attachPhysicalNode(actNode)
         self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
-        self.bike.reparentTo(render)
+        self.bike.reparentTo(actNodePath)
         
         #load the gun actors
         self.gun1 = Actor("temp_gun.egg", {"shoot":"gun-shoot"})
