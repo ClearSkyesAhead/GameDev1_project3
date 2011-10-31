@@ -16,6 +16,19 @@ class PlayerBike(DirectObject):
         self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
         self.bike.reparentTo(render)
         
+        #load the gun actors
+        self.gun1 = Actor("temp_gun.egg", {"shoot":"gun-shoot"})
+        self.gun1.reparentTo(self.bike)
+        self.gun1.setPos(-.5, 0, .5)
+        self.gun1.setH(180)
+        
+        self.gun2 = Actor("temp_gun.egg", {"shoot":"gun-shoot"})
+        self.gun2.reparentTo(self.bike)
+        self.gun2.setPos(.46, 0, 1)
+        self.gun2.setH(180)
+        self.gun2.setR(180)
+        #self.gun2.reparentTo(self.bike)
+        
         #setup a move task for the bike
         taskMgr.add(self.move, "moveTask")
         self.prevTime = 0
@@ -25,11 +38,11 @@ class PlayerBike(DirectObject):
         self.moveMap = {"left":0, "right":0, "forward":0}
         
         
-        #setup collision sphere
+        #setup collision spheres on bike
         base.cTrav = CollisionTraverser()
         self.cHandler = CollisionHandlerEvent()
         
-        cSphere = CollisionSphere((0,0,.75), .75)
+        cSphere = CollisionSphere((0,.2,1), 1)
         cNode = CollisionNode("p_bike")
         cNode.addSolid(cSphere)
         cNodePath = self.bike.attachNewNode(cNode)
@@ -39,10 +52,49 @@ class PlayerBike(DirectObject):
         pusher.addCollider(cNodePath, self.bike)
         
         #show the node
+        #cNodePath.show()
+        
+        #add the collider to the traverser
+        base.cTrav.addCollider(cNodePath, pusher)
+        
+        
+        
+        """
+        #setup collision spheres on gun1
+        #self.cHandler = CollisionHandlerEvent()
+        
+        cSphere = CollisionSphere((0,0,.75), .75)
+        cNode = CollisionNode("p_bike_gun1")
+        cNode.addSolid(cSphere)
+        cNodePath = self.gun1.attachNewNode(cNode)
+        
+        #setup the node as a pusher
+        
+        pusher.addCollider(cNodePath, self.gun1)
+        
+        #show the node
         cNodePath.show()
         
         #add the collider to the traverser
         base.cTrav.addCollider(cNodePath, pusher)
+        
+        #setup collision spheres on gun2
+        #self.cHandler = CollisionHandlerEvent()
+        
+        cSphere = CollisionSphere((0,0,.75), .75)
+        cNode = CollisionNode("p_bike_gun2")
+        cNode.addSolid(cSphere)
+        cNodePath = self.gun2.attachNewNode(cNode)
+        
+        #setup the node as a pusher
+        
+        pusher.addCollider(cNodePath, self.gun2)
+        
+        #show the node
+        cNodePath.show()
+        
+        #add the collider to the traverser
+        base.cTrav.addCollider(cNodePath, pusher)"""
         
     def setDirection(self, key, value):
         #set the direction as on or off
