@@ -39,6 +39,10 @@ class World(DirectObject):
         self.accept("arrow_right-up", self.p_bike.setDirection, ["right", 0])
         self.accept("arrow_left-up", self.p_bike.setDirection, ["left", 0])
         
+        #handle shooting
+        self.accept("space", self.p_bike.setShoot, [1])
+        self.accept("space-up", self.p_bike.setShoot, [0])
+        
         
         
         
