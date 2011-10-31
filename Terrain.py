@@ -12,9 +12,14 @@ import sys, math, random
 
 class Terrain(DirectObject):
     def __init__(self):
-        #load the model
+        #load the terrain model and make it a physics body
+        physNode = NodePath("PhysicsNode")
+        physNode.reparentTo(render)
+        actNode = ActorNode("terrain-phys")
+        actNodePath = physNode.attachNewNode(actNode)
+        base.physicsMgr.attachPhysicalNode(actNode)
         self.terrain = loader.loadModel("temp_terrain.egg")
-        self.terrain.reparentTo(render)
+        self.terrain.reparentTo(actNodePath)
         
         #set a collide mask
         self.terrain.setCollideMask(1)
