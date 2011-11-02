@@ -81,9 +81,10 @@ class World(DirectObject):
         taskMgr.add(self.AIUpdate,"AIUpdate")
     
     def AIUpdate(self, task):
+        self.AIworld.update()
         for i in self.e_bikes:
             i.update()
-        self.AIworld.update()
+            i.bike.setHpr(i.bike.getH(), 0, i.bike.getR())
         return Task.cont
         
     def addEnemy(self):
