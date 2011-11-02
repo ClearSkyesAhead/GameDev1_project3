@@ -15,15 +15,15 @@ from Terrain import Terrain
 class World(DirectObject):
     def __init__(self):
         #load physics
-        base.enableParticles()
-        
+        #base.enableParticles()
+        """
         #add gravity
-        gravityFN=ForceNode('world-forces')
-        gravityFNP=render.attachNewNode(gravityFN)
-        gravityForce=LinearVectorForce(0,0,-9.8)
+        gravityFN = ForceNode('world-forces')
+        gravityFNP = render.attachNewNode(gravityFN)
+        gravityForce = LinearVectorForce(0,0,-9.8)
         gravityFN.addForce(gravityForce)
         base.physicsMgr.addLinearForce(gravityForce)
-        
+        """
         #load all the models
         self.w_terrain = Terrain()
         self.p_bike = PlayerBike()
@@ -52,6 +52,9 @@ class World(DirectObject):
         #handle shooting
         self.accept("space", self.p_bike.setShoot, [1])
         self.accept("space-up", self.p_bike.setShoot, [0])
+        
+        #attempt at collision stuff
+        #self.accept("bike-terrain-phys", self.collision)
         
         #setup basic environment lighting
         self.ambientLight = AmbientLight("ambientLight")
