@@ -9,6 +9,7 @@ from direct.actor.Actor import Actor #for animated models
 from direct.interval.IntervalGlobal import *  #for compound intervals
 from direct.task import Task         #for update fuctions
 import sys, math, random
+from Bullet import Bullet 
 
 class PlayerBike(DirectObject):
     def __init__(self):
@@ -16,6 +17,11 @@ class PlayerBike(DirectObject):
         self.max_vel = 10
         self.accel = .5
         self.current_vel = 0
+        
+        #create empty list for bullets
+        self.bulletList = []
+        self.bulletCheck = False
+        self.bullet = Bullet()
     
         
         #load the bike actor and parent it to a physics node
@@ -62,22 +68,34 @@ class PlayerBike(DirectObject):
         #setup a shoot check
         self.shootCheck = 0
         
+        #setup collision spheres
         base.cTrav = CollisionTraverser()
+        
+        #pusher collision sphere
         collisionPusher = CollisionHandlerPusher()
         cPushSphere = CollisionSphere((0,0.2,1),1)
-        cNode = CollisionNode("p_bike")
+        
+        cNode = CollisionNode("p_bike_push")
         cNode.addSolid(cPushSphere)
         cNode.setIntoCollideMask(BitMask32.allOff())
         cNodePath = self.bike.attachNewNode(cNode)
         
         cNodePath.show()
+        
         collisionPusher.addCollider(cNodePath, self.bike)
         base.cTrav.addCollider(cNodePath, collisionPusher)
         
+        #regular collision sphere
+        cHandler = CollisionHandlerEvent()
+        cHandler.setInPattern("p_bike-%in")
+        cRegSphere = CollisionSphere((0,0,.75),1)
+        cNode2 = CollisionNode("p_bike")
+        cNode2.addSolid(cRegSphere)
+        cNode2.setIntoCollideMask(BitMask32.allOff())
+        cNodePath2 = self.bike.attachNewNode(cNode2)
         
-        
-        
-        
+        cNodePath2.show()
+        base.cTrav.addCollider(cNodePath2, cHandler)
         
         
         #setup and parent spotlights to the player
@@ -98,6 +116,7 @@ class PlayerBike(DirectObject):
         lightNode = self.headlight2.attachNewNode(self.spotlight2)
         render.setLight(lightNode)
         
+        
     def setDirection(self, key, value):
         #set the direction as on or off
         self.moveMap[key] = value
@@ -110,10 +129,10 @@ class PlayerBike(DirectObject):
     def shoot(self, task):
         #check if space bar is pressed
         if self.shootCheck:
-            #TO DO: create a moving bullet
             #check if able to shoot
             if self.shotClock >= 25:
                 print("Shooting a bullet!")
+                self.bullet.createBullet(self.gun1, self.bike)
                 self.shotClock = 0
             else:
                 self.shotClock += 1
@@ -139,7 +158,7 @@ class PlayerBike(DirectObject):
             dy = dist * -math.cos(angle)
             self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, 0)
         else:
-            self.current_vel -= 6*self.accel * elapsed
+            self.current_vel -= 10 * self.accel * elapsed
             if(self.current_vel < 0):
                 self.current_vel = 0
             dist = self.current_vel * elapsed
@@ -159,7 +178,7 @@ class PlayerBike(DirectObject):
                 #self.bike.pose("walk", 4)
         
         self.prevTime = task.time
-        print(self.current_vel)
+        #print(self.current_vel)
         return Task.cont
         
     def setupCollisions(self):
