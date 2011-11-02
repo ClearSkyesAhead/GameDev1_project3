@@ -17,6 +17,7 @@ class Bullet(DirectObject):
         self.accept("bullet-temp_terrain", self.bulletRemove)
         self.cTrav = cTrav
         
+        
     def bulletRemove(self, cEntry):
         print("bullet erased")
         self.bulletList.remove(cEntry.getFromNodePath().getParent())
