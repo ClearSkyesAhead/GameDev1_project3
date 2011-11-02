@@ -6,16 +6,20 @@ from direct.showbase.DirectObject import DirectObject  #for event handling
 from direct.actor.Actor import Actor #for animated models
 from direct.interval.IntervalGlobal import *  #for compound intervals
 from direct.task import Task         #for update fuctions
+from panda3d.core import *
+from panda3d.physics import *
 import sys, math, random
 
 class Bike(DirectObject):
     def __init__(self):
+        self.lights = True
+    
         #load the bike actor and parent it to a physics node
         physNode = NodePath("PhysicsNode")
         physNode.reparentTo(render)
         actNode = ActorNode("bike-phys")
         actNodePath = physNode.attachNewNode(actNode)
-        base.physicsMgr.attachPhysicalNode(actNode)
+        #base.physicsMgr.attachPhysicalNode(actNode)
         self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
         self.bike.reparentTo(actNodePath)
         
@@ -127,15 +131,15 @@ class Bike(DirectObject):
         lens.setFov(20)
         self.spotlight1.setLens(lens)
         self.spotlight1.setExponent(100)
-        lightNode = self.headlight1.attachNewNode(self.spotlight1)
-        render.setLight(lightNode)
+        self.spotnode1 = self.headlight1.attachNewNode(self.spotlight1)
+        render.setLight(self.spotnode1)
         
         self.spotlight2 = Spotlight("headlight2")
         self.spotlight2.setColor((1, 1, 1, 1))
         self.spotlight2.setLens(lens)
         self.spotlight2.setExponent(100)
-        lightNode = self.headlight2.attachNewNode(self.spotlight2)
-        render.setLight(lightNode)
+        self.spotnode2 = self.headlight2.attachNewNode(self.spotlight2)
+        render.setLight(self.spotnode2)
         
     def setDirection(self, key, value):
         #set the direction as on or off
@@ -191,4 +195,13 @@ class Bike(DirectObject):
     def setupCollisions(self):
         pass
         
+    def lightsOff(self):
+        self.lights = False
+        render.clearLight(self.spotnode1)
+        render.clearLight(self.spotnode2)
+        
+    def lightsOn(self):
+        self.lights = True
+        render.setLight(self.spotnode1)
+        render.setLight(self.spotnode2)
         

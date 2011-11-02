@@ -2,16 +2,7 @@
 
 from Bike import Bike
 
-import direct.directbase.DirectStart #starts Panda
-from pandac.PandaModules import *    #basic Panda modules
-from direct.showbase.DirectObject import DirectObject  #for event handling
-from direct.actor.Actor import Actor #for animated models
-from direct.interval.IntervalGlobal import *  #for compound intervals
-from direct.task import Task         #for update fuctions
 from panda3d.ai import *
-import sys, math, random
-
-
 
 class EnemyBike(Bike):
     def __init__(self):
@@ -19,7 +10,7 @@ class EnemyBike(Bike):
         self.initAI()
 		
     def initAI(self):
-        self.AIchar = AICharacter("Enemy Bike", self.bike, 100, 0.05, 5)
+        self.AIchar = AICharacter("Enemy Bike", self.bike, 100, 0.05, 10)
         self.AIbehaviors = self.AIchar.getAiBehaviors()
  
         #self.AIbehaviors.pursue(self.p_bike.bike, 0.7)
@@ -27,5 +18,9 @@ class EnemyBike(Bike):
         #self.AIbehaviors.obstacleAvoidance(1.0)
         #self.e_bike.loop("run")
 		
-
-		
+    def update(self):
+        """if self.lights:
+            self.lightsOff()
+        else:
+            self.lightsOn()"""
+            

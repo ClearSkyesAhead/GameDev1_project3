@@ -7,6 +7,8 @@ from direct.actor.Actor import Actor #for animated models
 from direct.interval.IntervalGlobal import *  #for compound intervals
 from direct.task import Task         #for update fuctions
 from panda3d.ai import *
+from panda3d.core import *
+from panda3d.physics import *
 import sys, math, random
 
 #our modules
@@ -18,14 +20,14 @@ class World(DirectObject):
     def __init__(self):
         #load physics
         #base.enableParticles()
-        """
+        
         #add gravity
-        gravityFN = ForceNode('world-forces')
-        gravityFNP = render.attachNewNode(gravityFN)
-        gravityForce = LinearVectorForce(0,0,-9.8)
-        gravityFN.addForce(gravityForce)
-        base.physicsMgr.addLinearForce(gravityForce)
-        """
+        #gravityFN = ForceNode('world-forces')
+        #gravityFNP = render.attachNewNode(gravityFN)
+        #gravityForce = LinearVectorForce(0,0,-9.8)
+        #gravityFN.addForce(gravityForce)
+        #base.physicsMgr.addLinearForce(gravityForce)
+        
         #load all the models
         self.w_terrain = Terrain()
         self.p_bike = PlayerBike()
@@ -69,7 +71,8 @@ class World(DirectObject):
         render.setShaderAuto()
         
         self.initAI()
-        self.e_bike = self.addEnemy()
+        self.e_bikes = [self.addEnemy()]
+        self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
         
     def initAI(self):
         self.AIworld = AIWorld(render)
@@ -78,7 +81,9 @@ class World(DirectObject):
         taskMgr.add(self.AIUpdate,"AIUpdate")
     
     def AIUpdate(self, task):
-        self.AIworld.update()            
+        for i in self.e_bikes:
+            i.update()
+        self.AIworld.update()
         return Task.cont
         
     def addEnemy(self):
