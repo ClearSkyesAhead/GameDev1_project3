@@ -14,7 +14,7 @@ import sys, math, random
 #our modules
 from PlayerBike import PlayerBike
 from Terrain import Terrain
-from EnemyBike import EnemyBike
+#from EnemyBike import EnemyBike
 
 class World(DirectObject):
     def __init__(self):
@@ -70,16 +70,16 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
-        self.initAI()
+        """self.initAI()
         self.e_bikes = [self.addEnemy()]
-        self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
+        self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)"""
     
     def testCollision(self, cEntry):
         """handles panda eating a smiley"""
         #remove from scene graph
         print("test")
         cEntry.getIntoNodePath().remove()
-        
+"""        
     def initAI(self):
         self.AIworld = AIWorld(render)
  
@@ -95,7 +95,7 @@ class World(DirectObject):
     def addEnemy(self):
         enemy = EnemyBike()
         self.AIworld.addAiChar(enemy.AIchar)
-        return enemy
+        return enemy"""
         
 w = World()
 run()
