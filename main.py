@@ -28,9 +28,12 @@ class World(DirectObject):
         #gravityFN.addForce(gravityForce)
         #base.physicsMgr.addLinearForce(gravityForce)
         
+        #create a traverser
+        base.cTrav = CollisionTraverser()
+        
         #load all the models
         self.w_terrain = Terrain()
-        self.p_bike = PlayerBike()
+        self.p_bike = PlayerBike(base.cTrav)
         
         #disable mouse
         base.disableMouse()
@@ -57,11 +60,8 @@ class World(DirectObject):
         self.accept("space", self.p_bike.setShoot, [1])
         self.accept("space-up", self.p_bike.setShoot, [0])
         
-        #update bullets
-        #self.p_bike.updateBullets()
-        
-        #attempt at collision stuff
-        #self.accept("bike-terrain-phys", self.collision)
+        self.accept("p_bike-test", self.testCollision)
+        self.accept("bullet-test", self.testCollision)
         
         #setup basic environment lighting
         self.ambientLight = AmbientLight("ambientLight")
@@ -73,6 +73,12 @@ class World(DirectObject):
         self.initAI()
         self.e_bikes = [self.addEnemy()]
         self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
+    
+    def testCollision(self, cEntry):
+        """handles panda eating a smiley"""
+        #remove from scene graph
+        print("test")
+        cEntry.getIntoNodePath().remove()
         
     def initAI(self):
         self.AIworld = AIWorld(render)

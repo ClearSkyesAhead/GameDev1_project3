@@ -12,15 +12,16 @@ import sys, math, random
 from Bullet import Bullet 
 
 class PlayerBike(DirectObject):
-    def __init__(self):
+    def __init__(self, cTrav):
         #create speed vars
         self.max_vel = 10
         self.accel = .5
         self.current_vel = 0
+        self.cTrav = cTrav
         
         #create empty list for bullets and a task for updating the positions
         self.bulletList = []
-        self.bullet = Bullet()
+        self.bullet = Bullet(cTrav)
         taskMgr.add(self.bullet.update, "bulletTask")
     
         
@@ -68,11 +69,9 @@ class PlayerBike(DirectObject):
         #setup a shoot check
         self.shootCheck = 0
         
-        #setup collision spheres
-        base.cTrav = CollisionTraverser()
-        
         #pusher collision sphere
         collisionPusher = CollisionHandlerPusher()
+        collisionPusher.setInPattern("p_bike-%in")
         cPushSphere = CollisionSphere((0,0.2,1),1)
         
         cNode = CollisionNode("p_bike_push")
@@ -83,19 +82,17 @@ class PlayerBike(DirectObject):
         cNodePath.show()
         
         collisionPusher.addCollider(cNodePath, self.bike)
-        base.cTrav.addCollider(cNodePath, collisionPusher)
+        self.cTrav.addCollider(cNodePath, collisionPusher)
         
-        #regular collision sphere
-        cHandler = CollisionHandlerEvent()
-        cHandler.setInPattern("p_bike-%in")
-        cRegSphere = CollisionSphere((0,0,.75),1)
-        cNode2 = CollisionNode("p_bike")
-        cNode2.addSolid(cRegSphere)
-        cNode2.setIntoCollideMask(BitMask32.allOff())
-        cNodePath2 = self.bike.attachNewNode(cNode2)
         
-        cNodePath2.show()
-        base.cTrav.addCollider(cNodePath2, cHandler)
+        #test sphere
+        cTestSphere = CollisionSphere((3,3,0),1)
+        cNodeTest = CollisionNode("test")
+        cNodeTest.addSolid(cTestSphere)
+        cNodeTestPath = render.attachNewNode(cNodeTest)
+        cNodeTestPath.show()
+        
+        
         
         
         #setup and parent spotlights to the player
@@ -115,8 +112,7 @@ class PlayerBike(DirectObject):
         self.spotlight2.setExponent(100)
         lightNode = self.headlight2.attachNewNode(self.spotlight2)
         render.setLight(lightNode)
-        
-        
+    
     def setDirection(self, key, value):
         #set the direction as on or off
         self.moveMap[key] = value
@@ -133,7 +129,7 @@ class PlayerBike(DirectObject):
             if self.shotClock >= 25:
                 print("Shooting a bullet!")
                 #create a bullet
-                self.bullet.createBullet(self.gun1, self.bike)
+                self.bullet.createBullet(self.bike)
                 self.shotClock = 0
             else:
                 self.shotClock += 1

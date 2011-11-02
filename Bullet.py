@@ -9,18 +9,41 @@ from direct.task import Task         #for update fuctions
 import sys, math, random
 
 class Bullet(DirectObject):
-    def __init__(self):
+    def __init__(self, cTrav):
         #create a constant speed and an overall bullet list to contain all bullets
-        self.speed = .5
+        self.speed = 10
         self.bulletList = []
         self.prevTime = 0
+        self.accept("bullet-temp_terrain", self.bulletRemove)
+        self.cTrav = cTrav
         
-    def createBullet(self, gun, bike):
+    def bulletRemove(self, cEntry):
+        print("bullet erased")
+        self.bulletList.remove(cEntry.getFromNodePath().getParent())
+        #remove from scene graph
+        cEntry.getFromNodePath().getParent().remove()
+        
+        
+    def createBullet(self, bike):
         #load the model and set the pos and H to the bike's
         self.bullet = loader.loadModel("temp_bullet.egg")
         self.bullet.setPos(bike.getX(), bike.getY(), bike.getZ())
         self.bullet.setH(bike.getH())
         self.bullet.reparentTo(render)
+        
+        #collision sphere for player bullet
+        #regular collision sphere
+        """cBulletHandler = CollisionHandlerEvent()
+        cBulletHandler.setInPattern("bullet-%in")
+        cSphere = CollisionSphere((self.bullet.getX(),self.bullet.getY(),self.bullet.getZ()),.2)
+        cNodeBullet = CollisionNode("bullet")
+        cNodeBullet.addSolid(cSphere)
+        cNodeBullet.setIntoCollideMask(BitMask32.allOff())
+        cNodeBulletPath = self.bullet.attachNewNode(cNodeBullet)
+        
+        cNodeBulletPath.show()
+        self.cTrav.addCollider(cNodeBulletPath, cBulletHandler)"""
+        
         #add bullet to overall list
         self.bulletList.append(self.bullet)
         
