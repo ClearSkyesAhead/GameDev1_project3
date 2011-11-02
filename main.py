@@ -53,6 +53,9 @@ class World(DirectObject):
         self.accept("space", self.p_bike.setShoot, [1])
         self.accept("space-up", self.p_bike.setShoot, [0])
         
+        #update bullets
+        #self.p_bike.updateBullets()
+        
         #attempt at collision stuff
         #self.accept("bike-terrain-phys", self.collision)
         
