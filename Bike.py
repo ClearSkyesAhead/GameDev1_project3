@@ -13,8 +13,9 @@ import sys, math, random
 from Bullet import *
 
 class Bike(DirectObject):
-    def __init__(self):
+    def __init__(self, cTrav):
         self.lights = True
+        self.cTrav = cTrav
     
         #load the bike actor and parent it to a physics node
         physNode = NodePath("PhysicsNode")
@@ -25,7 +26,7 @@ class Bike(DirectObject):
         
         #create empty list for bullets and a task for updating the positions
         self.bulletList = []
-        self.bullet = Bullet()
+        self.bullet = Bullet(self.cTrav)
         taskMgr.add(self.bullet.update, "bulletTask")
     
         

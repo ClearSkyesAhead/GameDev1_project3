@@ -15,8 +15,8 @@ import sys, math, random
 from panda3d.ai import *
 
 class EnemyBike(Bike):
-    def __init__(self):
-        Bike.__init__(self)
+    def __init__(self, cTrav):
+        Bike.__init__(self, cTrav)
         self.bike.setPos(0, 0, 10)
         self.initAI()
         
@@ -38,7 +38,7 @@ class EnemyBike(Bike):
         self.AIbehaviors = self.AIchar.getAiBehaviors()
  
         #self.AIbehaviors.pursue(self.p_bike.bike, 0.7)
-        self.AIbehaviors.wander(10.0, 0, 10, 0.3)
+        self.AIbehaviors.wander(10.0, 0, 10, 2)
         #self.AIbehaviors.obstacleAvoidance(1.0)
         #self.e_bike.loop("run")
 		
@@ -54,7 +54,7 @@ class EnemyBike(Bike):
         
         if self.shotClock >= 25:
             #create a bullet
-            self.bullet.createBullet(self.gun1, self.bike)
+            self.bullet.createBullet(self.bike)
             self.shotClock = 0
         else:
             self.shotClock += 1        

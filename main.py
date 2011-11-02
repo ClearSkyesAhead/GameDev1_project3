@@ -94,7 +94,7 @@ class World(DirectObject):
         return Task.cont
         
     def addEnemy(self):
-        enemy = EnemyBike()
+        enemy = EnemyBike(base.cTrav)
         self.AIworld.addAiChar(enemy.AIchar)
         return enemy
         
