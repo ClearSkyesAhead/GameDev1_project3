@@ -19,7 +19,7 @@ from EnemyBike import EnemyBike
 class World(DirectObject):
     def __init__(self):
         #load physics
-        #base.enableParticles()
+        base.enableParticles()
         
         #add gravity
         #gravityFN = ForceNode('world-forces')

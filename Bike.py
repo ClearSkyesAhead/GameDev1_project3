@@ -10,6 +10,8 @@ from panda3d.core import *
 from panda3d.physics import *
 import sys, math, random
 
+from Bullet import *
+
 class Bike(DirectObject):
     def __init__(self):
         self.lights = True
@@ -20,8 +22,16 @@ class Bike(DirectObject):
         actNode = ActorNode("bike-phys")
         actNodePath = physNode.attachNewNode(actNode)
         #base.physicsMgr.attachPhysicalNode(actNode)
+        
+        #create empty list for bullets and a task for updating the positions
+        self.bulletList = []
+        self.bullet = Bullet()
+        taskMgr.add(self.bullet.update, "bulletTask")
+    
+        
+        #load the bike actor and parent it to a physics node
         self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
-        self.bike.reparentTo(actNodePath)
+        self.bike.reparentTo(render)
         
         #load the gun actors
         self.gun1 = Actor("temp_gun.egg", {"shoot":"gun-shoot"})
@@ -48,20 +58,20 @@ class Bike(DirectObject):
         self.headlight2.setScale(.75)
         
         #setup a move task for the bike
-        taskMgr.add(self.move, "moveTask")
+        #taskMgr.add(self.move, "moveTask")
         self.prevTime = 0
         self.isMoving = False
         
         #setup a shoot task for the bike
-        taskMgr.add(self.shoot, "shootTask")
+        #taskMgr.add(self.shoot, "shootTask")
         self.shotClock = 25
         # for shooting anim self.isShooting = False
         
         #setup a moving dictionary
-        self.moveMap = {"left":0, "right":0, "forward":0}
+        #self.moveMap = {"left":0, "right":0, "forward":0}
         
         #setup a shoot check
-        self.shootCheck = 0
+        #self.shootCheck = 0
         
         
         
@@ -84,45 +94,6 @@ class Bike(DirectObject):
         #add the collider to the traverser
         base.cTrav.addCollider(cNodePath, pusher)
         
-        
-        #attempt at each gun to get its own collision sphere
-        """
-        #setup collision spheres on gun1
-        #self.cHandler = CollisionHandlerEvent()
-        
-        cSphere = CollisionSphere((0,0,.75), .75)
-        cNode = CollisionNode("p_bike_gun1")
-        cNode.addSolid(cSphere)
-        cNodePath = self.gun1.attachNewNode(cNode)
-        
-        #setup the node as a pusher
-        
-        pusher.addCollider(cNodePath, self.gun1)
-        
-        #show the node
-        cNodePath.show()
-        
-        #add the collider to the traverser
-        base.cTrav.addCollider(cNodePath, pusher)
-        
-        #setup collision spheres on gun2
-        #self.cHandler = CollisionHandlerEvent()
-        
-        cSphere = CollisionSphere((0,0,.75), .75)
-        cNode = CollisionNode("p_bike_gun2")
-        cNode.addSolid(cSphere)
-        cNodePath = self.gun2.attachNewNode(cNode)
-        
-        #setup the node as a pusher
-        
-        pusher.addCollider(cNodePath, self.gun2)
-        
-        #show the node
-        cNodePath.show()
-        
-        #add the collider to the traverser
-        base.cTrav.addCollider(cNodePath, pusher)"""
-        
         #setup and parent spotlights to the player
         self.spotlight1 = Spotlight("headlight1")
         self.spotlight1.setColor((1, 1, 1, 1))
@@ -141,29 +112,26 @@ class Bike(DirectObject):
         self.spotnode2 = self.headlight2.attachNewNode(self.spotlight2)
         render.setLight(self.spotnode2)
         
+    """
     def setDirection(self, key, value):
         #set the direction as on or off
         self.moveMap[key] = value
+    """
         
     def setShoot(self, value):
         
         self.shootCheck = value
         print("set shoot =", self.shootCheck)
     
-    def shoot(self, task):
-        #check if space bar is pressed
-        if self.shootCheck:
-            #TO DO: create a moving bullet
-            #check if able to shoot
-            if self.shotClock >= 25:
-                print("Shooting a bullet!")
-                self.shotClock = 0
-            else:
-                self.shotClock += 1
+    def shoot(self):
+        if self.shotClock >= 25:
+            #create a bullet
+            self.bullet.createBullet(self.gun1, self.bike)
+            self.shotClock = 0
         else:
             self.shotClock += 1
-        return Task.cont
         
+    """
     def move(self, task):
         elapsed = task.time - self.prevTime
         
@@ -191,6 +159,7 @@ class Bike(DirectObject):
         
         self.prevTime = task.time
         return Task.cont
+    """
         
     def setupCollisions(self):
         pass
