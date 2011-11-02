@@ -6,11 +6,13 @@ from direct.showbase.DirectObject import DirectObject  #for event handling
 from direct.actor.Actor import Actor #for animated models
 from direct.interval.IntervalGlobal import *  #for compound intervals
 from direct.task import Task         #for update fuctions
+from panda3d.ai import *
 import sys, math, random
 
 #our modules
 from PlayerBike import PlayerBike
 from Terrain import Terrain
+from EnemyBike import EnemyBike
 
 class World(DirectObject):
     def __init__(self):
@@ -60,8 +62,23 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
+        self.initAI()
+        self.e_bike = self.addEnemy()
         
+    def initAI(self):
+        self.AIworld = AIWorld(render)
+ 
+        #AI World update        
+        taskMgr.add(self.AIUpdate,"AIUpdate")
+    
+    def AIUpdate(self, task):
+        self.AIworld.update()            
+        return Task.cont
         
+    def addEnemy(self):
+        enemy = EnemyBike()
+        self.AIworld.addAiChar(enemy.AIchar)
+        return enemy
         
 w = World()
 run()
