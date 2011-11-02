@@ -18,10 +18,10 @@ class PlayerBike(DirectObject):
         self.accel = .5
         self.current_vel = 0
         
-        #create empty list for bullets
+        #create empty list for bullets and a task for updating the positions
         self.bulletList = []
-        self.bulletCheck = False
         self.bullet = Bullet()
+        taskMgr.add(self.bullet.update, "bulletTask")
     
         
         #load the bike actor and parent it to a physics node
@@ -132,6 +132,7 @@ class PlayerBike(DirectObject):
             #check if able to shoot
             if self.shotClock >= 25:
                 print("Shooting a bullet!")
+                #create a bullet
                 self.bullet.createBullet(self.gun1, self.bike)
                 self.shotClock = 0
             else:
