@@ -34,16 +34,18 @@ class Bullet(DirectObject):
         
         #collision sphere for player bullet
         #regular collision sphere
-        """cBulletHandler = CollisionHandlerEvent()
+        cBulletHandler = CollisionHandlerEvent()
         cBulletHandler.setInPattern("bullet-%in")
-        cSphere = CollisionSphere((self.bullet.getX(),self.bullet.getY(),self.bullet.getZ()),.2)
+        
+        #problem is coordinate system or parenting
+        cSphere = CollisionSphere(0, 0, 0,.2)
         cNodeBullet = CollisionNode("bullet")
         cNodeBullet.addSolid(cSphere)
         cNodeBullet.setIntoCollideMask(BitMask32.allOff())
         cNodeBulletPath = self.bullet.attachNewNode(cNodeBullet)
         
         cNodeBulletPath.show()
-        self.cTrav.addCollider(cNodeBulletPath, cBulletHandler)"""
+        self.cTrav.addCollider(cNodeBulletPath, cBulletHandler)
         
         #add bullet to overall list
         self.bulletList.append(self.bullet)
