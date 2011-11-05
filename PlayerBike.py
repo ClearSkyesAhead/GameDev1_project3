@@ -69,6 +69,9 @@ class PlayerBike(DirectObject):
         #setup a shoot check
         self.shootCheck = 0
         
+        
+        
+        """
         #pusher collision sphere
         collisionPusher = CollisionHandlerPusher()
         collisionPusher.setInPattern("p_bike-%in")
@@ -82,7 +85,21 @@ class PlayerBike(DirectObject):
         cNodePath.show()
         
         collisionPusher.addCollider(cNodePath, self.bike)
-        self.cTrav.addCollider(cNodePath, collisionPusher)
+        self.cTrav.addCollider(cNodePath, collisionPusher)"""
+        
+        lifter = CollisionHandlerFloor()
+        lifter.setMaxVelocity(1)
+        
+        cRay = CollisionRay(0, 0, 1, 0, 0, -1)
+        cRayNode = CollisionNode('playerRay')
+        cRayNode.addSolid(cRay)
+        cRayNode.setIntoCollideMask(BitMask32.allOff())
+        cRayNodePath = self.bike.attachNewNode(cRayNode)
+        cRayNodePath.show()
+         
+        cTrav.addCollider(cRayNodePath, lifter)
+        lifter.addCollider(cRayNodePath, self.bike)
+        
         
         
         #test sphere
@@ -153,7 +170,7 @@ class PlayerBike(DirectObject):
             angle = deg2Rad(self.bike.getH())
             dx = dist * math.sin(angle)
             dy = dist * -math.cos(angle)
-            self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, 0)
+            self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
         else:
             self.current_vel -= 10 * self.accel * elapsed
             if(self.current_vel < 0):
@@ -162,7 +179,7 @@ class PlayerBike(DirectObject):
             angle = deg2Rad(self.bike.getH())
             dx = dist * math.sin(angle)
             dy = dist * -math.cos(angle)
-            self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, 0)
+            self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
         
         if self.moveMap['left'] or self.moveMap['right'] or self.moveMap['forward']:
             if self.isMoving == False:
