@@ -15,7 +15,7 @@ class Terrain(DirectObject):
         #load the terrain model
         #self.terrain = loader.loadModel("temp_terrain.egg")
         #self.terrain = loader.loadModel("test_terrain_jump.egg")
-		self.terrain = loader.loadModel("terrain.egg")
+        self.terrain = loader.loadModel("terrain.egg")
 
         #self.terrain.reparentTo(actNodePath)
         self.terrain.reparentTo(render)
