@@ -18,7 +18,8 @@ class Terrain(DirectObject):
         actNode = ActorNode("terrain-phys")
         actNodePath = physNode.attachNewNode(actNode)
         base.physicsMgr.attachPhysicalNode(actNode)"""
-        self.terrain = loader.loadModel("temp_terrain.egg")
+        #self.terrain = loader.loadModel("temp_terrain.egg")
+        self.terrain = loader.loadModel("terrain.egg")
         #self.terrain.reparentTo(actNodePath)
         self.terrain.reparentTo(render)
         
