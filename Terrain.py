@@ -12,14 +12,11 @@ import sys, math, random
 
 class Terrain(DirectObject):
     def __init__(self):
-        #load the terrain model and make it a physics body
-        """physNode = NodePath("PhysicsNode")
-        physNode.reparentTo(render)
-        actNode = ActorNode("terrain-phys")
-        actNodePath = physNode.attachNewNode(actNode)
-        base.physicsMgr.attachPhysicalNode(actNode)"""
+        #load the terrain model
         #self.terrain = loader.loadModel("temp_terrain.egg")
-        self.terrain = loader.loadModel("terrain.egg")
+        #self.terrain = loader.loadModel("test_terrain_jump.egg")
+		self.terrain = loader.loadModel("terrain.egg")
+
         #self.terrain.reparentTo(actNodePath)
         self.terrain.reparentTo(render)
         
