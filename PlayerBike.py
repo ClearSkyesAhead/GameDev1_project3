@@ -87,6 +87,18 @@ class PlayerBike(DirectObject):
         collisionPusher.addCollider(cNodePath, self.bike)
         self.cTrav.addCollider(cNodePath, collisionPusher)"""
         
+        #collision sphere
+        cHandler = CollisionHandlerEvent()
+        cHandler.setInPattern("p_bike-%in")
+        cSphere = CollisionSphere((0, 0, .75), 1)
+        cNode = CollisionNode("p_bike")
+        cNode.addSolid(cSphere)
+        cNode.setIntoCollideMask(BitMask32.allOff())
+        cNodePath = self.bike.attachNewNode(cNode)
+        cNodePath.show()
+        self.cTrav.addCollider(cNodePath, cHandler)
+        
+        #collision ray for faux-gravity
         lifter = CollisionHandlerFloor()
         lifter.setMaxVelocity(1)
         
@@ -97,7 +109,7 @@ class PlayerBike(DirectObject):
         cRayNodePath = self.bike.attachNewNode(cRayNode)
         cRayNodePath.show()
          
-        cTrav.addCollider(cRayNodePath, lifter)
+        self.cTrav.addCollider(cRayNodePath, lifter)
         lifter.addCollider(cRayNodePath, self.bike)
         
         
