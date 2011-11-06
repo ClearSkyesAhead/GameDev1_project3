@@ -32,6 +32,7 @@ class Bike(DirectObject):
         
         #load the bike actor and parent it to a physics node
         self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
+        #self.bike = Actor("motorcycle1.egg", {"move":"bike-move", "shoot":"bike-shoot"})
         self.bike.reparentTo(render)
         
         #load the gun actors

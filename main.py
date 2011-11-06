@@ -31,6 +31,11 @@ class World(DirectObject):
         #create a traverser
         base.cTrav = CollisionTraverser()
         
+        self.cevent = CollisionHandlerEvent()
+        
+        self.cevent.addInPattern('into-%in')
+        self.cevent.addOutPattern('outof-%in')
+        
         #load all the models
         self.w_terrain = Terrain()
         self.p_bike = PlayerBike(base.cTrav)
@@ -94,7 +99,7 @@ class World(DirectObject):
         return Task.cont
         
     def addEnemy(self):
-        enemy = EnemyBike(base.cTrav)
+        enemy = EnemyBike(base.cTrav, self.cevent)
         self.AIworld.addAiChar(enemy.AIchar)
         return enemy
         
