@@ -69,31 +69,15 @@ class PlayerBike(DirectObject):
         #setup a shoot check
         self.shootCheck = 0
         
-        
-        
-        """
-        #pusher collision sphere
-        collisionPusher = CollisionHandlerPusher()
-        collisionPusher.setInPattern("p_bike-%in")
-        cPushSphere = CollisionSphere((0,0.2,1),1)
-        
-        cNode = CollisionNode("p_bike_push")
-        cNode.addSolid(cPushSphere)
-        cNode.setIntoCollideMask(BitMask32.allOff())
-        cNodePath = self.bike.attachNewNode(cNode)
-        
-        cNodePath.show()
-        
-        collisionPusher.addCollider(cNodePath, self.bike)
-        self.cTrav.addCollider(cNodePath, collisionPusher)"""
-        
         #collision sphere
         cHandler = CollisionHandlerEvent()
         cHandler.setInPattern("p_bike-%in")
         cSphere = CollisionSphere((0, 0, .75), 1)
         cNode = CollisionNode("p_bike")
         cNode.addSolid(cSphere)
-        cNode.setIntoCollideMask(BitMask32.allOff())
+        #cNode.setIntoCollideMask(BitMask32.allOff())
+        cNode.setIntoCollideMask(BitMask32(0x10)) # Bike needs to be collided by AI rays
+        cNode.setFromCollideMask(BitMask32.allOff())
         cNodePath = self.bike.attachNewNode(cNode)
         cNodePath.show()
         self.cTrav.addCollider(cNodePath, cHandler)
@@ -105,6 +89,7 @@ class PlayerBike(DirectObject):
         cRay = CollisionRay(0, 0, 1, 0, 0, -1)
         cRayNode = CollisionNode('playerRay')
         cRayNode.addSolid(cRay)
+        cRayNode.setFromCollideMask(BitMask32(0x1))
         cRayNode.setIntoCollideMask(BitMask32.allOff())
         cRayNodePath = self.bike.attachNewNode(cRayNode)
         cRayNodePath.show()
@@ -113,13 +98,14 @@ class PlayerBike(DirectObject):
         lifter.addCollider(cRayNodePath, self.bike)
         
         
-        
+        """
         #test sphere
         cTestSphere = CollisionSphere((3,3,0),1)
         cNodeTest = CollisionNode("test")
         cNodeTest.addSolid(cTestSphere)
         cNodeTestPath = render.attachNewNode(cNodeTest)
         cNodeTestPath.show()
+        """
         
         
         
