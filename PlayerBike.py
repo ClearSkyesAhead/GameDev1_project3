@@ -111,51 +111,6 @@ class PlayerBike(DirectObject):
         self.cTrav.addCollider(cRayNodePath, lifter)
         lifter.addCollider(cRayNodePath, self.bike)
         
-        
-<<<<<<< HEAD
-        """
-=======
-        """#collision sphere
-        cHandler = CollisionHandlerEvent()
-        cHandler.setInPattern("p_bike-%in")
-        cSphere = CollisionSphere((0, 0, .75), 1)
-        cNode = CollisionNode("p_bike")
-        cNode.addSolid(cSphere)
-        cNode.setIntoCollideMask(BitMask32.allOff())
-        cNodePath = self.bike.attachNewNode(cNode)
-        cNodePath.show()
-        self.cTrav.addCollider(cNodePath, cHandler)"""
-        
-        
->>>>>>> 2fbed25e74453c58da31ea842a725b9398cb8114
-        #test sphere
-        cTestSphere = CollisionSphere((3,3,0),1)
-        cNodeTest = CollisionNode("test")
-        cNodeTest.addSolid(cTestSphere)
-        cNodeTest.setCollideMask(2)
-        cNodeTestPath = render.attachNewNode(cNodeTest)
-        cNodeTestPath.show()
-        """
-        
-        
-        """#setup and parent spotlights to the player
-        self.spotlight1 = Spotlight("headlight1")
-        self.spotlight1.setColor((1, 1, 1, 1))
-        lens = PerspectiveLens()
-        #can change size of cone
-        lens.setFov(20)
-        self.spotlight1.setLens(lens)
-        self.spotlight1.setExponent(100)
-        lightNode = self.headlight1.attachNewNode(self.spotlight1)
-        render.setLight(lightNode)
-        
-        self.spotlight2 = Spotlight("headlight2")
-        self.spotlight2.setColor((1, 1, 1, 1))
-        self.spotlight2.setLens(lens)
-        self.spotlight2.setExponent(100)
-        lightNode = self.headlight2.attachNewNode(self.spotlight2)
-        render.setLight(lightNode)"""
-    
     def setDirection(self, key, value):
         #set the direction as on or off
         self.moveMap[key] = value
