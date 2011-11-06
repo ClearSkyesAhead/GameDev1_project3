@@ -9,7 +9,10 @@ from direct.actor.Actor import Actor #for animated models
 from direct.interval.IntervalGlobal import *  #for compound intervals
 from direct.task import Task         #for update fuctions
 import sys, math, random
-from Bullet import Bullet 
+from Bullet import Bullet
+from weapon1 import weapon1
+from weapon2 import weapon2
+from weapon3 import weapon3
 
 class PlayerBike(DirectObject):
     def __init__(self, cTrav):
@@ -18,11 +21,19 @@ class PlayerBike(DirectObject):
         self.accel = .5
         self.current_vel = 0
         self.cTrav = cTrav
+        self.weapon = 3
         
         #create empty list for bullets and a task for updating the positions
         self.bulletList = []
         self.bullet = Bullet(cTrav)
+        self.spreadshot = weapon1(cTrav)
+        self.explode = weapon2(cTrav)
+        self.wallshot = weapon3(cTrav)
+        
         taskMgr.add(self.bullet.update, "bulletTask")
+        taskMgr.add(self.spreadshot.update, "bulletTask")
+        taskMgr.add(self.explode.update, "bulletTask")
+        taskMgr.add(self.wallshot.update, "bulletTask")
     
         
         #load the bike actor and parent it to a physics node
@@ -154,14 +165,51 @@ class PlayerBike(DirectObject):
     def shoot(self, task):
         #check if space bar is pressed
         if self.shootCheck:
-            #check if able to shoot
-            if self.shotClock >= 25:
-                print("Shooting a bullet!")
-                #create a bullet
-                self.bullet.createBullet(self.bike)
-                self.shotClock = 0
-            else:
-                self.shotClock += 1
+
+            #Check which weapon is being used
+            #standard weapon
+            if self.weapon == 0:
+                #check if able to shoot
+                if self.shotClock >= 25:
+                    #print("Shooting a bullet!")
+                    self.bullet.createBullet(self.bike)
+                    self.shotClock = 0
+                else:
+                    self.shotClock += 1
+            #Weapon 1 - macinhe gun
+            #Nothing is changed about the bullet itself, it simply changes the cool down time.
+            elif self.weapon == 1:
+                if self.shotClock >= 7:
+                    #print("Shooting a bullet!")
+                    self.bullet.createBullet(self.bike)
+                    self.shotClock = 0
+                else:
+                    self.shotClock += 1    
+            #Weapon 2 - Spreadshot/Shotgun
+            elif self.weapon == 2:
+                if self.shotClock >= 40:
+                    #print("Shooting a bullet!")
+                    self.spreadshot.createBullet(self.bike)
+                    self.shotClock = 0
+                else:
+                    self.shotClock += 1 
+            #Weapon 3 - explosion (Like spread but in every direction by 15 degree increments
+            elif self.weapon == 3:
+                if self.shotClock >= 250:
+                    #print("Shooting a bullet!")
+                    self.explode.createBullet(self.bike)
+                    self.shotClock = 0
+                else:
+                    self.shotClock += 1 
+            #Weapon 4 - Wall shot (Not sure how I feel about this one yet)
+            elif self.weapon == 4:
+                if self.shotClock >= 50:
+                    #print("Shooting a bullet!")
+                    self.wallshot.createBullet(self.bike)
+                    self.shotClock = 0
+                else:
+                    self.shotClock += 1 
+
         else:
             self.shotClock += 1
         return Task.cont
