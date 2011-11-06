@@ -11,12 +11,13 @@ from direct.task import Task         #for update fuctions
 import sys, math, random
 
 class weapon2(DirectObject):
-    def __init__(self):
+    def __init__(self, cTrav):
 
         #create a constant speed and an overall bullet list to contain all bullets
         self.speed = 10
         self.bulletList = []
         self.prevTime = 0
+        self.cTrav = cTrav
         
     def createBullet(self, bike):
         #load the model and set the pos and H to the bike's
@@ -95,6 +96,65 @@ class weapon2(DirectObject):
         self.bullet16.reparentTo(render)
         self.bullet17.reparentTo(render)
         self.bullet18.reparentTo(render)
+        
+        
+        
+        #collision sphere for player bullet
+        #regular collision sphere
+        cBulletHandler = CollisionHandlerEvent()
+        cBulletHandler.setInPattern("bullet-%in")
+        
+        #problem is coordinate system or parenting
+        cSphere = CollisionSphere(0, 0, 0,.2)
+        cNodeBullet = CollisionNode("bullet1")
+        cNodeBullet = CollisionNode("bullet2")
+        cNodeBullet = CollisionNode("bullet3")
+        cNodeBullet = CollisionNode("bullet4")
+        cNodeBullet = CollisionNode("bullet5")
+        cNodeBullet = CollisionNode("bullet6")
+        cNodeBullet = CollisionNode("bullet7")
+        cNodeBullet = CollisionNode("bullet8")
+        cNodeBullet = CollisionNode("bullet9")
+        cNodeBullet = CollisionNode("bullet10")
+        cNodeBullet = CollisionNode("bullet11")
+        cNodeBullet = CollisionNode("bullet12")
+        cNodeBullet = CollisionNode("bullet13")
+        cNodeBullet = CollisionNode("bullet14")
+        cNodeBullet = CollisionNode("bullet15")
+        cNodeBullet = CollisionNode("bullet16")
+        cNodeBullet = CollisionNode("bullet17")
+        cNodeBullet = CollisionNode("bullet18")
+
+        cNodeBullet.addSolid(cSphere)
+        cNodeBullet.setIntoCollideMask(BitMask32.allOff())
+        #cNodeBullet.setCollideMask(0x1+0x2)
+        cNodeBulletPath = self.bullet1.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet2.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet3.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet4.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet5.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet6.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet7.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet8.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet9.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet10.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet11.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet12.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet13.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet14.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet15.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet16.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet17.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet18.attachNewNode(cNodeBullet)
+
+        
+        
+        cNodeBulletPath.show()
+        self.cTrav.addCollider(cNodeBulletPath, cBulletHandler)
+        
+        
+        
+        
         
         #add bullet to overall list
         self.bulletList.append(self.bullet1)
