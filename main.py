@@ -21,13 +21,6 @@ class World(DirectObject):
         #load physics
         base.enableParticles()
         
-        #add gravity
-        #gravityFN = ForceNode('world-forces')
-        #gravityFNP = render.attachNewNode(gravityFN)
-        #gravityForce = LinearVectorForce(0,0,-9.8)
-        #gravityFN.addForce(gravityForce)
-        #base.physicsMgr.addLinearForce(gravityForce)
-        
         #create a traverser
         base.cTrav = CollisionTraverser()
         
@@ -45,9 +38,9 @@ class World(DirectObject):
         
         #parent the camera to the player bike and offset the initial location
         camera.reparentTo(self.p_bike.bike)
-        camera.setZ(7)
-        camera.setP(-15)
-        camera.setY(-15)
+        camera.setZ(8)
+        camera.setP(-9)
+        camera.setY(-30)
         
         #set up accept tasks
         #close the game
@@ -75,17 +68,26 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
-        self.initAI()
+        """self.initAI()
         self.e_bikes = [self.addEnemy()]
-        self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
+        self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)"""
     
     def testCollision(self, cEntry):
-        """handles panda eating a smiley"""
-        #remove from scene graph
+        #check if in collision
         print("test")
+        #remove test sphere
         cEntry.getIntoNodePath().remove()
+        #find the right bullet in the list to remove and the right time index
+        for i in range(len(self.p_bike.bullet.bulletList)):
+            if cEntry.getFromNodePath().getParent() == self.p_bike.bullet.bulletList[i]:
+                print('erased')
+                self.p_bike.bullet.bulletTime.remove(self.p_bike.bullet.bulletTime[i])
+                self.p_bike.bullet.bulletList.remove(self.p_bike.bullet.bulletList[i])
+                cEntry.getFromNodePath().getParent().remove()
+                break
+                
         
-    def initAI(self):
+    """def initAI(self):
         self.AIworld = AIWorld(render)
  
         #AI World update        
@@ -101,7 +103,7 @@ class World(DirectObject):
     def addEnemy(self):
         enemy = EnemyBike(base.cTrav, self.cevent)
         self.AIworld.addAiChar(enemy.AIchar)
-        return enemy
+        return enemy"""
         
 w = World()
 run()
