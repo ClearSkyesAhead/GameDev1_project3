@@ -17,14 +17,16 @@ from weapon3 import weapon3
 class PlayerBike(DirectObject):
     def __init__(self, cTrav):
         #create speed vars
-        self.max_vel = 10
-        self.accel = .5
+        self.max_vel = 50
+        self.accel = 2
         self.current_vel = 0
         self.cTrav = cTrav
         self.weapon = 3
         
+        self.tempHeading = 0
+        
+        
         #create empty list for bullets and a task for updating the positions
-        self.bulletList = []
         self.bullet = Bullet(cTrav)
         self.spreadshot = weapon1(cTrav)
         self.explode = weapon2(cTrav)
@@ -37,10 +39,14 @@ class PlayerBike(DirectObject):
     
         
         #load the bike actor and parent it to a physics node
-        self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
+        self.bike = Actor("motorcycle2.egg", {"move":"bike-move", "shoot":"bike-shoot"})
+        #self.bike = loader.loadModel('motorcycle2.egg')
+        #self.bike.setScale(.5)
+        #self.bike.setH(180)
         self.bike.reparentTo(render)
         
-        #load the gun actors
+        
+        """#load the gun actors
         self.gun1 = Actor("temp_gun.egg", {"shoot":"gun-shoot"})
         self.gun1.reparentTo(self.bike)
         self.gun1.setPos(-.5, 0, .5)
@@ -62,7 +68,7 @@ class PlayerBike(DirectObject):
         self.headlight2 = loader.loadModel("temp_light.egg")
         self.headlight2.reparentTo(self.bike)
         self.headlight2.setPos(-.3, .55, .4)
-        self.headlight2.setScale(.75)
+        self.headlight2.setScale(.75)"""
         
         #setup a move task for the bike
         taskMgr.add(self.move, "moveTask")
@@ -80,79 +86,42 @@ class PlayerBike(DirectObject):
         #setup a shoot check
         self.shootCheck = 0
         
+
+        #setup a wall collision check
+        self.wallCheck = False
         
-        
-        """
         #pusher collision sphere
         collisionPusher = CollisionHandlerPusher()
         collisionPusher.setInPattern("p_bike-%in")
-        cPushSphere = CollisionSphere((0,0.2,1),1)
+        cPushSphere = CollisionSphere((0,0,1),4.5)
         
         cNode = CollisionNode("p_bike_push")
         cNode.addSolid(cPushSphere)
-        cNode.setIntoCollideMask(BitMask32.allOff())
+        cNode.setIntoCollideMask(0x10)
+        cNode.setFromCollideMask(0x1)
         cNodePath = self.bike.attachNewNode(cNode)
         
         cNodePath.show()
         
         collisionPusher.addCollider(cNodePath, self.bike)
-        self.cTrav.addCollider(cNodePath, collisionPusher)"""
+        self.cTrav.addCollider(cNodePath, collisionPusher)
         
-        #collision sphere
-        cHandler = CollisionHandlerEvent()
-        cHandler.setInPattern("p_bike-%in")
-        cSphere = CollisionSphere((0, 0, .75), 1)
-        cNode = CollisionNode("p_bike")
-        cNode.addSolid(cSphere)
-        cNode.setIntoCollideMask(BitMask32.allOff())
-        cNodePath = self.bike.attachNewNode(cNode)
-        cNodePath.show()
-        self.cTrav.addCollider(cNodePath, cHandler)
-        
-        #collision ray for faux-gravity
+        #collision rays for faux-gravity
+        #front wheel
         lifter = CollisionHandlerFloor()
         lifter.setMaxVelocity(1)
         
-        cRay = CollisionRay(0, 0, 1, 0, 0, -1)
-        cRayNode = CollisionNode('playerRay')
-        cRayNode.addSolid(cRay)
-        cRayNode.setIntoCollideMask(BitMask32.allOff())
-        cRayNodePath = self.bike.attachNewNode(cRayNode)
-        cRayNodePath.show()
+        cRay1 = CollisionRay(0, 3, 1, 0, 0, -1)
+        cRayNode1 = CollisionNode('playerRay')
+        cRayNode1.addSolid(cRay1)
+        cRayNode1.setIntoCollideMask(BitMask32.allOff())
+        cRayNode1.setCollideMask(2)
+        cRayNodePath1 = self.bike.attachNewNode(cRayNode1)
+        cRayNodePath1.show()
          
-        self.cTrav.addCollider(cRayNodePath, lifter)
-        lifter.addCollider(cRayNodePath, self.bike)
+        self.cTrav.addCollider(cRayNodePath1, lifter)
+        lifter.addCollider(cRayNodePath1, self.bike)
         
-        
-        
-        #test sphere
-        cTestSphere = CollisionSphere((3,3,0),1)
-        cNodeTest = CollisionNode("test")
-        cNodeTest.addSolid(cTestSphere)
-        cNodeTestPath = render.attachNewNode(cNodeTest)
-        cNodeTestPath.show()
-        
-        
-        
-        
-        #setup and parent spotlights to the player
-        self.spotlight1 = Spotlight("headlight1")
-        self.spotlight1.setColor((1, 1, 1, 1))
-        lens = PerspectiveLens()
-        #can change size of cone
-        lens.setFov(20)
-        self.spotlight1.setLens(lens)
-        self.spotlight1.setExponent(100)
-        lightNode = self.headlight1.attachNewNode(self.spotlight1)
-        render.setLight(lightNode)
-        
-        self.spotlight2 = Spotlight("headlight2")
-        self.spotlight2.setColor((1, 1, 1, 1))
-        self.spotlight2.setLens(lens)
-        self.spotlight2.setExponent(100)
-        lightNode = self.headlight2.attachNewNode(self.spotlight2)
-        render.setLight(lightNode)
-    
     def setDirection(self, key, value):
         #set the direction as on or off
         self.moveMap[key] = value
@@ -220,8 +189,10 @@ class PlayerBike(DirectObject):
         #check key map
         if self.moveMap['left']:
             self.bike.setH(self.bike.getH() + elapsed * 100)
+            
         if self.moveMap['right']:
             self.bike.setH(self.bike.getH() - elapsed * 100)
+            
         if self.moveMap['forward']:
             self.current_vel += self.accel
             if(self.current_vel > self.max_vel):
@@ -248,14 +219,12 @@ class PlayerBike(DirectObject):
         else:
             if self.isMoving:
                 self.isMoving = False
-                self.bike.stop()
+                #self.bike.stop()
                 #self.bike.pose("walk", 4)
         
         self.prevTime = task.time
         #print(self.current_vel)
         return Task.cont
         
-    def setupCollisions(self):
-        pass
         
         

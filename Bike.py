@@ -31,8 +31,8 @@ class Bike(DirectObject):
     
         
         #load the bike actor and parent it to a physics node
-        self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
-        #self.bike = Actor("motorcycle1.egg", {"move":"bike-move", "shoot":"bike-shoot"})
+        #self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
+        self.bike = Actor("motorcycle1.egg", {"move":"bike-move", "shoot":"bike-shoot"})
         self.bike.reparentTo(render)
         
         #load the gun actors
@@ -78,13 +78,27 @@ class Bike(DirectObject):
         
         
         #setup collision spheres on bike
-        base.cTrav = CollisionTraverser()
-        self.cHandler = CollisionHandlerEvent()
+        #base.cTrav = CollisionTraverser()
+        #self.cHandler = CollisionHandlerEvent()
         
+        """
         cSphere = CollisionSphere((0,.2,1), 1)
-        cNode = CollisionNode("p_bike")
+        cNode = CollisionNode("e_bike")
         cNode.addSolid(cSphere)
         cNodePath = self.bike.attachNewNode(cNode)
+        """
+        
+        #cHandler = CollisionHandlerEvent()
+        #cHandler.setInPattern("e_bike-%in")
+        cSphere = CollisionSphere((0, 0, .75), 1)
+        cNode = CollisionNode("e_bike")
+        cNode.addSolid(cSphere)
+        #cNode.setIntoCollideMask(BitMask32.allOff())
+        cNode.setIntoCollideMask(BitMask32(0x10)) # Player bike collides into enemy bike
+        cNode.setFromCollideMask(BitMask32.allOff())
+        cNodePath = self.bike.attachNewNode(cNode)
+        cNodePath.show()
+        #self.cTrav.addCollider(cNodePath, cHandler)
         
         #setup the node as a pusher
         pusher = CollisionHandlerPusher()

@@ -15,26 +15,19 @@ import sys, math, random
 
 from panda3d.ai import *
 
-def inview():
-    pass
-
 class ViewCollider(DirectObject.DirectObject):
     def __init__(self):
-        self.accept('vistrace-into-p_bike', inview);
+        self.accept('vistrace-into-p_bike', self.inview);
         
     def inview(self, event):
         print entry
-
-ViewCollider()
 
 class AimCollider(DirectObject.DirectObject):
     def __init__(self):
-        self.accept('aimtrace-into-p_bike', inview);
+        self.accept('aimtrace-into-p_bike', self.inview);
         
     def inview(self, event):
         print entry
-
-AimCollider()
     
 
 class EnemyBike(Bike):
@@ -43,13 +36,17 @@ class EnemyBike(Bike):
         self.bike.setPos(0, 0, 10)
         self.initAI()
         
+        self.vc = ViewCollider()
+        self.ac = AimCollider()
+        
         frombikemask = BitMask32(0x10)
         intobikemask = BitMask32.allOff()
+        floormask = BitMask32(0x2)
         
         self.bullettracel = self.gun1.attachNewNode(CollisionNode('cnode'))
         self.bullettracel.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
         self.bullettracel.node().setFromCollideMask(frombikemask)
-        self.bullettracel.node().setFromCollideMask(intobikemask)
+        self.bullettracel.node().setIntoCollideMask(intobikemask)
         self.bullettracel.show()
         
         self.bullettracer = self.gun2.attachNewNode(CollisionNode('cnode'))
@@ -60,8 +57,8 @@ class EnemyBike(Bike):
         
         self.gravtrace = self.bike.attachNewNode(CollisionNode('colNode'))
         self.gravtrace.node().addSolid(CollisionRay(0, 0, 0, 0, 0, -1))
-        self.gravtrace.node().setFromCollideMask(BitMask32.allOff())
-        self.gravtrace.node().setFromCollideMask(BitMask32.allOff())
+        self.gravtrace.node().setFromCollideMask(floormask)
+        self.gravtrace.node().setIntoCollideMask(BitMask32.allOff())
         self.gravtrace.show()
         
         self.vistrace = self.bike.attachNewNode(CollisionNode('cnode'))
