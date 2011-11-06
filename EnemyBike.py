@@ -41,7 +41,7 @@ class EnemyBike(Bike):
         
         frombikemask = BitMask32(0x10)
         intobikemask = BitMask32.allOff()
-        floormask = BitMask32(0x1)
+        floormask = BitMask32(0x2)
         
         self.bullettracel = self.gun1.attachNewNode(CollisionNode('cnode'))
         self.bullettracel.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))

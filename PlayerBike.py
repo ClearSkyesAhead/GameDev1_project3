@@ -95,21 +95,21 @@ class PlayerBike(DirectObject):
         collisionPusher.addCollider(cNodePath, self.bike)
         self.cTrav.addCollider(cNodePath, collisionPusher)
         
-        #collision ray for faux-gravity
+        #collision rays for faux-gravity
+        #front wheel
         lifter = CollisionHandlerFloor()
         lifter.setMaxVelocity(1)
         
-        cRay = CollisionRay(0, 0, 1, 0, 0, -1)
-        cRayNode = CollisionNode('playerRay')
-        cRayNode.addSolid(cRay)
-        cRayNode.setFromCollideMask(BitMask32(0x1))
-        cRayNode.setIntoCollideMask(BitMask32.allOff())
-        cRayNode.setCollideMask(2)
-        cRayNodePath = self.bike.attachNewNode(cRayNode)
-        cRayNodePath.show()
+        cRay1 = CollisionRay(0, 3, 1, 0, 0, -1)
+        cRayNode1 = CollisionNode('playerRay')
+        cRayNode1.addSolid(cRay1)
+        cRayNode1.setIntoCollideMask(BitMask32.allOff())
+        cRayNode1.setCollideMask(2)
+        cRayNodePath1 = self.bike.attachNewNode(cRayNode1)
+        cRayNodePath1.show()
          
-        self.cTrav.addCollider(cRayNodePath, lifter)
-        lifter.addCollider(cRayNodePath, self.bike)
+        self.cTrav.addCollider(cRayNodePath1, lifter)
+        lifter.addCollider(cRayNodePath1, self.bike)
         
     def setDirection(self, key, value):
         #set the direction as on or off
