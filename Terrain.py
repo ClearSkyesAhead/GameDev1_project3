@@ -19,8 +19,9 @@ class Terrain(DirectObject):
 
         #self.terrain.reparentTo(actNodePath)
         self.terrain.reparentTo(render)
+        self.terrain.setScale(.85)
         
         #set a collide mask
         #self.terrain.setCollideMask(BitMask32.allOff())
         #self.terrain.setCollideMask(BitMask32.bit(0))
-        self.terrain.setCollideMask(1)
+        self.terrain.setCollideMask(2)
