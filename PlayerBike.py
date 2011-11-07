@@ -114,6 +114,17 @@ class PlayerBike(DirectObject):
         self.cTrav.addCollider(cRayNodePath1, lifter)
         lifter.addCollider(cRayNodePath1, self.bike)
         
+        #setup and parent spotlights to the player
+        self.spotlight = Spotlight("headlight")
+        self.spotlight.setColor((1, 1, 1, 1))
+        lens = PerspectiveLens()
+        #can change size of cone
+        lens.setFov(20)
+        self.spotlight.setLens(lens)
+        self.spotlight.setExponent(100)
+        lightNode = self.bike.attachNewNode(self.spotlight)
+        render.setLight(lightNode)
+        
     def setDirection(self, key, value):
         #set the direction as on or off
         self.moveMap[key] = value
