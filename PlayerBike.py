@@ -14,12 +14,15 @@ from Bullet import Bullet
 class PlayerBike(DirectObject):
     def __init__(self, cTrav):
         #create speed vars
-        self.max_vel = 50
+        self.max_vel = 30
         self.accel = 2
         self.current_vel = 0
         self.cTrav = cTrav
         
         self.tempHeading = 0
+        self.temp_vel = 0
+        self.count = 0
+        self.first_time = False
         
         
         #create empty list for bullets and a task for updating the positions
@@ -91,7 +94,7 @@ class PlayerBike(DirectObject):
         cNode.setCollideMask(1)
         cNodePath = self.bike.attachNewNode(cNode)
         
-        cNodePath.show()
+        #cNodePath.show()
         
         collisionPusher.addCollider(cNodePath, self.bike)
         self.cTrav.addCollider(cNodePath, collisionPusher)
@@ -179,33 +182,101 @@ class PlayerBike(DirectObject):
     def move(self, task):
         elapsed = task.time - self.prevTime
         
+        #keep track of all the bike's previous Pos and Hpr
+        prevX = self.bike.getX()
+        prevY = self.bike.getY()
+        prevZ = self.bike.getZ()
+        prevH = self.bike.getH()
+        prevP = self.bike.getP()
+        prevR = self.bike.getR()
+        
         #check key map
         if self.moveMap['left']:
-            self.bike.setH(self.bike.getH() + elapsed * 100)
-            
+            self.bike.setH(self.bike.getH() + elapsed * 150)
         if self.moveMap['right']:
-            self.bike.setH(self.bike.getH() - elapsed * 100)
-            
-        if self.moveMap['forward']:
-            self.current_vel += self.accel
-            if(self.current_vel > self.max_vel):
-                self.current_vel = self.max_vel
-            dist = self.current_vel * elapsed
-            angle = deg2Rad(self.bike.getH())
-            dx = dist * math.sin(angle)
-            dy = dist * -math.cos(angle)
-            self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
-        else:
-            self.current_vel -= 10 * self.accel * elapsed
-            if(self.current_vel < 0):
-                self.current_vel = 0
-            dist = self.current_vel * elapsed
-            angle = deg2Rad(self.bike.getH())
-            dx = dist * math.sin(angle)
-            dy = dist * -math.cos(angle)
-            self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
+            self.bike.setH(self.bike.getH() - elapsed * 150)
         
+        #check if at jump height
+        if prevZ >= 4.8:
+        
+            #check for when temp_vel needs to be increased instead of decreased
+            if self.first_time == False:
+                self.temp_vel -= 9.8
+            if self.temp_vel <= 0 and self.first_time == False:
+                self.first_time = True
+                self.temp_vel += 9.8
+            elif self.first_time == True:
+                self.temp_vel += 9.8
+                
+            #make sure temp_vel doesn't increase too much
+            if self.temp_vel > self.current_vel:
+                self.temp_vel = self.current_vel
+                
+            #calculate dist for dy and dx normally, then do trig for dz
+            dist = self.current_vel * elapsed
+            angle = deg2Rad(self.bike.getH())
+            dy = dist * -math.cos(angle)
+            dx = dist * math.sin(angle)
+            dz = math.sqrt((dy*dy)+(dx*dx))
+            
+            #debug prints
+            """print('new')
+            print('dy', dy)
+            print('dx', dx)
+            print('dz', dz)
+            print('angle', angle)
+            print('bike heading', self.bike.getH())
+            print('bike x', self.bike.getX())
+            print('bike y', self.bike.getY())
+            print('temp_vel', self.temp_vel)"""
+            
+            #use a count to determine when to decrease or increase the bike's Z
+            if self.count < 20:
+                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() + dz)
+            else:
+                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() - dz)
+            self.count += 1
+            
+        else:
+            #reset counters used in jumping
+            self.first_time = False
+            self.count = 0
+            
+            #check keymap for forward motion
+            #accelerate
+            if self.moveMap['forward']:
+                #print(prevZ)
+                self.current_vel += self.accel
+                self.temp_vel = self.current_vel
+                if(self.current_vel > self.max_vel):
+                    self.current_vel = self.max_vel
+                dist = self.current_vel * elapsed
+                angle = deg2Rad(self.bike.getH())
+                dx = dist * math.sin(angle)
+                dy = dist * -math.cos(angle)
+                
+                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
+                
+                
+            else:
+                #decelerate
+                self.current_vel -= 20 * self.accel * elapsed
+                self.temp_vel = self.current_vel
+                if(self.current_vel < 0):
+                    self.current_vel = 0
+                dist = self.current_vel * elapsed
+                angle = deg2Rad(self.bike.getH())
+                dx = dist * math.sin(angle)
+                dy = dist * -math.cos(angle)
+                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
+        
+        #attempt to change pitch
+        if self.bike.getZ() != prevZ:
+            ang = math.atan2(self.bike.getY(), self.bike.getZ())
+            self.bike.setP(ang)
+            
         if self.moveMap['left'] or self.moveMap['right'] or self.moveMap['forward']:
+            #print('heading', self.bike.getH())
             if self.isMoving == False:
                 self.isMoving = True
                 #self.bike.loop("walk")
@@ -218,6 +289,4 @@ class PlayerBike(DirectObject):
         self.prevTime = task.time
         #print(self.current_vel)
         return Task.cont
-        
-        
         
