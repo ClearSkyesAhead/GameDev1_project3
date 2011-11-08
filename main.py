@@ -36,6 +36,11 @@ class World(DirectObject):
         #disable mouse
         base.disableMouse()
         
+        #load and play background sound
+        backgroundSound = base.loader.loadSfx('Modern_Battlefield.mp3')
+        backgroundSound.setLoop(True)
+        backgroundSound.play()
+        
         #parent the camera to the player bike and offset the initial location
         camera.reparentTo(self.p_bike.bike)
         camera.setZ(8)
