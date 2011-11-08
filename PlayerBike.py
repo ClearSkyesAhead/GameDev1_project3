@@ -51,30 +51,6 @@ class PlayerBike(DirectObject):
         self.bike.reparentTo(render)
         
         
-        """#load the gun actors
-        self.gun1 = Actor("temp_gun.egg", {"shoot":"gun-shoot"})
-        self.gun1.reparentTo(self.bike)
-        self.gun1.setPos(-.5, 0, .5)
-        self.gun1.setH(180)
-        
-        self.gun2 = Actor("temp_gun.egg", {"shoot":"gun-shoot"})
-        self.gun2.reparentTo(self.bike)
-        self.gun2.setPos(.46, 0, 1)
-        self.gun2.setH(180)
-        self.gun2.setR(180)
-        
-        #load the headlight models
-        self.headlight1 = loader.loadModel("temp_light.egg")
-        self.headlight1.reparentTo(self.bike)
-        self.headlight1.setPos(.3, .55, .4)
-        self.headlight1.setScale(.75)
-        
-        #load the headlight models
-        self.headlight2 = loader.loadModel("temp_light.egg")
-        self.headlight2.reparentTo(self.bike)
-        self.headlight2.setPos(-.3, .55, .4)
-        self.headlight2.setScale(.75)"""
-        
         #setup a move task for the bike
         taskMgr.add(self.move, "moveTask")
         self.prevTime = 0
