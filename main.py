@@ -168,9 +168,23 @@ class World(DirectObject):
                     cEntry.getIntoNodePath().getParent().remove()
                     break
         
-    """def initAI(self):
+    def testCollision(self, cEntry):
+        #check if in collision
+        print("test")
+        #remove test sphere
+        cEntry.getIntoNodePath().remove()
+        #find the right bullet in the list to remove and the right time index
+        for i in range(len(self.p_bike.bullet.bulletList)):
+            if cEntry.getFromNodePath().getParent() == self.p_bike.bullet.bulletList[i]:
+                print('erased')
+                self.p_bike.bullet.bulletTime.remove(self.p_bike.bullet.bulletTime[i])
+                self.p_bike.bullet.bulletList.remove(self.p_bike.bullet.bulletList[i])
+                cEntry.getFromNodePath().getParent().remove()
+                break
+        
+    def initAI(self):
         self.AIworld = AIWorld(render)
- 
+        self.AIworld.addObstacle(self.w_terrain.terrain)
         #AI World update        
         taskMgr.add(self.AIUpdate,"AIUpdate")
     
@@ -183,8 +197,12 @@ class World(DirectObject):
         
     def addEnemy(self):
         enemy = EnemyBike(base.cTrav, self.cevent)
+        enemy.target = self.p_bike
+        enemy.setMode('scan')
         self.AIworld.addAiChar(enemy.AIchar)
-        return enemy"""
+        base.cTrav.addCollider(self.p_bike.cNodePath, enemy.cevent)
+        
+        return enemy
         
 w = World()
 run()

@@ -18,7 +18,7 @@ from panda3d.ai import *
 class EnemyBike(Bike):
     def __init__(self, cTrav, cevent):
         #messenger.toggleVerbose()
-        self.Bike.__init__(self, cTrav)
+        Bike.__init__(self, cTrav)
         self.bike.setPos(0, 0, 10)
         self.initAI()
         self.hp = 10
@@ -70,13 +70,14 @@ class EnemyBike(Bike):
         self.do.accept('vistrace-out-p_bike_push', self.visOut)
 		
     def initAI(self):
-        self.AIchar = AICharacter("Enemy Bike", self.bike, 100, 0.05, 10)
+        self.AIchar = AICharacter("Enemy Bike", self.bike, 100, 0.05, 100)
         self.AIbehaviors = self.AIchar.getAiBehaviors()
         
         self.AImode = 'scan'
+        self.target = None
         
         #self.AIbehaviors.pursue(self.p_bike.bike, 0.7)
-        #self.AIbehaviors.wander(1.0, 0, 30.0, 0.5)
+        self.AIbehaviors.wander(1.0, 0, 30.0, 0.5)
         #self.AIbehaviors.obstacleAvoidance(1.0)
         #self.e_bike.loop("run")
 		
@@ -97,9 +98,31 @@ class EnemyBike(Bike):
         else:
             self.shotClock += 1
             
+            
+    def setMode(self, mode):
+        self.AImode = mode
+        self.AIbehaviors.removeAi("all")
+        #self.AIbehaviors.obstacleAvoidance(1.0)
+        print self.AImode
+        if self.AImode == 'target':
+            self.AIchar.setMaxForce(400);
+            self.AIbehaviors.wander(0.5, 0, 500, 0.5)
+            self.AIbehaviors.pursue(self.target.bike, 1.5)
+        elif self.AImode == 'flee':
+            self.AIchar.setMaxForce(600);
+            self.AIbehaviors.wander(1.0, 0, 500, 1.0)
+            self.AIbehaviors.evade(self.target.bike, 10.0, 20.0, 1.5)
+        elif self.AImode == 'scan':
+            self.AIchar.setMaxForce(400);
+            self.AIbehaviors.wander(5.0, 0, 500, 1.5)
+            self.AIbehaviors.pursue(self.target.bike, 0.25)
+        
+
+            
+            
     def aimIn(self, event):
         print length(self.bike.getPos(), event.getFromNodePath().getPos())
-        self.AImode = 'target'
+        #self.AImode = 'target'
         #print event.getFromNodePath().getParent().AImode
         #print event
         
