@@ -86,7 +86,8 @@ class World(DirectObject):
         #will need the health bars as egg or bam file then reparent to render2d
         dr = base.win.makeDisplayRegion()
         dr.setSort(20)
-
+        
+        #KEEP THIS BLOCK
         """myCamera2d = NodePath(Camera('myCam2d'))
         lens = OrthographicLens()
         lens.setFilmSize(2, 2)
@@ -97,13 +98,13 @@ class World(DirectObject):
         myRender2d.setDepthTest(False)
         myRender2d.setDepthWrite(False)
         myCamera2d.reparentTo(myRender2d)
-        dr.setCamera(myCamera2d)"""
+        dr.setCamera(myCamera2d)
         
         myImage = OnscreenImage(image = 'map.jpg')
         #myImage.reparentTo(myRender2d)
         myImage.setScale(0.25)
         myImage.setX(1)
-        myImage.setZ(1)
+        myImage.setZ(1)"""
         
         
         #self.initAI()
