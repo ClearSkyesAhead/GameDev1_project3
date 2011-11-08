@@ -75,12 +75,12 @@ class PlayerBike(DirectObject):
         cNode.addSolid(cPushSphere)
         cNode.setIntoCollideMask(0x10)
         cNode.setFromCollideMask(0x1)
-        cNodePath = self.bike.attachNewNode(cNode)
+        self.cNodePath = self.bike.attachNewNode(cNode)
         
-        cNodePath.show()
+        self.cNodePath.show()
         
-        collisionPusher.addCollider(cNodePath, self.bike)
-        self.cTrav.addCollider(cNodePath, collisionPusher)
+        collisionPusher.addCollider(self.cNodePath, self.bike)
+        self.cTrav.addCollider(self.cNodePath, collisionPusher)
         
         #collision rays for faux-gravity
         #front wheel
