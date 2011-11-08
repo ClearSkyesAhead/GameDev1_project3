@@ -14,7 +14,7 @@ from Bullet import Bullet
 class PlayerBike(DirectObject):
     def __init__(self, cTrav):
         #create speed vars
-        self.max_vel = 30
+        self.max_vel = 50
         self.accel = 2
         self.current_vel = 0
         self.cTrav = cTrav
@@ -23,6 +23,8 @@ class PlayerBike(DirectObject):
         self.temp_vel = 0
         self.count = 0
         self.first_time = False
+        self.jump = False
+        self.dz = 0
         
         
         #create empty list for bullets and a task for updating the positions
@@ -168,7 +170,9 @@ class PlayerBike(DirectObject):
         
         #check if at jump height
         if prevZ >= 4.8:
-        
+            #set jump check
+            self.jump = True
+            
             #check for when temp_vel needs to be increased instead of decreased
             if self.first_time == False:
                 self.temp_vel -= 9.8
@@ -187,7 +191,7 @@ class PlayerBike(DirectObject):
             angle = deg2Rad(self.bike.getH())
             dy = dist * -math.cos(angle)
             dx = dist * math.sin(angle)
-            dz = math.sqrt((dy*dy)+(dx*dx))
+            self.dz = math.sqrt((dy*dy)+(dx*dx))
             
             #debug prints
             """print('new')
@@ -202,9 +206,9 @@ class PlayerBike(DirectObject):
             
             #use a count to determine when to decrease or increase the bike's Z
             if self.count < 20:
-                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() + dz)
+                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() + self.dz)
             else:
-                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() - dz)
+                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() - self.dz)
             self.count += 1
             
         else:
@@ -224,8 +228,13 @@ class PlayerBike(DirectObject):
                 angle = deg2Rad(self.bike.getH())
                 dx = dist * math.sin(angle)
                 dy = dist * -math.cos(angle)
-                
-                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
+                if self.jump == True:
+                    self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() - self.dz)
+                    if self.bike.getZ() <= 0:
+                        self.jump = False
+                        self.bike.setZ(0)
+                else:
+                    self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
                 
                 
             else:
@@ -238,7 +247,13 @@ class PlayerBike(DirectObject):
                 angle = deg2Rad(self.bike.getH())
                 dx = dist * math.sin(angle)
                 dy = dist * -math.cos(angle)
-                self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
+                if self.jump == True:
+                    self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() - self.dz)
+                    if self.bike.getZ() <= 0:
+                        self.jump = False
+                        self.bike.setZ(0)
+                else:
+                    self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ())
         
         #attempt to change pitch
         if self.bike.getZ() != prevZ:
