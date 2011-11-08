@@ -45,7 +45,7 @@ class Bullet(DirectObject):
         cSphere = CollisionSphere(0, 0, .75,1)
         cNodeBullet = CollisionNode("bullet")
         cNodeBullet.addSolid(cSphere)
-        cNodeBullet.setIntoCollideMask(BitMask32.allOff())
+        #cNodeBullet.setIntoCollideMask(BitMask32.allOff())
         #cNodeBullet.setCollideMask(0x1+0x2)
         cNodeBulletPath = self.bullet.attachNewNode(cNodeBullet)
         
