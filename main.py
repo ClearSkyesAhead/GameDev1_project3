@@ -58,9 +58,12 @@ class World(DirectObject):
         self.accept("space", self.p_bike.setShoot, [1])
         self.accept("space-up", self.p_bike.setShoot, [0])
         
-        self.accept("p_bike-test", self.testCollision)
-        self.accept("bullet-test", self.testCollision)
+        #powerup collisions
         self.accept("p_bike-powerup1", self.powerupCollision)
+        self.accept("p_bike-powerup2", self.powerupCollision)
+        self.accept("p_bike-powerup3", self.powerupCollision)
+        self.accept("p_bike-powerup4", self.powerupCollision)
+        self.accept("p_bike-powerup5", self.powerupCollision)
         
         #setup basic environment lighting
         self.ambientLight = AmbientLight("ambientLight")
@@ -69,9 +72,9 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
-        self.initAI()
+        """self.initAI()
         self.e_bikes = [self.addEnemy()]
-        #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
+        #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)"""
     
     def testCollision(self, cEntry):
         #check if in collision
@@ -90,13 +93,26 @@ class World(DirectObject):
     def powerupCollision(self, cEntry):
         #check which powerup
         #activate it
-        print(cEntry.getIntoNodePath())
+        #print(cEntry.getIntoNodePath())
+        #check powerup1
         if cEntry.getIntoNodePath() == self.w_terrain.cPowerNode1Path:
             self.w_terrain.powerUp1 = False
             #print('I WIN')
+        #check powerup2
+        elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode2Path:
+            self.w_terrain.powerUp2 = False
+        #check powerup3
+        elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode3Path:
+            self.w_terrain.powerUp3 = False
+        #check power4
+        elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode4Path:
+            self.w_terrain.powerUp4 = False
+        #check powerup5
+        elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode5Path:
+            self.w_terrain.powerUp5 = False
         cEntry.getIntoNodePath().remove()
         
-    def initAI(self):
+    """def initAI(self):
         self.AIworld = AIWorld(render)
  
         #AI World update        
@@ -112,7 +128,7 @@ class World(DirectObject):
     def addEnemy(self):
         enemy = EnemyBike(base.cTrav, self.cevent)
         self.AIworld.addAiChar(enemy.AIchar)
-        return enemy
+        return enemy"""
         
 w = World()
 run()
