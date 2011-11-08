@@ -60,6 +60,7 @@ class World(DirectObject):
         
         self.accept("p_bike-test", self.testCollision)
         self.accept("bullet-test", self.testCollision)
+        self.accept("p_bike-powerup1", self.powerupCollision)
         
         #setup basic environment lighting
         self.ambientLight = AmbientLight("ambientLight")
@@ -86,6 +87,14 @@ class World(DirectObject):
                 cEntry.getFromNodePath().getParent().remove()
                 break
                 
+    def powerupCollision(self, cEntry):
+        #check which powerup
+        #activate it
+        print(cEntry.getIntoNodePath())
+        if cEntry.getIntoNodePath() == self.w_terrain.cPowerNode1Path:
+            self.w_terrain.powerUp1 = False
+            #print('I WIN')
+        cEntry.getIntoNodePath().remove()
         
     """def initAI(self):
         self.AIworld = AIWorld(render)
