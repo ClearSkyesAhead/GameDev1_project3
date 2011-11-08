@@ -1,0 +1,92 @@
+<CoordinateSystem> { Y-Up }
+
+<Comment> {
+  "maya2egg2012 -p -keep-uvs -round-uvs -tbnall -a chan -cs y-up -uo cm -trans all -o C:/Users/montem/Documents/maya/projects/GameDev1_1/scenes/moto2_moveAnimation.egg C:/Users/montem/Documents/maya/projects/GameDev1_1/scenes/moto2_moveAnimation_temp.mb"
+}
+<Table> {
+  <Bundle> moto2_moveAnimation_temp {
+    <Table> "<skeleton>" {
+      <Table> "motorcycle2:motorcycle_GRP" {
+        <Xfm$Anim_S$> xform {
+          <Scalar> fps { 24 }
+          <Char*> order { srpht }
+          <S$Anim> h { <V> { -90 } }
+        }
+        <Table> "motorcycle2:wheels_GRP" {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { srpht }
+          }
+          <Table> "motorcycle2:backWheel" {
+            <Xfm$Anim_S$> xform {
+              <Scalar> fps { 24 }
+              <Char*> order { srpht }
+              <S$Anim> i { <V> { 1.22121 } }
+              <S$Anim> j { <V> { 1.22121 } }
+              <S$Anim> k { <V> { 1.22121 } }
+              <S$Anim> r {
+                <V> {
+                  -0 -7.91886 -29.6319 -62.0736 -102.179 -146.882
+                  166.882 122.179 82.0736 49.6319 27.9189 20 20 20 20 20
+                  20 20 20 20 20 20 20 20
+                }
+              }
+              <S$Anim> x {
+                <V> {
+                  5.11963 5.56705 6.45492 6.6715 5.09264 1.85443
+                  -1.18868 -2.08455 -0.702883 1.51115 3.1824 3.77374
+                  3.77374 3.77374 3.77374 3.77374 3.77374 3.77374
+                  3.77374 3.77374 3.77374 3.77374 3.77374 3.77374
+                }
+              }
+              <S$Anim> y {
+                <V> {
+                  -2.33682 -1.91822 -0.502281 1.96692 4.5677 5.51677
+                  3.8206 0.56726 -2.14343 -3.25785 -3.24738 -3.08699
+                  -3.08699 -3.08699 -3.08699 -3.08699 -3.08699 -3.08699
+                  -3.08699 -3.08699 -3.08699 -3.08699 -3.08699 -3.08699
+                }
+              }
+              <S$Anim> z { <V> { 0.732644 } }
+            }
+          }
+          <Table> "motorcycle2:frontWheel1" {
+            <Xfm$Anim_S$> xform {
+              <Scalar> fps { 24 }
+              <Char*> order { srpht }
+              <S$Anim> i { <V> { 0.752418 } }
+              <S$Anim> j { <V> { 0.752418 } }
+              <S$Anim> k { <V> { 0.752418 } }
+              <S$Anim> r {
+                <V> {
+                  -0 -7.91886 -29.6319 -62.0736 -102.179 -146.882
+                  166.882 122.179 82.0736 49.6319 27.9189 20 20 20 20 20
+                  20 20 20 20 20 20 20 20
+                }
+              }
+              <S$Anim> x {
+                <V> {
+                  -1.38922 -1.11356 -0.56652 -0.43308 -1.40585 -3.40099
+                  -5.27591 -5.82788 -4.97661 -3.61249 -2.58279 -2.21846
+                  -2.21846 -2.21846 -2.21846 -2.21846 -2.21846 -2.21846
+                  -2.21846 -2.21846 -2.21846 -2.21846 -2.21846 -2.21846
+                }
+              }
+              <S$Anim> y {
+                <V> {
+                  -1.41436 -1.15645 -0.28406 1.23727 2.83967 3.42441
+                  2.37936 0.374909 -1.29521 -1.98183 -1.97538 -1.87656
+                  -1.87656 -1.87656 -1.87656 -1.87656 -1.87656 -1.87656
+                  -1.87656 -1.87656 -1.87656 -1.87656 -1.87656 -1.87656
+                }
+              }
+              <S$Anim> z { <V> { 0.451398 } }
+            }
+          }
+        }
+      }
+    }
+    <Table> morph {
+    }
+  }
+}
