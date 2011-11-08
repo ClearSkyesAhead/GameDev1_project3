@@ -60,6 +60,7 @@ class World(DirectObject):
         
         self.accept("p_bike-test", self.testCollision)
         self.accept("bullet-test", self.testCollision)
+        self.accept("p_bike-powerup1", self.powerupCollision)
         
         #setup basic environment lighting
         self.ambientLight = AmbientLight("ambientLight")
@@ -68,9 +69,9 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
-        """self.initAI()
+        self.initAI()
         self.e_bikes = [self.addEnemy()]
-        self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)"""
+        #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
     
     def testCollision(self, cEntry):
         #check if in collision
@@ -86,8 +87,16 @@ class World(DirectObject):
                 cEntry.getFromNodePath().getParent().remove()
                 break
                 
+    def powerupCollision(self, cEntry):
+        #check which powerup
+        #activate it
+        print(cEntry.getIntoNodePath())
+        if cEntry.getIntoNodePath() == self.w_terrain.cPowerNode1Path:
+            self.w_terrain.powerUp1 = False
+            #print('I WIN')
+        cEntry.getIntoNodePath().remove()
         
-    """def initAI(self):
+    def initAI(self):
         self.AIworld = AIWorld(render)
  
         #AI World update        
@@ -103,7 +112,7 @@ class World(DirectObject):
     def addEnemy(self):
         enemy = EnemyBike(base.cTrav, self.cevent)
         self.AIworld.addAiChar(enemy.AIchar)
-        return enemy"""
+        return enemy
         
 w = World()
 run()

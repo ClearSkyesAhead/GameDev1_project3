@@ -28,8 +28,7 @@ class Terrain(DirectObject):
         
         #setup power up collision spheres
         #powerup1 collision sphere
-        #test sphere
-        cPowerSphere1 = CollisionSphere((5,5,5),1)
+        cPowerSphere1 = CollisionSphere((0,-.3,16.5),3)
         cPowerNode1 = CollisionNode("powerup1")
         cPowerNode1.addSolid(cPowerSphere1)
         cPowerNode1.setIntoCollideMask(1)
@@ -77,7 +76,7 @@ class Terrain(DirectObject):
             print('making a new one')
             self.powerUp1 = True
             self.powerUp1Count = 0
-            cPowerSphere1 = CollisionSphere((5,5,5),1)
+            cPowerSphere1 = CollisionSphere((0,-.3,16.5),3)
             cPowerNode1 = CollisionNode("powerup1")
             cPowerNode1.addSolid(cPowerSphere1)
             cPowerNode1.setIntoCollideMask(1)
