@@ -71,7 +71,8 @@ class World(DirectObject):
         self.accept("p_bike-powerup5", self.powerupCollision)
         
         #bullet collision with player
-        self.accpet("p_bike-bullet", self.bulletCollision)
+        self.accept("p_bike-bullet", self.bulletCollision)
+        self.accept("e_bike-bullet", self.bulletCollision)
         
         #setup basic environment lighting
         self.ambientLight = AmbientLight("ambientLight")
@@ -120,6 +121,32 @@ class World(DirectObject):
             self.w_terrain.powerUp5 = False
         cEntry.getIntoNodePath().remove()
         
+    def bulletCollision(self, cEntry):
+        #check which bike is being hit
+        if cEntry.getFromNodePath() == self.p_bike.cNodePath:
+            print('player bike!')
+            self.p_bike.hp -= 1
+            if self.p_bike.hp <= 0:
+                print('Game Over. You Lose')
+                #kill player bike
+                #go to end screen
+        else:
+            for enemy in self.e_bikes:
+                if cEntry.getFromNodePath() == enemy.Bike.cNodePath:
+                    enemy.hp -= 1
+                    if enemy.hp <= 0:
+                        print('Game Over. You Win!')
+                        #kill enemy bike
+                        #go to end screen
+                    break
+        #destroy the bullet
+        for i in range(len(self.p_bike.bullet.bulletList)):
+            if cEntry.getIntoNodePath().getParent() == self.p_bike.bullet.bulletList[i]:
+                print('erased')
+                self.p_bike.bullet.bulletTime.remove(self.p_bike.bullet.bulletTime[i])
+                self.p_bike.bullet.bulletList.remove(self.p_bike.bullet.bulletList[i])
+                cEntry.getIntoNodePath().getParent().remove()
+                break
     """def initAI(self):
         self.AIworld = AIWorld(render)
  
