@@ -26,7 +26,7 @@ class Terrain(DirectObject):
         #self.terrain.setCollideMask(BitMask32.bit(0))
         self.terrain.setCollideMask(2)
         
-        #set up inner box point lights
+        """#set up inner box point lights
         plight1 = PointLight('plight1')
         plight1.setColor(VBase4(1,1,1,1))
         plight1.setAttenuation(Point3(0,0,.01))
@@ -53,16 +53,33 @@ class Terrain(DirectObject):
         plight4.setAttenuation(Point3(0,0,.01))
         plnp4 = render.attachNewNode(plight4)
         plnp4.setPos(-20.5,-16.5,13.5)
-        render.setLight(plnp4)
+        render.setLight(plnp4)"""
         
-        """temp_ball = loader.loadModel('temp_bullet')
-        temp_ball.setScale(2)
-        temp_ball.setPos(-20.5,16.5,13.5)
-        temp_ball.reparentTo(render)
+        #setup lights for outer box
+        plight5 = PointLight('plight1')
+        plight5.setColor(VBase4(1,1,1,1))
+        plight5.setAttenuation(Point3(0,0,.01))
+        plnp5 = render.attachNewNode(plight5)
+        plnp5.setPos(-37.5,39.5,13.5)
+        render.setLight(plnp5)
         
-        cSphere = CollisionSphere((0,0,0),.5)
+        plight6 = PointLight('plight1')
+        plight6.setColor(VBase4(1,1,1,1))
+        plight6.setAttenuation(Point3(0,0,.01))
+        plnp6 = render.attachNewNode(plight6)
+        plnp6.setPos(37.5,39.5,13.5)
+        render.setLight(plnp6)
         
-        cNode = CollisionNode("p_bike_push")
-        cNode.addSolid(cSphere)
-        cNodePath = temp_ball.attachNewNode(cNode)
-        cNodePath.show()"""
+        plight7 = PointLight('plight1')
+        plight7.setColor(VBase4(1,1,1,1))
+        plight7.setAttenuation(Point3(0,0,.01))
+        plnp7 = render.attachNewNode(plight7)
+        plnp7.setPos(37.5,-39.5,13.5)
+        render.setLight(plnp7)
+        
+        plight8 = PointLight('plight1')
+        plight8.setColor(VBase4(1,1,1,1))
+        plight8.setAttenuation(Point3(0,0,.01))
+        plnp8 = render.attachNewNode(plight8)
+        plnp8.setPos(-37.5,-39.5,13.5)
+        render.setLight(plnp8)
