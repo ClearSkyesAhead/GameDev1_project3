@@ -19,12 +19,16 @@ class PlayerBike(DirectObject):
         self.current_vel = 0
         self.cTrav = cTrav
         
+        #vars for jumping
         self.tempHeading = 0
         self.temp_vel = 0
         self.count = 0
         self.first_time = False
         self.jump = False
         self.dz = 0
+        
+        #set HP
+        self.hp = 10
         
         #load all sound files
         self.singleShot = base.loader.loadSfx('M4A1.mp3')
@@ -36,8 +40,7 @@ class PlayerBike(DirectObject):
     
         
         #load the bike actor and parent it to a physics node
-        self.bike = Actor("motorcycle2.egg", {"move":"bike-move", "shoot":"bike-shoot"})
-        #self.bike = loader.loadModel('motorcycle2.egg')
+        self.bike = Actor("motorcycle2.egg", {"move":"moto2_moveAnimation", "turnL":"moto2_blahblah.egg"})
         #self.bike.setScale(.5)
         #self.bike.setH(180)
         self.bike.reparentTo(render)
@@ -74,7 +77,7 @@ class PlayerBike(DirectObject):
         cNode.setFromCollideMask(0x1)
         cNodePath = self.bike.attachNewNode(cNode)
         
-        #cNodePath.show()
+        cNodePath.show()
         
         collisionPusher.addCollider(cNodePath, self.bike)
         self.cTrav.addCollider(cNodePath, collisionPusher)
@@ -247,11 +250,11 @@ class PlayerBike(DirectObject):
             #print('heading', self.bike.getH())
             if self.isMoving == False:
                 self.isMoving = True
-                #self.bike.loop("walk")
+                self.bike.loop("move")
         else:
             if self.isMoving:
                 self.isMoving = False
-                #self.bike.stop()
+                self.bike.stop()
                 #self.bike.pose("walk", 4)
         
         self.prevTime = task.time
