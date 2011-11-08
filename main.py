@@ -43,9 +43,9 @@ class World(DirectObject):
         
         #parent the camera to the player bike and offset the initial location
         camera.reparentTo(self.p_bike.bike)
-        camera.setZ(8)
-        camera.setP(-9)
-        camera.setY(-30)
+        camera.setZ(6)
+        camera.setP(-8)
+        camera.setY(-32)
         
         #set up accept tasks
         #close the game
