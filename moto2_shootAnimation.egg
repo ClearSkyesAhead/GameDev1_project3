@@ -1,0 +1,138 @@
+<CoordinateSystem> { Y-Up }
+
+<Comment> {
+  "maya2egg2012 -p -keep-uvs -round-uvs -tbnall -a chan -cs y-up -uo cm -trans all -o C:/Users/montem/Documents/maya/projects/GameDev1_1/scenes/moto2_shootAnimation.egg C:/Users/montem/Documents/maya/projects/GameDev1_1/scenes/moto2_shootAnimation_temp.mb"
+}
+<Table> {
+  <Bundle> moto2_shootAnimation_temp {
+    <Table> "<skeleton>" {
+      <Table> "motorcycle2:motorcycle_GRP" {
+        <Xfm$Anim_S$> xform {
+          <Scalar> fps { 24 }
+          <Char*> order { srpht }
+          <S$Anim> h { <V> { -90 } }
+        }
+        <Table> "motorcycle2:body_GRP" {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { srpht }
+          }
+          <Table> "motorcycle2:light_R" {
+            <Xfm$Anim_S$> xform {
+              <Scalar> fps { 24 }
+              <Char*> order { srpht }
+              <S$Anim> i { <V> { 0.157753 } }
+              <S$Anim> j { <V> { 0.114495 } }
+              <S$Anim> k { <V> { 0.196073 } }
+              <S$Anim> h { <V> { 90 } }
+              <S$Anim> p { <V> { 90 } }
+              <S$Anim> x { <V> { -3.14972 } }
+              <S$Anim> y { <V> { 1.92786 } }
+              <S$Anim> z { <V> { -0.347476 } }
+            }
+          }
+          <Table> "motorcycle2:light_L" {
+            <Xfm$Anim_S$> xform {
+              <Scalar> fps { 24 }
+              <Char*> order { srpht }
+              <S$Anim> i { <V> { 0.157753 } }
+              <S$Anim> j { <V> { 0.114495 } }
+              <S$Anim> k { <V> { 0.196073 } }
+              <S$Anim> h { <V> { 90 } }
+              <S$Anim> p { <V> { 90 } }
+              <S$Anim> x { <V> { -3.14972 } }
+              <S$Anim> y { <V> { 1.92786 } }
+              <S$Anim> z { <V> { 0.347525 } }
+            }
+          }
+        }
+        <Table> "motorcycle2:wheels_GRP" {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { srpht }
+          }
+          <Table> "motorcycle2:backWheel" {
+            <Xfm$Anim_S$> xform {
+              <Scalar> fps { 24 }
+              <Char*> order { srpht }
+              <S$Anim> i { <V> { 1.22121 } }
+              <S$Anim> j { <V> { 1.22121 } }
+              <S$Anim> k { <V> { 1.22121 } }
+              <S$Anim> x { <V> { 5.11963 } }
+              <S$Anim> y { <V> { -2.33682 } }
+              <S$Anim> z { <V> { 0.732644 } }
+            }
+          }
+          <Table> "motorcycle2:frontWheel1" {
+            <Xfm$Anim_S$> xform {
+              <Scalar> fps { 24 }
+              <Char*> order { srpht }
+              <S$Anim> i { <V> { 0.752418 } }
+              <S$Anim> j { <V> { 0.752418 } }
+              <S$Anim> k { <V> { 0.752418 } }
+              <S$Anim> h { <V> { -0.173913 } }
+              <S$Anim> x { <V> { -1.3906 } }
+              <S$Anim> y { <V> { -1.41436 } }
+              <S$Anim> z { <V> { 0.456633 } }
+            }
+          }
+        }
+        <Table> "motorcycle2:gun_GRP" {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { srpht }
+            <S$Anim> x { <V> { -2.54792 } }
+            <S$Anim> y { <V> { 0.138253 } }
+            <S$Anim> z { <V> { 1.7977 } }
+          }
+          <Table> "motorcycle2:gun_shooter" {
+            <Xfm$Anim_S$> xform {
+              <Scalar> fps { 24 }
+              <Char*> order { srpht }
+              <S$Anim> h {
+                <V> {
+                  0 0 0 0 180 180 180 180 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+                  0
+                }
+              }
+              <S$Anim> p {
+                <V> {
+                  -0 8.38467 31.3749 65.725 71.8107 24.4778 -24.4778
+                  -71.8107 -65.725 -31.3749 -8.38467 -0 -0 -0 -0 -0 -0
+                  -0 -0 -0 -0 -0 -0 -0
+                }
+              }
+              <S$Anim> r {
+                <V> {
+                  -0 -0 -0 -0 -180 -180 180 180 -0 -0 -0 -0 -0 -0 -0 -0
+                  -0 -0 -0 -0 -0 -0 -0 -0
+                }
+              }
+              <S$Anim> x { <V> { 2.54792 } }
+              <S$Anim> y {
+                <V> {
+                  -0.138253 -0.118571 0.128306 0.933111 2.247 3.33222
+                  3.33071 2.24354 0.929786 0.126407 -0.119103 -0.138253
+                  -0.138253 -0.138253 -0.138253 -0.138253 -0.138253
+                  -0.138253 -0.138253 -0.138253 -0.138253 -0.138253
+                  -0.138253 -0.138253
+                }
+              }
+              <S$Anim> z {
+                <V> {
+                  -1.7977 -2.06256 -2.74317 -3.45251 -3.52103 -2.54687
+                  -1.04157 -0.0695892 -0.140747 -0.851706 -1.53281
+                  -1.7977 -1.7977 -1.7977 -1.7977 -1.7977 -1.7977
+                  -1.7977 -1.7977 -1.7977 -1.7977 -1.7977 -1.7977
+                  -1.7977
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    <Table> morph {
+    }
+  }
+}
