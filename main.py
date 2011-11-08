@@ -68,9 +68,9 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
-        """self.initAI()
+        self.initAI()
         self.e_bikes = [self.addEnemy()]
-        self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)"""
+        #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
     
     def testCollision(self, cEntry):
         #check if in collision
@@ -87,7 +87,7 @@ class World(DirectObject):
                 break
                 
         
-    """def initAI(self):
+    def initAI(self):
         self.AIworld = AIWorld(render)
  
         #AI World update        
@@ -103,7 +103,7 @@ class World(DirectObject):
     def addEnemy(self):
         enemy = EnemyBike(base.cTrav, self.cevent)
         self.AIworld.addAiChar(enemy.AIchar)
-        return enemy"""
+        return enemy
         
 w = World()
 run()

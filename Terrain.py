@@ -25,3 +25,5 @@ class Terrain(DirectObject):
         #self.terrain.setCollideMask(BitMask32.allOff())
         #self.terrain.setCollideMask(BitMask32.bit(0))
         self.terrain.setCollideMask(2)
+        #self.terrain.setIntoCollideMask(2)
+        #self.terrain.setFromCollideMask(0)

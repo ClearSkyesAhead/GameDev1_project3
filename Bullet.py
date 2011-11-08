@@ -63,7 +63,7 @@ class Bullet(DirectObject):
             bullet.setPos(bullet.getX() - dx, bullet.getY() - dy, .5)
             self.bulletTime[i] += 1
             if self.bulletTime[i] > 50:
-                print('erased')
+                #print('erased')
                 bullet.remove()
                 self.bulletList.remove(bullet)
                 #bullet.getParent().remove()

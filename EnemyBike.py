@@ -16,22 +16,32 @@ import sys, math, random
 from panda3d.ai import *
 
 class ViewCollider(DirectObject.DirectObject):
+#class ViewCollider(CollisionHandlerEvent):
     def __init__(self):
         self.accept('vistrace-into-p_bike', self.inview);
+        pass
         
     def inview(self, event):
         print entry
-
+        
+    def destroy(self):
+        self.ignoreAll()
+        
 class AimCollider(DirectObject.DirectObject):
+#class AimCollider(CollisionHandlerEvent):
     def __init__(self):
-        self.accept('aimtrace-into-p_bike', self.inview);
+        self.accept('aimtrace-into-p_bike_push', self.inview);
+        pass
         
     def inview(self, event):
         print entry
     
+    def destroy(self):
+        self.ignoreAll()
 
 class EnemyBike(Bike):
     def __init__(self, cTrav, cevent):
+        messenger.toggleVerbose()
         Bike.__init__(self, cTrav)
         self.bike.setPos(0, 0, 10)
         self.initAI()
@@ -43,13 +53,14 @@ class EnemyBike(Bike):
         intobikemask = BitMask32.allOff()
         floormask = BitMask32(0x2)
         
-        self.bullettracel = self.gun1.attachNewNode(CollisionNode('cnode'))
+        self.bullettracel = self.gun1.attachNewNode(CollisionNode('aimtrace'))
         self.bullettracel.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
         self.bullettracel.node().setFromCollideMask(frombikemask)
         self.bullettracel.node().setIntoCollideMask(intobikemask)
         self.bullettracel.show()
+        base.cTrav.addCollider(self.bullettracel, self.ac)
         
-        self.bullettracer = self.gun2.attachNewNode(CollisionNode('cnode'))
+        self.bullettracer = self.gun2.attachNewNode(CollisionNode('aimtrace'))
         self.bullettracer.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
         self.bullettracer.node().setFromCollideMask(frombikemask)
         self.bullettracer.node().setIntoCollideMask(intobikemask)
@@ -61,31 +72,31 @@ class EnemyBike(Bike):
         self.gravtrace.node().setIntoCollideMask(BitMask32.allOff())
         self.gravtrace.show()
         
-        self.vistrace = self.bike.attachNewNode(CollisionNode('cnode'))
+        self.vistrace = self.bike.attachNewNode(CollisionNode('vistrace'))
         self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
         self.vistrace.node().setFromCollideMask(frombikemask)
         self.vistrace.node().setIntoCollideMask(intobikemask)
         self.vistrace.show()
         
-        self.vistracel = self.bike.attachNewNode(CollisionNode('cnode'))
+        self.vistracel = self.bike.attachNewNode(CollisionNode('vistrace'))
         self.vistracel.node().addSolid(CollisionRay(0, 0, 0, 1, 1, 0))
         self.vistracel.node().setFromCollideMask(frombikemask)
         self.vistracel.node().setIntoCollideMask(intobikemask)
         self.vistracel.show()
         
-        self.vistracer = self.bike.attachNewNode(CollisionNode('cnode'))
+        self.vistracer = self.bike.attachNewNode(CollisionNode('vistrace'))
         self.vistracer.node().addSolid(CollisionRay(0, 0, 0, -1, 1, 0))
         self.vistracer.node().setFromCollideMask(frombikemask)
         self.vistracer.node().setIntoCollideMask(intobikemask)
         self.vistracer.show()
         
-        self.vistraceul = self.bike.attachNewNode(CollisionNode('cnode'))
+        self.vistraceul = self.bike.attachNewNode(CollisionNode('vistrace'))
         self.vistraceul.node().addSolid(CollisionRay(0, 0, 0, 1, 1, .1))
         self.vistraceul.node().setFromCollideMask(frombikemask)
         self.vistraceul.node().setIntoCollideMask(intobikemask)
         self.vistraceul.show()
         
-        self.vistraceur = self.bike.attachNewNode(CollisionNode('cnode'))
+        self.vistraceur = self.bike.attachNewNode(CollisionNode('vistrace'))
         self.vistraceur.node().addSolid(CollisionRay(0, 0, 0, -1, 1, .1))
         self.vistraceur.node().setFromCollideMask(frombikemask)
         self.vistraceur.node().setIntoCollideMask(intobikemask)
@@ -103,7 +114,7 @@ class EnemyBike(Bike):
         self.AImode = 'scan'
         
         #self.AIbehaviors.pursue(self.p_bike.bike, 0.7)
-        self.AIbehaviors.wander(1.0, 0, 30.0, 0.5)
+        #self.AIbehaviors.wander(1.0, 0, 30.0, 0.5)
         #self.AIbehaviors.obstacleAvoidance(1.0)
         #self.e_bike.loop("run")
 		
