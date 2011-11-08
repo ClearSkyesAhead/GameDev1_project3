@@ -21,7 +21,7 @@ class PlayerBike(DirectObject):
         self.accel = 2
         self.current_vel = 0
         self.cTrav = cTrav
-        self.weapon = 3
+        self.weapon = 2
         
         self.tempHeading = 0
         self.temp_vel = 0

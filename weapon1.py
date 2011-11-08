@@ -17,8 +17,15 @@ class weapon1(DirectObject):
         #create a constant speed and an overall bullet list to contain all bullets
         self.speed = 10
         self.bulletList = []
+        self.bulletTime = []
         self.prevTime = 0
+        self.prevBulletTime = 0
         self.cTrav = cTrav
+        self.timer = 0
+        taskMgr.add(self.updateTimer, "timerUpdate")
+        
+    def updateTimer(self, task):
+        self.timer += task.time
         
     def createBullet(self, bike):
         #load the model and set the pos and H to the bike's
@@ -85,19 +92,35 @@ class weapon1(DirectObject):
         self.bulletList.append(self.bullet3)
         self.bulletList.append(self.bullet4)
         self.bulletList.append(self.bullet5)
-        
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
         
     def update(self, task):
         elapsed = task.time - self.prevTime
         #cycle through the bullet list and update the positions
+        i = 0
+        check = False
         for bullet in self.bulletList:
             angle = deg2Rad(bullet.getH())
             dist = self.speed * elapsed
             dx = dist * math.sin(angle)
             dy = dist * -math.cos(angle)
-
             bullet.setPos(bullet.getX() - dx, bullet.getY() - dy, .5)
-            
+            self.bulletTime[i] += 1
+            if self.bulletTime[i] > 50:
+                print('erased')
+                bullet.remove()
+                self.bulletList.remove(bullet)
+                #bullet.getParent().remove()
+                self.bulletTime.remove(self.bulletTime[i])
+                check = True
+            if(check == False):
+                i += 1
+            else:
+                check = False
         self.prevTime = task.time
         return Task.cont
         
