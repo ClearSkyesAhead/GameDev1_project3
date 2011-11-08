@@ -70,6 +70,9 @@ class World(DirectObject):
         self.accept("p_bike-powerup4", self.powerupCollision)
         self.accept("p_bike-powerup5", self.powerupCollision)
         
+        #bullet collision with player
+        self.accpet("p_bike-bullet", self.bulletCollision)
+        
         #setup basic environment lighting
         self.ambientLight = AmbientLight("ambientLight")
         self.ambientLight.setColor((.25, .25, .25, 1))
