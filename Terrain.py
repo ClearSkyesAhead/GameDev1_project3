@@ -29,7 +29,7 @@ class Terrain(DirectObject):
         taskMgr.add(self.powerUpUpdate, "powerUpTask")
         
         #setup power up collision spheres
-        #powerup1 collision sphere
+        #powerup1 collision sphere (invincibility)
         cPowerSphere1 = CollisionSphere((0,-.3,16.5),3)
         cPowerNode1 = CollisionNode("powerup1")
         cPowerNode1.addSolid(cPowerSphere1)
@@ -39,7 +39,7 @@ class Terrain(DirectObject):
         self.powerUp1 = True
         self.powerUp1Count = 0
         
-        #powerup2 collision sphere
+        #powerup2 collision sphere (matched with powerup3)
         cPowerSphere2 = CollisionSphere((.5,77,18.5),3)
         cPowerNode2 = CollisionNode("powerup2")
         cPowerNode2.addSolid(cPowerSphere2)
@@ -49,7 +49,7 @@ class Terrain(DirectObject):
         self.powerUp2 = True
         self.powerUp2Count = 0
         
-        #powerup3 collision sphere
+        #powerup3 collision sphere (matched with powerup2)
         cPowerSphere3 = CollisionSphere((.5,-77,18.5),3)
         cPowerNode3 = CollisionNode("powerup3")
         cPowerNode3.addSolid(cPowerSphere3)
@@ -59,7 +59,7 @@ class Terrain(DirectObject):
         self.powerUp3 = True
         self.powerUp3Count = 0
         
-        #powerup4 collision sphere
+        #powerup4 collision sphere (matched with powerup4)
         cPowerSphere4 = CollisionSphere((77,-1,18.5),3)
         cPowerNode4 = CollisionNode("powerup4")
         cPowerNode4.addSolid(cPowerSphere4)
@@ -69,7 +69,7 @@ class Terrain(DirectObject):
         self.powerUp4 = True
         self.powerUp4Count = 0
         
-        #powerup5 collision sphere
+        #powerup5 collision sphere (matched with powerup5)
         cPowerSphere5 = CollisionSphere((-77,-1,18.5),3)
         cPowerNode5 = CollisionNode("powerup5")
         cPowerNode5.addSolid(cPowerSphere5)
