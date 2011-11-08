@@ -12,21 +12,32 @@ import sys, math, random
 
 class Terrain(DirectObject):
     def __init__(self):
-        #load the terrain model
-        #self.terrain = loader.loadModel("temp_terrain.egg")
-        #self.terrain = loader.loadModel("test_terrain_jump.egg")
-        self.terrain = loader.loadModel("terrain.egg")
-
-        #self.terrain.reparentTo(actNodePath)
-        self.terrain.reparentTo(render)
-        self.terrain.setScale(.85)
+        #load the wall terrain model
+        self.wall_terrain = loader.loadModel("wall_terrain.egg")
+        self.wall_terrain.reparentTo(render)
+        self.wall_terrain.setScale(.85)
+        
+        #load the jumps and floor terrain model
+        self.ground_terrain = loader.loadModel("ground_terrain.egg")
+        self.ground_terrain.reparentTo(render)
+        self.ground_terrain.setScale(.85)
         
         #set a collide mask
         #self.terrain.setCollideMask(BitMask32.allOff())
         #self.terrain.setCollideMask(BitMask32.bit(0))
-        self.terrain.setCollideMask(2)
+        self.ground_terrain.setCollideMask(2)
+        self.wall_terrain.setCollideMask(1)
         
         taskMgr.add(self.powerUpUpdate, "powerUpTask")
+        
+        #setup polygons for walls
+        wall1 = CollisionPolygon(Point3(84,-77,0), Point3(84,-77,77), Point3(84,77,77), Point3(84,77,0))
+        cNodeWall1 = CollisionNode("wall1")
+        cNodeWall1.addSolid(wall1)
+        cNodeWall1.setIntoCollideMask(1)
+        cNodePathWall1 = render.attachNewNode(cNodeWall1)
+        cNodePathWall1.show()
+        
         
         #setup power up collision spheres
         #powerup1 collision sphere (invincibility)
