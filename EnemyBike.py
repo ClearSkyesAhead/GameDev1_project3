@@ -18,9 +18,10 @@ from panda3d.ai import *
 class EnemyBike(Bike):
     def __init__(self, cTrav, cevent):
         #messenger.toggleVerbose()
-        Bike.__init__(self, cTrav)
+        self.Bike.__init__(self, cTrav)
         self.bike.setPos(0, 0, 10)
         self.initAI()
+        self.hp = 10
         
         frombikemask = BitMask32(0x10)
         intobikemask = BitMask32.allOff()
