@@ -121,12 +121,13 @@ class Bike(DirectObject):
         self.spotnode1 = self.headlight1.attachNewNode(self.spotlight1)
         render.setLight(self.spotnode1)
         
+        """
         self.spotlight2 = Spotlight("headlight2")
         self.spotlight2.setColor((1, 1, 1, 1))
         self.spotlight2.setLens(lens)
         self.spotlight2.setExponent(100)
         self.spotnode2 = self.headlight2.attachNewNode(self.spotlight2)
-        render.setLight(self.spotnode2)
+        render.setLight(self.spotnode2)"""
         
     """
     def setDirection(self, key, value):
