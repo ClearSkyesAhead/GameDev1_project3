@@ -81,6 +81,23 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
+        #2d attempt
+        #will need the health bars as egg or bam file then reparent to render2d
+        dr = base.win.makeDisplayRegion()
+        dr.setSort(20)
+
+        myCamera2d = NodePath(Camera('myCam2d'))
+        lens = OrthographicLens()
+        lens.setFilmSize(2, 2)
+        lens.setNearFar(-1000, 1000)
+        myCamera2d.node().setLens(lens)
+
+        myRender2d = NodePath('myRender2d')
+        myRender2d.setDepthTest(False)
+        myRender2d.setDepthWrite(False)
+        myCamera2d.reparentTo(myRender2d)
+        dr.setCamera(myCamera2d)
+        
         """self.initAI()
         self.e_bikes = [self.addEnemy()]
         #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)"""
@@ -147,6 +164,8 @@ class World(DirectObject):
                 self.p_bike.bullet.bulletList.remove(self.p_bike.bullet.bulletList[i])
                 cEntry.getIntoNodePath().getParent().remove()
                 break
+        #cycle through the enemy bullets
+        
     """def initAI(self):
         self.AIworld = AIWorld(render)
  
