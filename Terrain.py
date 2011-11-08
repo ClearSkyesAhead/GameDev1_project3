@@ -25,45 +25,62 @@ class Terrain(DirectObject):
         #self.terrain.setCollideMask(BitMask32.allOff())
         #self.terrain.setCollideMask(BitMask32.bit(0))
         self.terrain.setCollideMask(2)
+        
+        #setup power up collision spheres
+        #powerup1 collision sphere
+        #test sphere
+        cPowerSphere1 = CollisionSphere((5,5,5),1)
+        cPowerNode1 = CollisionNode("powerup1")
+        cPowerNode1.addSolid(cPowerSphere1)
+        cPowerNode1.setIntoCollideMask(1)
+        self.cPowerNode1Path = render.attachNewNode(cPowerNode1)
+        self.cPowerNode1Path.show()
+        self.powerUp1 = True
+        self.powerUp1Count = 0
+        
+        taskMgr.add(self.powerUpUpdate, "powerUpTask")
+        
+        #setup lights for outer box
+        plight5 = PointLight('plight1')
+        plight5.setColor(VBase4(1,1,1,1))
+        plight5.setAttenuation(Point3(0,0,.01))
+        plnp5 = render.attachNewNode(plight5)
+        plnp5.setPos(-37.5,39.5,13.5)
+        render.setLight(plnp5)
+        
+        plight6 = PointLight('plight1')
+        plight6.setColor(VBase4(1,1,1,1))
+        plight6.setAttenuation(Point3(0,0,.01))
+        plnp6 = render.attachNewNode(plight6)
+        plnp6.setPos(37.5,39.5,13.5)
+        render.setLight(plnp6)
+        
+        plight7 = PointLight('plight1')
+        plight7.setColor(VBase4(1,1,1,1))
+        plight7.setAttenuation(Point3(0,0,.01))
+        plnp7 = render.attachNewNode(plight7)
+        plnp7.setPos(37.5,-39.5,13.5)
+        render.setLight(plnp7)
+        
+        plight8 = PointLight('plight1')
+        plight8.setColor(VBase4(1,1,1,1))
+        plight8.setAttenuation(Point3(0,0,.01))
+        plnp8 = render.attachNewNode(plight8)
+        plnp8.setPos(-37.5,-39.5,13.5)
+        render.setLight(plnp8)
 
-        #set up inner box point lights
-        """
-        plight1 = PointLight('plight1')
-        plight1.setColor(VBase4(1,1,1,1))
-        plight1.setAttenuation(Point3(0,0,.01))
-        plnp1 = render.attachNewNode(plight1)
-        plnp1.setPos(-20.5,16.5,13.5)
-        render.setLight(plnp1)
-        
-        plight2 = PointLight('plight1')
-        plight2.setColor(VBase4(1,1,1,1))
-        plight2.setAttenuation(Point3(0,0,.01))
-        plnp2 = render.attachNewNode(plight2)
-        plnp2.setPos(20.5,16.5,13.5)
-        render.setLight(plnp2)
-        
-        plight3 = PointLight('plight1')
-        plight3.setColor(VBase4(1,1,1,1))
-        plight3.setAttenuation(Point3(0,0,.01))
-        plnp3 = render.attachNewNode(plight3)
-        plnp3.setPos(20.5,-16.5,13.5)
-        render.setLight(plnp3)
-        
-        plight4 = PointLight('plight1')
-        plight4.setColor(VBase4(1,1,1,1))
-        plight4.setAttenuation(Point3(0,0,.01))
-        plnp4 = render.attachNewNode(plight4)
-        plnp4.setPos(-20.5,-16.5,13.5)
-        render.setLight(plnp4)"""
-        
-        """temp_ball = loader.loadModel('temp_bullet')
-        temp_ball.setScale(2)
-        temp_ball.setPos(-20.5,16.5,13.5)
-        temp_ball.reparentTo(render)
-        
-        cSphere = CollisionSphere((0,0,0),.5)
-        
-        cNode = CollisionNode("p_bike_push")
-        cNode.addSolid(cSphere)
-        cNodePath = temp_ball.attachNewNode(cNode)
-        cNodePath.show()"""
+    def powerUpUpdate(self, task):
+        if self.powerUp1 == False:
+            print('increasing count')
+            self.powerUp1Count += 1
+        if self.powerUp1Count == 50:
+            print('making a new one')
+            self.powerUp1 = True
+            self.powerUp1Count = 0
+            cPowerSphere1 = CollisionSphere((5,5,5),1)
+            cPowerNode1 = CollisionNode("powerup1")
+            cPowerNode1.addSolid(cPowerSphere1)
+            cPowerNode1.setIntoCollideMask(1)
+            self.cPowerNode1Path = render.attachNewNode(cPowerNode1)
+            self.cPowerNode1Path.show()
+        return Task.cont
