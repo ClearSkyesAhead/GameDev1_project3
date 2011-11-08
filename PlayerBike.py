@@ -26,6 +26,9 @@ class PlayerBike(DirectObject):
         self.jump = False
         self.dz = 0
         
+        #load all sound files
+        self.singleShot = base.loader.loadSfx('M4A1.mp3')
+        
         
         #create empty list for bullets and a task for updating the positions
         self.bullet = Bullet(cTrav)
@@ -118,8 +121,9 @@ class PlayerBike(DirectObject):
         if self.shootCheck:
             #check if able to shoot
             if self.shotClock >= 25:
-                print("Shooting a bullet!")
+                #print("Shooting a bullet!")
                 #create a bullet
+                self.singleShot.play()
                 self.bullet.createBullet(self.bike)
                 self.shotClock = 0
             else:
@@ -140,10 +144,6 @@ class PlayerBike(DirectObject):
         prevR = self.bike.getR()
         
         #check key map
-        if self.moveMap['left']:
-            self.bike.setH(self.bike.getH() + elapsed * 150)
-        if self.moveMap['right']:
-            self.bike.setH(self.bike.getH() - elapsed * 150)
         
         #check if at jump height
         if prevZ >= 4.8:
@@ -193,6 +193,12 @@ class PlayerBike(DirectObject):
             self.first_time = False
             self.count = 0
             
+            #check if turning
+            if self.moveMap['left']:
+                self.bike.setH(self.bike.getH() + elapsed * 150)
+            if self.moveMap['right']:
+                self.bike.setH(self.bike.getH() - elapsed * 150)
+                
             #check keymap for forward motion
             #accelerate
             if self.moveMap['forward']:
