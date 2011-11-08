@@ -77,7 +77,7 @@ class PlayerBike(DirectObject):
         cNode.setFromCollideMask(0x1)
         self.cNodePath = self.bike.attachNewNode(cNode)
         
-        self.cNodePath.show()
+        #self.cNodePath.show()
         
         collisionPusher.addCollider(self.cNodePath, self.bike)
         self.cTrav.addCollider(self.cNodePath, collisionPusher)
@@ -185,7 +185,7 @@ class PlayerBike(DirectObject):
             print('temp_vel', self.temp_vel)"""
             
             #use a count to determine when to decrease or increase the bike's Z
-            if self.count < 20:
+            if self.count < 25:
                 self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() + self.dz)
             else:
                 self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() - self.dz)
