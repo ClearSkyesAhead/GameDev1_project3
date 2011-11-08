@@ -42,10 +42,10 @@ class World(DirectObject):
         backgroundSound.play()
         
         #parent the camera to the player bike and offset the initial location
-        camera.reparentTo(self.p_bike.bike)
-        camera.setZ(6)
-        camera.setP(-8)
-        camera.setY(-32)
+        base.camera.reparentTo(self.p_bike.bike)
+        base.camera.setZ(6)
+        base.camera.setP(-8)
+        base.camera.setY(-32)
         
         #set up accept tasks
         #close the game
@@ -101,7 +101,7 @@ class World(DirectObject):
         """self.initAI()
         self.e_bikes = [self.addEnemy()]
         #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)"""
-    
+        
     def testCollision(self, cEntry):
         #check if in collision
         print("test")
