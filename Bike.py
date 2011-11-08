@@ -18,10 +18,10 @@ class Bike(DirectObject):
         self.cTrav = cTrav
     
         #load the bike actor and parent it to a physics node
-        physNode = NodePath("PhysicsNode")
-        physNode.reparentTo(render)
-        actNode = ActorNode("bike-phys")
-        actNodePath = physNode.attachNewNode(actNode)
+        self.physNode = NodePath("PhysicsNode")
+        self.physNode.reparentTo(render)
+        self.actNode = ActorNode("bike-phys")
+        self.actNodePath = self.physNode.attachNewNode(self.actNode)
         #base.physicsMgr.attachPhysicalNode(actNode)
         
         #create empty list for bullets and a task for updating the positions

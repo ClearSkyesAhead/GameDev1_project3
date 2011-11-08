@@ -98,9 +98,10 @@ class World(DirectObject):
         myCamera2d.reparentTo(myRender2d)
         dr.setCamera(myCamera2d)
         
-        """self.initAI()
-        self.e_bikes = [self.addEnemy()]
-        #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)"""
+        #self.initAI()
+        #self.e_bikes = [self.addEnemy()]
+        #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
+        #base.cTrav.addCollider(self.p_bike.cNodePath, self.e_bikes[0].cevent)
         
     def testCollision(self, cEntry):
         #check if in collision
