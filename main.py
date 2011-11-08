@@ -6,6 +6,7 @@ from direct.showbase.DirectObject import DirectObject  #for event handling
 from direct.actor.Actor import Actor #for animated models
 from direct.interval.IntervalGlobal import *  #for compound intervals
 from direct.task import Task         #for update fuctions
+from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.ai import *
 from panda3d.core import *
 from panda3d.physics import *
@@ -85,8 +86,9 @@ class World(DirectObject):
         #will need the health bars as egg or bam file then reparent to render2d
         dr = base.win.makeDisplayRegion()
         dr.setSort(20)
-
-        myCamera2d = NodePath(Camera('myCam2d'))
+        
+        #KEEP THIS BLOCK
+        """myCamera2d = NodePath(Camera('myCam2d'))
         lens = OrthographicLens()
         lens.setFilmSize(2, 2)
         lens.setNearFar(-1000, 1000)
@@ -98,22 +100,17 @@ class World(DirectObject):
         myCamera2d.reparentTo(myRender2d)
         dr.setCamera(myCamera2d)
         
-        self.initAI()
-        self.e_bikes = [self.addEnemy()]
+        myImage = OnscreenImage(image = 'map.jpg')
+        #myImage.reparentTo(myRender2d)
+        myImage.setScale(0.25)
+        myImage.setX(1)
+        myImage.setZ(1)"""
         
-    def testCollision(self, cEntry):
-        #check if in collision
-        print("test")
-        #remove test sphere
-        cEntry.getIntoNodePath().remove()
-        #find the right bullet in the list to remove and the right time index
-        for i in range(len(self.p_bike.bullet.bulletList)):
-            if cEntry.getFromNodePath().getParent() == self.p_bike.bullet.bulletList[i]:
-                print('erased')
-                self.p_bike.bullet.bulletTime.remove(self.p_bike.bullet.bulletTime[i])
-                self.p_bike.bullet.bulletList.remove(self.p_bike.bullet.bulletList[i])
-                cEntry.getFromNodePath().getParent().remove()
-                break
+        
+        #self.initAI()
+        #self.e_bikes = [self.addEnemy()]
+        #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
+        #base.cTrav.addCollider(self.p_bike.cNodePath, self.e_bikes[0].cevent)
                 
     def powerupCollision(self, cEntry):
         #check which powerup
@@ -164,6 +161,28 @@ class World(DirectObject):
                 cEntry.getIntoNodePath().getParent().remove()
                 break
         #cycle through the enemy bullets
+        for enemy in self.e_bikes:
+            for i in range(len(enemy.bullet.bulletList)):
+                if cEntry.getIntoNodePath().getParent() == enemy.bullet.bulletList[i]:
+                    print('erased')
+                    enemy.bullet.bulletTime.remove(enemy.bullet.bulletTime[i])
+                    enemy.p_bike.bullet.bulletList.remove(enemy.bullet.bulletList[i])
+                    cEntry.getIntoNodePath().getParent().remove()
+                    break
+        
+    def testCollision(self, cEntry):
+        #check if in collision
+        print("test")
+        #remove test sphere
+        cEntry.getIntoNodePath().remove()
+        #find the right bullet in the list to remove and the right time index
+        for i in range(len(self.p_bike.bullet.bulletList)):
+            if cEntry.getFromNodePath().getParent() == self.p_bike.bullet.bulletList[i]:
+                print('erased')
+                self.p_bike.bullet.bulletTime.remove(self.p_bike.bullet.bulletTime[i])
+                self.p_bike.bullet.bulletList.remove(self.p_bike.bullet.bulletList[i])
+                cEntry.getFromNodePath().getParent().remove()
+                break
         
     def initAI(self):
         self.AIworld = AIWorld(render)

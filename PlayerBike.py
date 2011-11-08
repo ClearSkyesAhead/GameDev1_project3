@@ -40,7 +40,7 @@ class PlayerBike(DirectObject):
     
         
         #load the bike actor and parent it to a physics node
-        self.bike = Actor("motorcycle2.egg", {"move":"moto2_moveAnimation", "turnL":"moto2_blahblah.egg"})
+        self.bike = Actor("motorcycle2.egg", {"move":"moto2_moveRAnimation", "turnL":"moto2_blahblah.egg"})
         #self.bike.setScale(.5)
         #self.bike.setH(180)
         self.bike.reparentTo(render)
@@ -85,7 +85,7 @@ class PlayerBike(DirectObject):
         #collision rays for faux-gravity
         #front wheel
         lifter = CollisionHandlerFloor()
-        lifter.setMaxVelocity(1)
+        lifter.setMaxVelocity(9.8)
         
         cRay1 = CollisionRay(0, 3, 1, 0, 0, -1)
         cRayNode1 = CollisionNode('playerRay')
@@ -167,7 +167,7 @@ class PlayerBike(DirectObject):
                 self.temp_vel = self.current_vel
                 
             #calculate dist for dy and dx normally, then do trig for dz
-            dist = self.current_vel * elapsed
+            dist = (self.current_vel + 11) * elapsed
             angle = deg2Rad(self.bike.getH())
             dy = dist * -math.cos(angle)
             dx = dist * math.sin(angle)
