@@ -4,14 +4,14 @@
   "maya2egg2012 -p -keep-uvs -round-uvs -tbnall -a both -sf 0 -ef 12 -cs y-up -uo cm -trans all -o C:/Users/montem/Documents/maya/projects/GameDev1_1/scenes/moto2_moveAnimation.egg C:/Users/montem/Documents/maya/projects/GameDev1_1/scenes/moto2_moveAnimation_temp.mb"
 }
 <Texture> "motorcycle2:lambert6SG" {
-  "../images/body2.tif"
+  "images/body2.tif"
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
   <Scalar> minfilter { linear_mipmap_linear }
   <Scalar> magfilter { linear }
 }
 <Texture> "motorcycle2:lambert4SG" {
-  "../images/body2.tif"
+  "images/body2.tif"
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
   <Scalar> minfilter { linear_mipmap_linear }
