@@ -119,6 +119,7 @@ class PlayerBike(DirectObject):
         #setup and parent spotlights to the player
         self.spotlight = Spotlight("headlight")
         self.spotlight.setColor((1, 1, 1, 1))
+        self.spotlight.setAttenuation(Point3(0,0,.001))
         lens = PerspectiveLens()
         #can change size of cone
         lens.setFov(20)
