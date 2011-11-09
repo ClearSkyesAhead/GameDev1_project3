@@ -65,7 +65,7 @@ class World(DirectObject):
         self.accept("space-up", self.p_bike.setShoot, [0])
         
         #powerup collisions
-        self.accept("p_bike-powerup1", self.powerupCollision)
+        self.accept("p_bike-powerup1", self.powerupCollision) 
         self.accept("p_bike-powerup2", self.powerupCollision)
         self.accept("p_bike-powerup3", self.powerupCollision)
         self.accept("p_bike-powerup4", self.powerupCollision)
@@ -98,13 +98,16 @@ class World(DirectObject):
         myRender2d.setDepthTest(False)
         myRender2d.setDepthWrite(False)
         myCamera2d.reparentTo(myRender2d)
-        dr.setCamera(myCamera2d)
+        dr.setCamera(myCamera2d)"""
         
-        myImage = OnscreenImage(image = 'map.jpg')
-        #myImage.reparentTo(myRender2d)
-        myImage.setScale(0.25)
-        myImage.setX(1)
-        myImage.setZ(1)"""
+        self.playerHealth = OnscreenImage(image = 'PlayerHealthBar.png')
+        self.playerHealth.setX(-1)
+        self.playerHealth.setZ(-1.95)
+        
+        #enemy health
+        self.enemyHealth = OnscreenImage(image = 'EnemyHealthBar.png')
+        self.enemyHealth.setX(1)
+        self.enemyHealth.setZ(-1.95)
         
         
         self.initAI()
@@ -120,15 +123,23 @@ class World(DirectObject):
         #check powerup2
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode2Path:
             self.w_terrain.powerUp2 = False
+            self.p_bike.shotgun = True
+            self.p_bike.p_up_timer = 0
+            print('shotty')
         #check powerup3
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode3Path:
             self.w_terrain.powerUp3 = False
+            print('shotty squared')
+            self.p_bike.shotgun = True
+            self.p_bike.p_up_timer = 0
         #check power4
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode4Path:
             self.w_terrain.powerUp4 = False
+            print('MEDIC!!')
         #check powerup5
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode5Path:
             self.w_terrain.powerUp5 = False
+            print('Get some!')
         cEntry.getIntoNodePath().remove()
         
     def bulletCollision(self, cEntry):
@@ -136,6 +147,7 @@ class World(DirectObject):
         if self.p_bike.invin == False and (cEntry.getFromNodePath() == self.p_bike.cNodePath1 or cEntry.getFromNodePath() == self.p_bike.cNodePath1 or cEntry.getFromNodePath() == self.p_bike.cNodePath3):
             print('player bike!')
             self.p_bike.hp -= 1
+            self.playerHealth.getX() - .1
             if self.p_bike.hp <= 0:
                 print('Game Over. You Lose')
                 #kill player bike
@@ -144,6 +156,7 @@ class World(DirectObject):
             for enemy in self.e_bikes:
                 if cEntry.getFromNodePath() == enemy.cNodePath:
                     enemy.hp -= 1
+                    self.enemyHealth.getX() + .1
                     if enemy.hp <= 0:
                         print('Game Over. You Win!')
                         #kill enemy bike

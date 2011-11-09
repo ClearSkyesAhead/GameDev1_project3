@@ -9,7 +9,10 @@ from direct.actor.Actor import Actor #for animated models
 from direct.interval.IntervalGlobal import *  #for compound intervals
 from direct.task import Task         #for update fuctions
 import sys, math, random
-from Bullet import Bullet 
+from Bullet import Bullet
+from weapon1 import weapon1
+from weapon2 import weapon2
+from weapon3 import weapon3
 
 class PlayerBike(DirectObject):
     def __init__(self, cTrav):
@@ -18,6 +21,7 @@ class PlayerBike(DirectObject):
         self.accel = 2
         self.current_vel = 0
         self.cTrav = cTrav
+        self.weapon = 0
         
         #vars for jumping
         self.tempHeading = 0
@@ -34,18 +38,28 @@ class PlayerBike(DirectObject):
         self.invin = False
         self.invinCount = 0
         
+        #Shotgun check
+        self.shotgun = False
+        self.p_up_timer = 0
+        
         #load all sound files
         self.singleShot = base.loader.loadSfx('M4A1.mp3')
         
         
         #create empty list for bullets and a task for updating the positions
         self.bullet = Bullet(cTrav)
+        self.spreadshot = weapon1(cTrav)
+        self.explode = weapon2(cTrav)
+        self.wallshot = weapon3(cTrav)
+        
         taskMgr.add(self.bullet.update, "bulletTask")
+        taskMgr.add(self.spreadshot.update, "bulletTask")
         taskMgr.add(self.updatePowerup, "powerupTask")
+
     
         
         #load the bike actor and parent it to a physics node
-        self.bike = Actor("motorcycle2.egg", {"move":"moto2_moveAnimation.egg", "turnL":"moto2_blahblah.egg"})
+        self.bike = Actor("moto2_actor.egg", {"move":"moto2_moveAnim.egg", "turnL":"moto2_blahblah.egg"})
         #self.bike.setScale(.5)
         #self.bike.setH(180)
         self.bike.reparentTo(render)
@@ -155,15 +169,28 @@ class PlayerBike(DirectObject):
     def shoot(self, task):
         #check if space bar is pressed
         if self.shootCheck:
-            #check if able to shoot
-            if self.shotClock >= 25:
-                #print("Shooting a bullet!")
-                #create a bullet
-                self.singleShot.play()
-                self.bullet.createBullet(self.bike)
-                self.shotClock = 0
-            else:
-                self.shotClock += 1
+
+            #Check which weapon is being used
+            #standard weapon
+            if self.weapon == 0:
+                #check if able to shoot
+                if self.shotClock >= 25:
+                    #print("Shooting a bullet!")
+                    self.singleShot.play()
+                    self.bullet.createBullet(self.bike)
+                    self.shotClock = 0
+                else:
+                    self.shotClock += 1
+            #Weapon 2 - Spreadshot/Shotgun
+            elif self.weapon == 1:
+                if self.shotClock >= 40:
+                    #print("Shooting a bullet!")
+                    self.singleShot.play()
+                    self.spreadshot.createBullet(self.bike)
+                    self.shotClock = 0
+                else:
+                    self.shotClock += 1 
+
         else:
             self.shotClock += 1
         return Task.cont
@@ -172,9 +199,17 @@ class PlayerBike(DirectObject):
         #check powerup timers
         if self.invin == True:
             self.invinCount += 1
+            print self.invinCount 
         if self.invinCount == 30:
             self.invin = False
             self.invinCount = 0
+        if self.shotgun == True:
+            self.weapon = 1
+            self.p_up_timer += 1
+            print self.p_up_timer
+        if self.p_up_timer == 500:
+            self.shotgun = False
+            self.weapon = 0
         return Task.cont
     def move(self, task):
         elapsed = task.time - self.prevTime

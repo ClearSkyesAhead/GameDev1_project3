@@ -11,12 +11,20 @@ from direct.task import Task         #for update fuctions
 import sys, math, random
 
 class weapon2(DirectObject):
-    def __init__(self):
 
+    def __init__(self, cTrav):
         #create a constant speed and an overall bullet list to contain all bullets
         self.speed = 10
         self.bulletList = []
+        self.bulletTime = []
         self.prevTime = 0
+        self.prevBulletTime = 0
+        self.cTrav = cTrav
+        self.timer = 0
+        taskMgr.add(self.updateTimer, "timerUpdate")
+        
+    def updateTimer(self, task):
+        self.timer += task.time
         
     def createBullet(self, bike):
         #load the model and set the pos and H to the bike's
@@ -38,6 +46,24 @@ class weapon2(DirectObject):
         self.bullet16 = loader.loadModel("temp_bullet.egg")
         self.bullet17 = loader.loadModel("temp_bullet.egg")
         self.bullet18 = loader.loadModel("temp_bullet.egg")
+        self.bullet19 = loader.loadModel("temp_bullet.egg")
+        self.bullet20 = loader.loadModel("temp_bullet.egg")
+        self.bullet21 = loader.loadModel("temp_bullet.egg")
+        self.bullet22 = loader.loadModel("temp_bullet.egg")
+        self.bullet23 = loader.loadModel("temp_bullet.egg")
+        self.bullet24 = loader.loadModel("temp_bullet.egg")
+        self.bullet25 = loader.loadModel("temp_bullet.egg")
+        self.bullet26 = loader.loadModel("temp_bullet.egg")
+        self.bullet27 = loader.loadModel("temp_bullet.egg")
+        self.bullet28 = loader.loadModel("temp_bullet.egg")
+        self.bullet29 = loader.loadModel("temp_bullet.egg")
+        self.bullet30 = loader.loadModel("temp_bullet.egg")
+        self.bullet31 = loader.loadModel("temp_bullet.egg")
+        self.bullet32 = loader.loadModel("temp_bullet.egg")
+        self.bullet33 = loader.loadModel("temp_bullet.egg")
+        self.bullet34 = loader.loadModel("temp_bullet.egg")
+        self.bullet35 = loader.loadModel("temp_bullet.egg")
+        self.bullet36 = loader.loadModel("temp_bullet.egg")
         
         self.bullet1.setPos(bike.getX(), bike.getY(), bike.getZ())
         self.bullet2.setPos(bike.getX(), bike.getY(), bike.getZ())
@@ -57,6 +83,33 @@ class weapon2(DirectObject):
         self.bullet16.setPos(bike.getX(), bike.getY(), bike.getZ())
         self.bullet17.setPos(bike.getX(), bike.getY(), bike.getZ())
         self.bullet18.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet10.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet11.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet12.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet13.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet14.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet15.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet16.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet17.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet18.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet19.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet20.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet21.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet22.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet23.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet24.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet25.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet26.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet27.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet28.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet29.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet30.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet31.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet32.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet33.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet34.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet35.setPos(bike.getX(), bike.getY(), bike.getZ())
+        self.bullet36.setPos(bike.getX(), bike.getY(), bike.getZ())
         
         self.bullet1.setH(bike.getH())
         self.bullet2.setH(bike.getH()+20)
@@ -76,6 +129,24 @@ class weapon2(DirectObject):
         self.bullet16.setH(bike.getH()+300)
         self.bullet17.setH(bike.getH()+320)
         self.bullet18.setH(bike.getH()+340)
+        self.bullet19.setH(bike.getH()+10)
+        self.bullet20.setH(bike.getH()+30)
+        self.bullet21.setH(bike.getH()+50)
+        self.bullet22.setH(bike.getH()+70)
+        self.bullet23.setH(bike.getH()+90)
+        self.bullet24.setH(bike.getH()+110)
+        self.bullet25.setH(bike.getH()+130)
+        self.bullet26.setH(bike.getH()+150)
+        self.bullet27.setH(bike.getH()+170)
+        self.bullet28.setH(bike.getH()+190)
+        self.bullet29.setH(bike.getH()+210)
+        self.bullet30.setH(bike.getH()+230)
+        self.bullet31.setH(bike.getH()+250)
+        self.bullet32.setH(bike.getH()+270)
+        self.bullet33.setH(bike.getH()+290)
+        self.bullet34.setH(bike.getH()+310)
+        self.bullet35.setH(bike.getH()+330)
+        self.bullet36.setH(bike.getH()+350)
         
         self.bullet1.reparentTo(render)
         self.bullet2.reparentTo(render)
@@ -95,6 +166,119 @@ class weapon2(DirectObject):
         self.bullet16.reparentTo(render)
         self.bullet17.reparentTo(render)
         self.bullet18.reparentTo(render)
+        self.bullet19.reparentTo(render)
+        self.bullet20.reparentTo(render)
+        self.bullet21.reparentTo(render)
+        self.bullet22.reparentTo(render)
+        self.bullet23.reparentTo(render)
+        self.bullet24.reparentTo(render)
+        self.bullet25.reparentTo(render)
+        self.bullet26.reparentTo(render)
+        self.bullet27.reparentTo(render)
+        self.bullet28.reparentTo(render)
+        self.bullet29.reparentTo(render)
+        self.bullet30.reparentTo(render)
+        self.bullet31.reparentTo(render)
+        self.bullet32.reparentTo(render)
+        self.bullet33.reparentTo(render)
+        self.bullet34.reparentTo(render)
+        self.bullet35.reparentTo(render)
+        self.bullet36.reparentTo(render)
+        
+        
+        
+        #collision sphere for player bullet
+        #regular collision sphere
+        cBulletHandler = CollisionHandlerEvent()
+        cBulletHandler.setInPattern("bullet-%in")
+        
+        #problem is coordinate system or parenting
+        cSphere = CollisionSphere(0, 0, 0,.2)
+        cNodeBullet = CollisionNode("bullet1")
+        cNodeBullet = CollisionNode("bullet2")
+        cNodeBullet = CollisionNode("bullet3")
+        cNodeBullet = CollisionNode("bullet4")
+        cNodeBullet = CollisionNode("bullet5")
+        cNodeBullet = CollisionNode("bullet6")
+        cNodeBullet = CollisionNode("bullet7")
+        cNodeBullet = CollisionNode("bullet8")
+        cNodeBullet = CollisionNode("bullet9")
+        cNodeBullet = CollisionNode("bullet10")
+        cNodeBullet = CollisionNode("bullet11")
+        cNodeBullet = CollisionNode("bullet12")
+        cNodeBullet = CollisionNode("bullet13")
+        cNodeBullet = CollisionNode("bullet14")
+        cNodeBullet = CollisionNode("bullet15")
+        cNodeBullet = CollisionNode("bullet16")
+        cNodeBullet = CollisionNode("bullet17")
+        cNodeBullet = CollisionNode("bullet18")
+        cNodeBullet = CollisionNode("bullet19")
+        cNodeBullet = CollisionNode("bullet20")
+        cNodeBullet = CollisionNode("bullet21")
+        cNodeBullet = CollisionNode("bullet22")
+        cNodeBullet = CollisionNode("bullet23")
+        cNodeBullet = CollisionNode("bullet24")
+        cNodeBullet = CollisionNode("bullet25")
+        cNodeBullet = CollisionNode("bullet26")
+        cNodeBullet = CollisionNode("bullet27")
+        cNodeBullet = CollisionNode("bullet28")
+        cNodeBullet = CollisionNode("bullet29")
+        cNodeBullet = CollisionNode("bullet30")
+        cNodeBullet = CollisionNode("bullet31")
+        cNodeBullet = CollisionNode("bullet32")
+        cNodeBullet = CollisionNode("bullet33")
+        cNodeBullet = CollisionNode("bullet34")
+        cNodeBullet = CollisionNode("bullet35")
+        cNodeBullet = CollisionNode("bullet36")
+
+        cNodeBullet.addSolid(cSphere)
+        cNodeBullet.setIntoCollideMask(BitMask32.allOff())
+        #cNodeBullet.setCollideMask(0x1+0x2)
+        cNodeBulletPath = self.bullet1.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet2.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet3.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet4.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet5.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet6.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet7.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet8.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet9.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet10.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet11.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet12.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet13.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet14.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet15.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet16.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet17.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet18.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet19.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet20.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet21.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet22.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet23.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet24.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet25.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet26.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet27.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet28.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet29.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet30.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet31.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet32.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet33.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet34.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet35.attachNewNode(cNodeBullet)
+        cNodeBulletPath = self.bullet36.attachNewNode(cNodeBullet)
+
+        
+        
+        cNodeBulletPath.show()
+        self.cTrav.addCollider(cNodeBulletPath, cBulletHandler)
+        
+        
+        
+        
         
         #add bullet to overall list
         self.bulletList.append(self.bullet1)
@@ -115,18 +299,85 @@ class weapon2(DirectObject):
         self.bulletList.append(self.bullet16)
         self.bulletList.append(self.bullet17)
         self.bulletList.append(self.bullet18)
-        
+        self.bulletList.append(self.bullet19)
+        self.bulletList.append(self.bullet20)
+        self.bulletList.append(self.bullet21)
+        self.bulletList.append(self.bullet22)
+        self.bulletList.append(self.bullet23)
+        self.bulletList.append(self.bullet24)
+        self.bulletList.append(self.bullet25)
+        self.bulletList.append(self.bullet26)
+        self.bulletList.append(self.bullet27)
+        self.bulletList.append(self.bullet28)
+        self.bulletList.append(self.bullet29)
+        self.bulletList.append(self.bullet30)
+        self.bulletList.append(self.bullet31)
+        self.bulletList.append(self.bullet32)
+        self.bulletList.append(self.bullet33)
+        self.bulletList.append(self.bullet34)
+        self.bulletList.append(self.bullet35)
+        self.bulletList.append(self.bullet36)
+
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
+        self.bulletTime.append(0)
         
     def update(self, task):
         elapsed = task.time - self.prevTime
         #cycle through the bullet list and update the positions
+        i = 0
+        check = False
         for bullet in self.bulletList:
             angle = deg2Rad(bullet.getH())
             dist = self.speed * elapsed
             dx = dist * math.sin(angle)
             dy = dist * -math.cos(angle)
-
             bullet.setPos(bullet.getX() - dx, bullet.getY() - dy, .5)
+            self.bulletTime[i] += 1
+            if self.bulletTime[i] > 50:
+                print('erased')
+                bullet.remove()
+                self.bulletList.remove(bullet)
+                #bullet.getParent().remove()
+                self.bulletTime.remove(self.bulletTime[i])
+                check = True
+            if(check == False):
+                i += 1
+            else:
+                check = False
             
         self.prevTime = task.time
         return Task.cont
