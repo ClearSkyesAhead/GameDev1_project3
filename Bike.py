@@ -34,7 +34,7 @@ class Bike(DirectObject):
         #load the bike actor and parent it to a physics node
         #self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
         #self.bike = Actor("motorcycle1.egg", {"move":"bike-move", "shoot":"bike-shoot"})
-        self.bike = Actor("motorcycle1.egg", {"move":"moto1_moveAnimAtion.egg", "turnL":"moto1_moveLAnimation.egg", "turnR":"moto1_moveRAnimation.egg"})
+        self.bike = Actor("moto1_actor1.egg", {"move":"moto1_moveAnimAtion.egg", "turnL":"moto1_moveLAnimation.egg", "turnR":"moto1_moveRAnimation.egg"})
         self.bike.reparentTo(render)
         self.bike.setScale(.5)
         #self.bike.setH(self.bike.getH() - 3.1415/2)        
