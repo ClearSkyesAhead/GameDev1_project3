@@ -32,7 +32,8 @@ class Bike(DirectObject):
         
         #load the bike actor and parent it to a physics node
         #self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
-        self.bike = Actor("motorcycle1.egg", {"move":"bike-move", "shoot":"bike-shoot"})
+        #self.bike = Actor("motorcycle1.egg", {"move":"bike-move", "shoot":"bike-shoot"})
+        self.bike = Actor("moto1_actor.egg", {"move":"moto1_moveAnim.egg", "turnL":"moto1_moveAnimL.egg", "turnR":"moto1_moveAnimR.egg"})
         self.bike.reparentTo(render)
         self.bike.setScale(.5)
         
@@ -84,8 +85,9 @@ class Bike(DirectObject):
         
         cNode1 = CollisionNode("e_bike_push")
         cNode1.addSolid(cPushSphere)
+        #cNode1.setIntoCollideMask(0x1 + 0x2)
         cNode1.setIntoCollideMask(0x10)
-        cNode1.setFromCollideMask(0x0)
+        cNode1.setFromCollideMask(0x1 + 0x2)
         self.cNodePath1 = self.bike.attachNewNode(cNode1)
         
         #self.cNodePath1.show()
@@ -98,7 +100,7 @@ class Bike(DirectObject):
         
         cNode2 = CollisionNode("e_bike_push")
         cNode2.addSolid(cPushSphere)
-        cNode2.setIntoCollideMask(0x10)
+        cNode2.setIntoCollideMask(0x1 + 0x2)
         cNode2.setFromCollideMask(0x0)
         self.cNodePath2 = self.bike.attachNewNode(cNode2)
         
@@ -112,7 +114,7 @@ class Bike(DirectObject):
         
         cNode3 = CollisionNode("e_bike_push")
         cNode3.addSolid(cPushSphere)
-        cNode3.setIntoCollideMask(0x10)
+        cNode3.setIntoCollideMask(0x1 + 0x2)
         cNode3.setFromCollideMask(0x0)
         self.cNodePath3 = self.bike.attachNewNode(cNode3)
         
