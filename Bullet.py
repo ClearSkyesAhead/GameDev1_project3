@@ -25,7 +25,7 @@ class Bullet(DirectObject):
         
     def createBullet(self, bike):
         #load the model and set the pos and H to the bike's
-        self.bullet = loader.loadModel("bullet.egg")
+        self.bullet = loader.loadModel("temp_bullet.egg")
         self.bullet.setPos(bike.getX(), bike.getY(), bike.getZ())
         self.bullet.setH(bike.getH())
         self.bullet.setScale(.25)
