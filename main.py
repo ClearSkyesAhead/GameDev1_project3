@@ -141,7 +141,7 @@ class World(DirectObject):
         
     def bulletCollision(self, cEntry):
         #check which bike is being hit
-        if self.p_bike.invin == False and cEntry.getFromNodePath() == self.p_bike.cNodePath:
+        if self.p_bike.invin == False and cEntry.getFromNodePath() == self.p_bike.cNodePath1:
             print('player bike!')
             self.p_bike.hp -= 1
             if self.p_bike.hp <= 0:
