@@ -64,13 +64,21 @@ class Terrain(DirectObject):
         cNodePathWall4.show()
         
         
-        #setup power up collision spheres
+        #setup power up collision spheres and the associated model
         #powerup1 collision sphere (invincibility)
-        cPowerSphere1 = CollisionSphere((0,-.3,16.5),3)
+        #self.shield = Actor('shield.egg', {'rotate':'SOMETHING'})
+        self.shield = loader.loadModel('shield.egg')
+        self.shield.reparentTo(render)
+        self.shield.setPos(0, -.3, 16.5)
+        self.shield.setScale(0.5)
+        #self.shield.play('rotate')
+        
+        
+        cPowerSphere1 = CollisionSphere((0,0,0),6)
         cPowerNode1 = CollisionNode("powerup1")
         cPowerNode1.addSolid(cPowerSphere1)
         cPowerNode1.setIntoCollideMask(1)
-        self.cPowerNode1Path = render.attachNewNode(cPowerNode1)
+        self.cPowerNode1Path = self.shield.attachNewNode(cPowerNode1)
         self.cPowerNode1Path.show()
         self.powerUp1 = True
         self.powerUp1Count = 0

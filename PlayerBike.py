@@ -17,7 +17,7 @@ from weapon3 import weapon3
 class PlayerBike(DirectObject):
     def __init__(self, cTrav):
         #create speed vars
-        self.max_vel = 50
+        self.max_vel = 35
         self.accel = 2
         self.current_vel = 0
         self.cTrav = cTrav
@@ -59,7 +59,7 @@ class PlayerBike(DirectObject):
     
         
         #load the bike actor and parent it to a physics node
-        self.bike = Actor("motorcycle2.egg", {"move":"moto2_moveRAnimation", "turnL":"moto2_blahblah.egg"})
+        self.bike = Actor("motorcycle2.egg", {"move":"moto2_moveAnimation.egg", "turnL":"moto2_blahblah.egg"})
         #self.bike.setScale(.5)
         #self.bike.setH(180)
         self.bike.reparentTo(render)
@@ -91,48 +91,44 @@ class PlayerBike(DirectObject):
         collisionPusher.setInPattern("p_bike-%in")
         cPushSphere = CollisionSphere((0,3.5,2),2)
         
-        cNode = CollisionNode("p_bike_push")
-        cNode.addSolid(cPushSphere)
-        cNode.setIntoCollideMask(0x10)
-        cNode.setFromCollideMask(0x1)
-        self.cNodePath = self.bike.attachNewNode(cNode)
+        cNode1 = CollisionNode("p_bike_push")
+        cNode1.addSolid(cPushSphere)
+        cNode1.setIntoCollideMask(0x10)
+        cNode1.setFromCollideMask(0x1)
+        self.cNodePath1 = self.bike.attachNewNode(cNode1)
         
-        self.cNodePath.show()
+        #self.cNodePath1.show()
         
-        collisionPusher.addCollider(self.cNodePath, self.bike)
-        self.cTrav.addCollider(self.cNodePath, collisionPusher)
+        collisionPusher.addCollider(self.cNodePath1, self.bike)
+        self.cTrav.addCollider(self.cNodePath1, collisionPusher)
         
-        """#middle
-        collisionPusher = CollisionHandlerPusher()
-        collisionPusher.setInPattern("p_bike-%in")
-        cPushSphere = CollisionSphere((0,0,1),4.5)
+        #middle
+        cPushSphere = CollisionSphere((0,0,2),2)
         
-        cNode = CollisionNode("p_bike_push")
-        cNode.addSolid(cPushSphere)
-        cNode.setIntoCollideMask(0x10)
-        cNode.setFromCollideMask(0x1)
-        self.cNodePath = self.bike.attachNewNode(cNode)
+        cNode2 = CollisionNode("p_bike_push")
+        cNode2.addSolid(cPushSphere)
+        cNode2.setIntoCollideMask(0x10)
+        cNode2.setFromCollideMask(0x1)
+        self.cNodePath2 = self.bike.attachNewNode(cNode2)
         
-        self.cNodePath.show()
+        #self.cNodePath2.show()
         
-        collisionPusher.addCollider(self.cNodePath, self.bike)
-        self.cTrav.addCollider(self.cNodePath, collisionPusher)
+        collisionPusher.addCollider(self.cNodePath2, self.bike)
+        self.cTrav.addCollider(self.cNodePath2, collisionPusher)
         
         #back
-        collisionPusher = CollisionHandlerPusher()
-        collisionPusher.setInPattern("p_bike-%in")
-        cPushSphere = CollisionSphere((0,0,1),4.5)
+        cPushSphere = CollisionSphere((0,-2.5,2),2)
         
-        cNode = CollisionNode("p_bike_push")
-        cNode.addSolid(cPushSphere)
-        cNode.setIntoCollideMask(0x10)
-        cNode.setFromCollideMask(0x1)
-        self.cNodePath = self.bike.attachNewNode(cNode)
+        cNode3 = CollisionNode("p_bike_push")
+        cNode3.addSolid(cPushSphere)
+        cNode3.setIntoCollideMask(0x10)
+        cNode3.setFromCollideMask(0x1)
+        self.cNodePath3 = self.bike.attachNewNode(cNode3)
         
-        self.cNodePath.show()
+        #self.cNodePath3.show()
         
-        collisionPusher.addCollider(self.cNodePath, self.bike)
-        self.cTrav.addCollider(self.cNodePath, collisionPusher)"""
+        collisionPusher.addCollider(self.cNodePath3, self.bike)
+        self.cTrav.addCollider(self.cNodePath3, collisionPusher)
         
         #collision rays for faux-gravity
         #front wheel
@@ -229,7 +225,7 @@ class PlayerBike(DirectObject):
         #check key map
         
         #check if at jump height
-        if prevZ >= 4.8:
+        if prevZ >= 4.5:
             #set jump check
             self.jump = True
             
@@ -265,7 +261,7 @@ class PlayerBike(DirectObject):
             print('temp_vel', self.temp_vel)"""
             
             #use a count to determine when to decrease or increase the bike's Z
-            if self.count < 25:
+            if self.count < 30:
                 self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() + self.dz)
             else:
                 self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() - self.dz)

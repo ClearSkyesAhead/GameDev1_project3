@@ -82,13 +82,13 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
-        #2d attempt
+        """#2d attempt
         #will need the health bars as egg or bam file then reparent to render2d
         dr = base.win.makeDisplayRegion()
         dr.setSort(20)
         
         #KEEP THIS BLOCK
-        """myCamera2d = NodePath(Camera('myCam2d'))
+        myCamera2d = NodePath(Camera('myCam2d'))
         lens = OrthographicLens()
         lens.setFilmSize(2, 2)
         lens.setNearFar(-1000, 1000)
@@ -109,7 +109,6 @@ class World(DirectObject):
         
         #self.initAI()
         #self.e_bikes = [self.addEnemy()]
-        #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
         #base.cTrav.addCollider(self.p_bike.cNodePath, self.e_bikes[0].cevent)
                 
     def powerupCollision(self, cEntry):
@@ -192,7 +191,7 @@ class World(DirectObject):
         
     def initAI(self):
         self.AIworld = AIWorld(render)
-        self.AIworld.addObstacle(self.w_terrain.terrain)
+        self.AIworld.addObstacle(self.w_terrain.wall_terrain)
         #AI World update        
         taskMgr.add(self.AIUpdate,"AIUpdate")
     
