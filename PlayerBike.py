@@ -203,17 +203,18 @@ class PlayerBike(DirectObject):
         #check powerup timers
         if self.invin == True:
             self.invinCount += 1
+            print self.invinCount 
         if self.invinCount == 30:
             self.invin = False
             self.invinCount = 0
-        return Task.cont
         if self.shotgun == True:
             self.weapon = 1
             self.p_up_timer += 1
             print self.p_up_timer
-        if self.p_up_timer == 30:
+        if self.p_up_timer == 500:
             self.shotgun = False
             self.weapon = 0
+        return Task.cont
     def move(self, task):
         elapsed = task.time - self.prevTime
         

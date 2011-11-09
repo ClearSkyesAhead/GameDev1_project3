@@ -78,7 +78,7 @@ class weapon1(DirectObject):
         cBulletHandler.setInPattern("bullet-%in")
         
         #problem is coordinate system or parenting
-        cSphere = CollisionSphere(0, 0, 0,.2)
+        cSphere = CollisionSphere(0, 0, .75,1)
         cNodeBullet = CollisionNode("bullet1")
         cNodeBullet = CollisionNode("bullet2")
         cNodeBullet = CollisionNode("bullet3")
