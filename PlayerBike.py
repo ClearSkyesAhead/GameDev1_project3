@@ -237,7 +237,7 @@ class PlayerBike(DirectObject):
         #check key map
         
         #check if at jump height
-        if prevZ >= 4.25:
+        if prevZ >= 4.00:
             #set jump check
             self.jump = True
             
