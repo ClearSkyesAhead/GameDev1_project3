@@ -146,7 +146,7 @@ class PlayerBike(DirectObject):
         cRayNode1.setIntoCollideMask(BitMask32.allOff())
         cRayNode1.setFromCollideMask(2)
         cRayNodePath1 = self.bike.attachNewNode(cRayNode1)
-        cRayNodePath1.show()
+        #cRayNodePath1.show()
          
         self.cTrav.addCollider(cRayNodePath1, lifter)
         lifter.addCollider(cRayNodePath1, self.bike)
