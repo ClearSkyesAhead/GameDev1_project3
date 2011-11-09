@@ -122,12 +122,14 @@ class World(DirectObject):
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode2Path:
             self.w_terrain.powerUp2 = False
             print('shotty')
-            self.p_bike.weapon = 1
+            self.p_bike.shotgun = True
+            self.p_bike.p_up_timer = 0
         #check powerup3
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode3Path:
             self.w_terrain.powerUp3 = False
             print('shotty squared')
-            self.p_bike.weapon = 1
+            self.p_bike.shotgun = True
+            self.p_bike.p_up_timer = 0
         #check power4
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode4Path:
             self.w_terrain.powerUp4 = False

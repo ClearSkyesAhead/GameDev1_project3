@@ -38,6 +38,10 @@ class PlayerBike(DirectObject):
         self.invin = False
         self.invinCount = 0
         
+        #Shotgun check
+        self.shotgun = False
+        self.p_up_timer = 0
+        
         #load all sound files
         self.singleShot = base.loader.loadSfx('M4A1.mp3')
         
@@ -203,6 +207,13 @@ class PlayerBike(DirectObject):
             self.invin = False
             self.invinCount = 0
         return Task.cont
+        if self.shotgun == True:
+            self.weapon = 1
+            self.p_up_timer += 1
+            print self.p_up_timer
+        if self.p_up_timer == 30:
+            self.shotgun = False
+            self.weapon = 0
     def move(self, task):
         elapsed = task.time - self.prevTime
         
