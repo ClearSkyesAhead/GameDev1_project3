@@ -82,13 +82,13 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
-        #2d attempt
+        """#2d attempt
         #will need the health bars as egg or bam file then reparent to render2d
         dr = base.win.makeDisplayRegion()
         dr.setSort(20)
         
         #KEEP THIS BLOCK
-        """myCamera2d = NodePath(Camera('myCam2d'))
+        myCamera2d = NodePath(Camera('myCam2d'))
         lens = OrthographicLens()
         lens.setFilmSize(2, 2)
         lens.setNearFar(-1000, 1000)
