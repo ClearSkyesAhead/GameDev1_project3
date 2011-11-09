@@ -238,10 +238,11 @@ class World(DirectObject):
     def initAI(self):
         self.AIworld = AIWorld(render)
         #self.AIworld.addObstacle(self.w_terrain.wall_terrain)
-        self.AIworld.addObstacle(self.w_terrain.cNodePathWall1)
-        self.AIworld.addObstacle(self.w_terrain.cNodePathWall2)
-        self.AIworld.addObstacle(self.w_terrain.cNodePathWall3)
-        self.AIworld.addObstacle(self.w_terrain.cNodePathWall4)
+        #self.AIworld.addObstacle(self.w_terrain.cNodePathWall1)
+        #self.AIworld.addObstacle(self.w_terrain.cNodePathWall2)
+        #self.AIworld.addObstacle(self.w_terrain.cNodePathWall3)
+        #self.AIworld.addObstacle(self.w_terrain.cNodePathWall4)
+        #self.AIworld.addObstacle(self.w_terrain.bounds)
         #AI World update        
         taskMgr.add(self.AIUpdate,"AIUpdate")
     
@@ -250,7 +251,7 @@ class World(DirectObject):
         for i in self.e_bikes:
             i.update()
             i.bike.setHpr(i.bike.getH(), 0, i.bike.getR())
-            i.bike.setY(max(0.0, i.bike.getY()))
+            i.bike.setZ(max(0.0, i.bike.getZ()))
         return Task.cont
         
     def addEnemy(self):

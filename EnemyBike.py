@@ -68,6 +68,8 @@ class EnemyBike(Bike):
         self.do = DirectObject()
         self.do.accept('vistrace-into-p_bike_push', self.visIn)
         self.do.accept('vistrace-out-p_bike_push', self.visOut)
+        
+        self.prev = self.bike.getPos()
 		
     def initAI(self):
         self.AIchar = AICharacter("Enemy Bike", self.bike, 100, 0.05, 100)
@@ -75,17 +77,18 @@ class EnemyBike(Bike):
         
         self.AImode = 'scan'
         self.target = None
-        
-        #self.AIbehaviors.pursue(self.p_bike.bike, 0.7)
-        self.AIbehaviors.wander(1.0, 0, 30.0, 0.5)
-        #self.AIbehaviors.obstacleAvoidance(1.0)
-        #self.e_bike.loop("run")
 		
     def update(self):
         self.shoot()
         if self.AImode == 'flee':
             if random.randint(1, 60) == 1:
                 self.lightsToggle()
+        
+        if (self.bike.getPos() - self.prev).length() > 0.01:
+            self.bike.loop("move")
+        else:
+            self.bike.stop()
+        self.prev = self.bike.getPos()
         
         """if self.lights:
             self.lightsOff()
@@ -110,18 +113,18 @@ class EnemyBike(Bike):
         print self.AImode
         if self.AImode == 'target':
             self.AIchar.setMaxForce(200);
-            self.AIbehaviors.wander(0.5, 0, 500, 0.5)
-            self.AIbehaviors.pursue(self.target.bike, 1.5)
-            self.AIbehaviors.evade(self.target.bike, 10.0, 20.0, 10.0)
+            self.AIbehaviors.wander(0.5, 0, 500, 0.125)
+            self.AIbehaviors.pursue(self.target.bike, 0.5)
+            self.AIbehaviors.evade(self.target.bike, 1.0, 2.0, 1.0)
         elif self.AImode == 'flee':
             self.AIchar.setMaxForce(300);
             self.AIbehaviors.wander(1.0, 0, 500, 1.0)
-            self.AIbehaviors.evade(self.target.bike, 20.0, 40.0, 1.5)
+            self.AIbehaviors.evade(self.target.bike, 2.0, 4.0, 1.0)
         elif self.AImode == 'scan':
             self.AIchar.setMaxForce(150);
-            self.AIbehaviors.wander(5.0, 0, 500, 1.5)
+            self.AIbehaviors.wander(3.0, 0, 500, 1.0)
             self.AIbehaviors.pursue(self.target.bike, 0.25)
-            self.AIbehaviors.evade(self.target.bike, 10.0, 20.0, 10.0)
+            self.AIbehaviors.evade(self.target.bike, 1.0, 2.0, 1.0)
         
 
             
