@@ -98,13 +98,16 @@ class World(DirectObject):
         myRender2d.setDepthTest(False)
         myRender2d.setDepthWrite(False)
         myCamera2d.reparentTo(myRender2d)
-        dr.setCamera(myCamera2d)
+        dr.setCamera(myCamera2d)"""
         
-        myImage = OnscreenImage(image = 'map.jpg')
-        #myImage.reparentTo(myRender2d)
-        myImage.setScale(0.25)
-        myImage.setX(1)
-        myImage.setZ(1)"""
+        self.playerHealth = OnscreenImage(image = 'PlayerHealthBar.png')
+        self.playerHealth.setX(-1)
+        self.playerHealth.setZ(-1.95)
+        
+        #enemy health
+        self.enemyHealth = OnscreenImage(image = 'EnemyHealthBar.png')
+        self.enemyHealth.setX(1)
+        self.enemyHealth.setZ(-1.95)
         
         
         #self.initAI()
@@ -144,6 +147,7 @@ class World(DirectObject):
         if self.p_bike.invin == False and cEntry.getFromNodePath() == self.p_bike.cNodePath:
             print('player bike!')
             self.p_bike.hp -= 1
+            self.playerHealth.getX() - .1
             if self.p_bike.hp <= 0:
                 print('Game Over. You Lose')
                 #kill player bike
@@ -152,6 +156,7 @@ class World(DirectObject):
             for enemy in self.e_bikes:
                 if cEntry.getFromNodePath() == enemy.Bike.cNodePath:
                     enemy.hp -= 1
+                    self.enemyHealth.getX() + .1
                     if enemy.hp <= 0:
                         print('Game Over. You Win!')
                         #kill enemy bike
