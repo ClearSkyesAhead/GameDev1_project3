@@ -36,8 +36,10 @@ class Bike(DirectObject):
         self.bike = Actor("moto1_actor.egg", {"move":"moto1_moveAnim.egg", "turnL":"moto1_moveAnimL.egg", "turnR":"moto1_moveAnimR.egg"})
         self.bike.reparentTo(render)
         self.bike.setScale(.5)
+        self.bike.setH(self.bike.getH() - 3.1415/2)
         
         #load the gun actors
+        """
         self.gun1 = Actor("temp_gun.egg", {"shoot":"gun-shoot"})
         self.gun1.reparentTo(self.bike)
         self.gun1.setPos(-.5, 0, .5)
@@ -48,7 +50,9 @@ class Bike(DirectObject):
         self.gun2.setPos(.46, 0, 1)
         self.gun2.setH(180)
         self.gun2.setR(180)
+        """
         
+        """
         #load the headlight models
         self.headlight1 = loader.loadModel("temp_light.egg")
         self.headlight1.reparentTo(self.bike)
@@ -60,6 +64,7 @@ class Bike(DirectObject):
         self.headlight2.reparentTo(self.bike)
         self.headlight2.setPos(-.3, .55, .4)
         self.headlight2.setScale(.75)
+        """
         
         #setup a move task for the bike
         #taskMgr.add(self.move, "moveTask")
@@ -155,7 +160,7 @@ class Bike(DirectObject):
         lens.setFov(20)
         self.spotlight1.setLens(lens)
         self.spotlight1.setExponent(100)
-        self.spotnode1 = self.headlight1.attachNewNode(self.spotlight1)
+        self.spotnode1 = self.bike.attachNewNode(self.spotlight1)
         render.setLight(self.spotnode1)
         
         """

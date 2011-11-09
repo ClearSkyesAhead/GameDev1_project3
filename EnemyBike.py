@@ -23,6 +23,11 @@ class EnemyBike(Bike):
         self.initAI()
         self.hp = 10
         
+        self.shooting = 0
+        self.decshooting = True
+        self.targeting = 0
+        self.dectargeting = True
+        
         frombikemask = BitMask32(0x10)
         intobikemask = BitMask32.allOff()
         floormask = BitMask32(0x2)
@@ -31,7 +36,7 @@ class EnemyBike(Bike):
         self.cevent.addInPattern('%fn-into-%in')
         self.cevent.addOutPattern('%fn-out-%in')
         
-        self.bullettrace = self.gun1.attachNewNode(CollisionNode('aimtrace'))
+        self.bullettrace = self.bike.attachNewNode(CollisionNode('aimtrace'))
         self.bullettrace.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
         self.bullettrace.node().setFromCollideMask(frombikemask)
         self.bullettrace.node().setIntoCollideMask(intobikemask)
@@ -68,6 +73,8 @@ class EnemyBike(Bike):
         self.do = DirectObject()
         self.do.accept('vistrace-into-p_bike_push', self.visIn)
         self.do.accept('vistrace-out-p_bike_push', self.visOut)
+        self.do.accept('aimtrace-into-p_bike_push', self.aimIn)
+        self.do.accept('aimtrace-out-p_bike_push', self.aimOut)
         
         self.prev = self.bike.getPos()
 		
@@ -79,7 +86,7 @@ class EnemyBike(Bike):
         self.target = None
 		
     def update(self):
-        self.shoot()
+        #self.shoot()
         if self.AImode == 'flee':
             if random.randint(1, 60) == 1:
                 self.lightsToggle()
@@ -90,10 +97,20 @@ class EnemyBike(Bike):
             self.bike.stop()
         self.prev = self.bike.getPos()
         
-        """if self.lights:
-            self.lightsOff()
-        else:
-            self.lightsOn()"""
+        if self.shooting > 0:
+            self.shoot()
+            if self.decshooting:
+                self.shooting -= 1
+        if self.targeting > 0:
+            if self.dectargeting:
+                self.targeting -= 1
+                if self.targeting == 0:
+                    self.setMode('seek')
+        if self.hp <= 1:
+            self.setMode('flee')
+        
+        print "shooting: " + str(self.shooting) + " (" + str(self.decshooting) + ")"
+        print "targeting: " + str(self.targeting) + " (" + str(self.dectargeting) + ")"
             
     def shoot(self):
         
@@ -109,45 +126,48 @@ class EnemyBike(Bike):
     def setMode(self, mode):
         self.AImode = mode
         self.AIbehaviors.removeAi("all")
-        #self.AIbehaviors.obstacleAvoidance(1.0)
+        self.AIbehaviors.flee(Vec3(17.0, 17.0, 0.0), 2.5, 1.0, 1.0)
+        self.AIbehaviors.flee(Vec3(17.0, -17.0, 0.0), 2.5, 1.0, 1.0)
+        self.AIbehaviors.flee(Vec3(-17.0, 17.0, 0.0), 2.5, 1.0, 1.0)
+        self.AIbehaviors.flee(Vec3(-17.0, -17.0, 0.0), 2.5, 1.0, 1.0)
         print self.AImode
         if self.AImode == 'target':
             self.AIchar.setMaxForce(200);
-            self.AIbehaviors.wander(0.5, 0, 500, 0.125)
-            self.AIbehaviors.pursue(self.target.bike, 0.5)
-            self.AIbehaviors.evade(self.target.bike, 1.0, 2.0, 1.0)
+            self.AIbehaviors.wander(0.5, 0, 16, 0.25)
+            self.AIbehaviors.pursue(self.target.bike, 0.75)
+            self.AIbehaviors.evade(self.target.bike, 1.0, 1.0, 1.0)
         elif self.AImode == 'flee':
-            self.AIchar.setMaxForce(300);
-            self.AIbehaviors.wander(1.0, 0, 500, 1.0)
-            self.AIbehaviors.evade(self.target.bike, 2.0, 4.0, 1.0)
+            self.AIchar.setMaxForce(250);
+            self.AIbehaviors.wander(1.0, 0, 16, 0.5)
+            self.AIbehaviors.evade(self.target.bike, 2.0, 2.0, 1.0)
         elif self.AImode == 'scan':
             self.AIchar.setMaxForce(150);
-            self.AIbehaviors.wander(3.0, 0, 500, 1.0)
-            self.AIbehaviors.pursue(self.target.bike, 0.25)
-            self.AIbehaviors.evade(self.target.bike, 1.0, 2.0, 1.0)
+            self.AIbehaviors.wander(2.0, 0, 16, 0.6)
+            self.AIbehaviors.pursue(self.target.bike, 0.4)
+            self.AIbehaviors.evade(self.target.bike, 2.0, 0.5, 1.0)
         
-
+        
             
             
     def aimIn(self, event):
-        print length(self.bike.getPos(), event.getFromNodePath().getPos())
+        #print length(self.bike.getPos(), event.getFromNodePath().getPos())
         #self.AImode = 'target'
         #print event.getFromNodePath().getParent().AImode
         #print event
+        self.shooting = 60
+        self.decshoot = False
         
     def aimOut(self, event):
-        print event
+        #print event
+        self.decshoot = True
 
     def visIn(self, event):
-        print self.physNode.getPos()
-        #print self.bike.getPos()
-        #print event.getIntoNodePath().getPos()
-        #print event.getFromNodePath().getPos()
-        print (self.bike.getPos() - event.getIntoNodePath().getPos()).length()
-        #print self.AImode
-        #print event.getFromNodePath().getParent().AImode
-        #print event
+        #print self.physNode.getPos()
+        #print (self.bike.getPos() - event.getIntoNodePath().getPos()).length()
+        self.setMode('target')
+        self.targeting = 30
+        self.dectargeting = False
+
         
     def visOut(self, event):
-        print event
-          
+        self.dectargeting = True
