@@ -162,7 +162,8 @@ class World(DirectObject):
         if self.p_bike.invin == False and (cEntry.getFromNodePath() == self.p_bike.cNodePath1 or cEntry.getFromNodePath() == self.p_bike.cNodePath1 or cEntry.getFromNodePath() == self.p_bike.cNodePath3):
             print('player bike!')
             self.p_bike.hp -= 1
-            self.playerHealth.getX() - .1
+            self.playerHealth.setX(self.playerHealth.getX() - .1)
+            print('player hp:', self.p_bike.hp)
             if self.p_bike.hp <= 0:
                 #kill player bike and reset camera
                 taskMgr.remove("moveTask")
@@ -203,9 +204,18 @@ class World(DirectObject):
         #UNCOMMENT WHEN ENEMY BIKES ARE FIXED
         else:
             for enemy in self.e_bikes:
-                if cEntry.getFromNodePath() == enemy.cNodePath:
+                print('in enemy list')
+                print(cEntry.getFromNodePath())
+                print(cEntry.getFromNodePath().getParent())
+                print(cEntry.getFromNodePath().getParent())
+                print(enemy.cNodePath)
+                print(cEntry.getIntoNodePath())
+                print(cEntry.getIntoNodePath().getParent())
+                if cEntry.getFromNodePath() == enemy.cNodePath1 or cEntry.getFromNodePath() == enemy.cNodePath2 or cEntry.getFromNodePath() == enemy.cNodePath3:
+                    print('enemy hit')
                     enemy.hp -= 1
-                    self.enemyHealth.getX() + .1
+                    self.enemyHealth.setX(self.enemyHealth.getX() + .1)
+                    print('enemy hp:', enemy.hp)
                     if enemy.hp <= 0:
                         print('Game Over. You Win!')
                         #kill enemy bike
