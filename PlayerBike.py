@@ -59,7 +59,7 @@ class PlayerBike(DirectObject):
     
         
         #load the bike actor and parent it to a physics node
-        self.bike = Actor("motorcycle2.egg", {"move":"moto2_moveAnimation.egg", "turnL":"moto2_blahblah.egg"})
+        self.bike = Actor("moto2_actor.egg", {"move":"moto2_moveAnim.egg", "turnL":"moto2_blahblah.egg"})
         #self.bike.setScale(.5)
         #self.bike.setH(180)
         self.bike.reparentTo(render)
