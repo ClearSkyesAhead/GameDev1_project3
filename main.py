@@ -25,9 +25,10 @@ class World(DirectObject):
         #self.mainScreen.setScale(1.25)
         self.accept("mouse1", self.begin)
     def begin(self):
-        self.start = True
-        self.mainScreen.destroy()
-        self.__init__1()
+        if self.start == False:
+            self.start = True
+            self.mainScreen.destroy()
+            self.__init__1()
     def __init__1(self):
         #load physics
         base.enableParticles()
