@@ -15,31 +15,40 @@ class weapon1(DirectObject):
     def __init__(self, cTrav):
 
         #create a constant speed and an overall bullet list to contain all bullets
-        self.speed = 10
+        self.speed = 100
         self.bulletList = []
         self.bulletTime = []
+        self.shot = []
         self.prevTime = 0
         self.prevBulletTime = 0
         self.cTrav = cTrav
         self.timer = 0
         taskMgr.add(self.updateTimer, "timerUpdate")
         
+        
     def updateTimer(self, task):
         self.timer += task.time
         
     def createBullet(self, bike):
         #load the model and set the pos and H to the bike's
-        self.bullet1 = loader.loadModel("temp_bullet.egg")
-        self.bullet2 = loader.loadModel("temp_bullet.egg")
-        self.bullet3 = loader.loadModel("temp_bullet.egg")
-        self.bullet4 = loader.loadModel("temp_bullet.egg")
-        self.bullet5 = loader.loadModel("temp_bullet.egg")
+        self.bullet1 = loader.loadModel("bullet.egg")
+        self.bullet2 = loader.loadModel("bullet.egg")
+        self.bullet3 = loader.loadModel("bullet.egg")
+        self.bullet4 = loader.loadModel("bullet.egg")
+        self.bullet5 = loader.loadModel("bullet.egg")
         
-        self.bullet1.setPos(bike.getX(), bike.getY(), bike.getZ())
-        self.bullet2.setPos(bike.getX(), bike.getY(), bike.getZ())
-        self.bullet3.setPos(bike.getX(), bike.getY(), bike.getZ())
-        self.bullet4.setPos(bike.getX(), bike.getY(), bike.getZ())
-        self.bullet5.setPos(bike.getX(), bike.getY(), bike.getZ())
+        
+        
+        #prevent bullet from spawning inside of player collision sphere
+        angle = deg2Rad(bike.getH())
+        dy = -math.cos(angle) * 5
+        dx = math.sin(angle) * 5
+        
+        self.bullet1.setPos(bike.getX() - dx, bike.getY() - dy, bike.getZ())
+        self.bullet2.setPos(bike.getX() - dx, bike.getY() - dy, bike.getZ())
+        self.bullet3.setPos(bike.getX() - dx, bike.getY() - dy, bike.getZ())
+        self.bullet4.setPos(bike.getX() - dx, bike.getY() - dy, bike.getZ())
+        self.bullet5.setPos(bike.getX() - dx, bike.getY() - dy, bike.getZ())
         
         self.bullet1.setH(bike.getH()+15)
         self.bullet2.setH(bike.getH()-15)
@@ -47,12 +56,18 @@ class weapon1(DirectObject):
         self.bullet4.setH(bike.getH()+7.5)
         self.bullet5.setH(bike.getH()-7.5)
         
+        self.bullet1.setScale(.25)
+        self.bullet2.setScale(.25)
+        self.bullet3.setScale(.25)
+        self.bullet4.setScale(.25)
+        self.bullet5.setScale(.25)
+        
         self.bullet1.reparentTo(render)
         self.bullet2.reparentTo(render)
         self.bullet3.reparentTo(render)
         self.bullet4.reparentTo(render)
         self.bullet5.reparentTo(render)
-        
+                                        
         
         
         
@@ -81,11 +96,6 @@ class weapon1(DirectObject):
         cNodeBulletPath.show()
         self.cTrav.addCollider(cNodeBulletPath, cBulletHandler)
         
-        
-        
-        
-        
-        
         #add bullet to overall list
         self.bulletList.append(self.bullet1)
         self.bulletList.append(self.bullet2)
@@ -110,7 +120,7 @@ class weapon1(DirectObject):
             dy = dist * -math.cos(angle)
             bullet.setPos(bullet.getX() - dx, bullet.getY() - dy, .5)
             self.bulletTime[i] += 1
-            if self.bulletTime[i] > 50:
+            if self.bulletTime[i] > 20:
                 print('erased')
                 bullet.remove()
                 self.bulletList.remove(bullet)

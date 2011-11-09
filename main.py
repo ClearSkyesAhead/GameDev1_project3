@@ -121,15 +121,21 @@ class World(DirectObject):
         #check powerup2
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode2Path:
             self.w_terrain.powerUp2 = False
+            print('shotty')
+            self.p_bike.weapon = 1
         #check powerup3
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode3Path:
             self.w_terrain.powerUp3 = False
+            print('shotty squared')
+            self.p_bike.weapon = 1
         #check power4
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode4Path:
             self.w_terrain.powerUp4 = False
+            print('MEDIC!!')
         #check powerup5
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode5Path:
             self.w_terrain.powerUp5 = False
+            print('Get some!')
         cEntry.getIntoNodePath().remove()
         
     def bulletCollision(self, cEntry):

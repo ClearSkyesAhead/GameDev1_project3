@@ -21,7 +21,7 @@ class PlayerBike(DirectObject):
         self.accel = 2
         self.current_vel = 0
         self.cTrav = cTrav
-        self.weapon = 3
+        self.weapon = 0
         
         #vars for jumping
         self.tempHeading = 0
@@ -149,7 +149,7 @@ class PlayerBike(DirectObject):
                 else:
                     self.shotClock += 1
             #Weapon 2 - Spreadshot/Shotgun
-            elif self.weapon == 2:
+            elif self.weapon == 1:
                 if self.shotClock >= 40:
                     #print("Shooting a bullet!")
                     self.singleShot.play()
@@ -158,15 +158,6 @@ class PlayerBike(DirectObject):
                 else:
                     self.shotClock += 1 
 
-            #check if able to shoot
-            if self.shotClock >= 25:
-                #print("Shooting a bullet!")
-                #create a bullet
-                self.singleShot.play()
-                self.bullet.createBullet(self.bike)
-                self.shotClock = 0
-            else:
-                self.shotClock += 1
         else:
             self.shotClock += 1
         return Task.cont
