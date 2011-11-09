@@ -146,7 +146,7 @@ class PlayerBike(DirectObject):
         cRayNode1.setIntoCollideMask(BitMask32.allOff())
         cRayNode1.setFromCollideMask(2)
         cRayNodePath1 = self.bike.attachNewNode(cRayNode1)
-        cRayNodePath1.show()
+        #cRayNodePath1.show()
          
         self.cTrav.addCollider(cRayNodePath1, lifter)
         lifter.addCollider(cRayNodePath1, self.bike)
@@ -205,7 +205,7 @@ class PlayerBike(DirectObject):
         if self.invin == True:
             self.invinCount += 1
             print self.invinCount 
-        if self.invinCount == 30:
+        if self.invinCount == 400:
             self.invin = False
             self.invinCount = 0
         if self.shotgun == True:

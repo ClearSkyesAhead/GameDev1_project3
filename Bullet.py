@@ -44,14 +44,14 @@ class Bullet(DirectObject):
         cBulletHandler.setInPattern("bullet-%in")
         
         #problem is coordinate system or parenting
-        cSphere = CollisionSphere(0, 0, .75,1)
+        cSphere = CollisionSphere(0, 0, .75,2)
         cNodeBullet = CollisionNode("bullet")
         cNodeBullet.addSolid(cSphere)
         #cNodeBullet.setIntoCollideMask(BitMask32.allOff())
         #cNodeBullet.setCollideMask(0x1+0x2)
         cNodeBulletPath = self.bullet.attachNewNode(cNodeBullet)
         
-        cNodeBulletPath.show()
+        #cNodeBulletPath.show()
         self.cTrav.addCollider(cNodeBulletPath, cBulletHandler)
         
         #add bullet to overall list
