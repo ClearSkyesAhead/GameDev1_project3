@@ -110,9 +110,9 @@ class World(DirectObject):
         self.enemyHealth.setZ(-1.95)
         
         
-        #self.initAI()
-        #self.e_bikes = [self.addEnemy()]
-        #base.cTrav.addCollider(self.p_bike.cNodePath1, self.e_bikes[0].cevent)
+        self.initAI()
+        self.e_bikes = [self.addEnemy()]
+        base.cTrav.addCollider(self.p_bike.cNodePath1, self.e_bikes[0].cevent)
         
     def gameOverDead(self, task):
         if self.dead == True:
@@ -200,7 +200,7 @@ class World(DirectObject):
                 self.dead = True
         
         #UNCOMMENT WHEN ENEMY BIKES ARE FIXED
-        """else:
+        else:
             for enemy in self.e_bikes:
                 if cEntry.getFromNodePath() == enemy.cNodePath:
                     enemy.hp -= 1
@@ -215,7 +215,7 @@ class World(DirectObject):
                         self.death_enemy.setH(h)
                         self.death_enemy.play("death")
                         self.win = True
-                    break"""
+                    break
         #destroy the bullet
         for i in range(len(self.p_bike.bullet.bulletList)):
             if cEntry.getIntoNodePath().getParent() == self.p_bike.bullet.bulletList[i]:
@@ -225,7 +225,7 @@ class World(DirectObject):
                 cEntry.getIntoNodePath().getParent().remove()
                 break
         #UNCOMMENT WHEN ENEMY BIKES ARE FIXED
-        """#cycle through the enemy bullets
+        #cycle through the enemy bullets
         for enemy in self.e_bikes:
             for i in range(len(enemy.bullet.bulletList)):
                 if cEntry.getIntoNodePath().getParent() == enemy.bullet.bulletList[i]:
@@ -233,7 +233,7 @@ class World(DirectObject):
                     enemy.bullet.bulletTime.remove(enemy.bullet.bulletTime[i])
                     enemy.bullet.bulletList.remove(enemy.bullet.bulletList[i])
                     cEntry.getIntoNodePath().getParent().remove()
-                    break"""
+                    break
         
     def initAI(self):
         self.AIworld = AIWorld(render)
@@ -251,7 +251,9 @@ class World(DirectObject):
         for i in self.e_bikes:
             i.update()
             i.bike.setHpr(i.bike.getH(), 0, i.bike.getR())
-            i.bike.setZ(max(0.0, i.bike.getZ()))
+            #i.bike.setZ(max(0.0, i.bike.getZ()))
+            #i.bike.setZ(0.0)
+            #print i.bike.getHpr()
         return Task.cont
         
     def addEnemy(self):

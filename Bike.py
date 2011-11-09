@@ -17,11 +17,12 @@ class Bike(DirectObject):
         self.lights = True
         self.cTrav = cTrav
     
+    
         #load the bike actor and parent it to a physics node
-        self.physNode = NodePath("PhysicsNode")
-        self.physNode.reparentTo(render)
-        self.actNode = ActorNode("bike-phys")
-        self.actNodePath = self.physNode.attachNewNode(self.actNode)
+        #self.physNode = NodePath("PhysicsNode")
+        #self.physNode.reparentTo(render)
+        #self.actNode = ActorNode("bike-phys")
+        #self.actNodePath = self.physNode.attachNewNode(self.actNode)
         #base.physicsMgr.attachPhysicalNode(actNode)
         
         #create empty list for bullets and a task for updating the positions
@@ -36,7 +37,7 @@ class Bike(DirectObject):
         self.bike = Actor("moto1_actor.egg", {"move":"moto1_moveAnim.egg", "turnL":"moto1_moveAnimL.egg", "turnR":"moto1_moveAnimR.egg"})
         self.bike.reparentTo(render)
         self.bike.setScale(.5)
-        self.bike.setH(self.bike.getH() - 3.1415/2)
+        #self.bike.setH(self.bike.getH() - 3.1415/2)        
         
         #load the gun actors
         """
@@ -161,6 +162,7 @@ class Bike(DirectObject):
         self.spotlight1.setLens(lens)
         self.spotlight1.setExponent(100)
         self.spotnode1 = self.bike.attachNewNode(self.spotlight1)
+        self.spotnode1.setH(180)
         render.setLight(self.spotnode1)
         
         """

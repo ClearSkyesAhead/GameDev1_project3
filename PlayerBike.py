@@ -67,6 +67,8 @@ class PlayerBike(DirectObject):
         #self.bike.setH(180)
         self.bike.reparentTo(render)
         
+        self.dummy = Actor("temp_bullet.egg")
+        self.dummy.reparentTo(render)
         
         #setup a move task for the bike
         taskMgr.add(self.move, "moveTask")
@@ -138,7 +140,7 @@ class PlayerBike(DirectObject):
         lifter = CollisionHandlerFloor()
         lifter.setMaxVelocity(9.8)
         
-        cRay1 = CollisionRay(0, 3, 1, 0, 0, -1)
+        cRay1 = CollisionRay(0, 3, 3, 0, 0, -1)
         cRayNode1 = CollisionNode('playerRay')
         cRayNode1.addSolid(cRay1)
         cRayNode1.setIntoCollideMask(BitMask32.allOff())
@@ -221,6 +223,8 @@ class PlayerBike(DirectObject):
         return Task.cont
     def move(self, task):
         elapsed = task.time - self.prevTime
+        
+        self.dummy.setPos(self.bike.getX(), self.bike.getY(), 0.0)
         
         #keep track of all the bike's previous Pos and Hpr
         prevX = self.bike.getX()

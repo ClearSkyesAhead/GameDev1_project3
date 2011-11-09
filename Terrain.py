@@ -17,10 +17,6 @@ class Terrain(DirectObject):
         self.wall_terrain.reparentTo(render)
         self.wall_terrain.setScale(.85)
         
-        self.bounds = loader.loadModel("obs_mesh1.egg")
-        self.bounds.reparentTo(render)
-        self.bounds.setScale(.85)
-        
         
         #load the jumps and floor terrain model
         self.ground_terrain = loader.loadModel("ground_terrain.egg")

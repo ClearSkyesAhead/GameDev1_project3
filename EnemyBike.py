@@ -19,9 +19,11 @@ class EnemyBike(Bike):
     def __init__(self, cTrav, cevent):
         #messenger.toggleVerbose()
         Bike.__init__(self, cTrav)
-        self.bike.setPos(0, 0, 10)
+        self.bike.setPos(10, 0, 0)
         self.initAI()
         self.hp = 10
+        
+        self.singleShot = base.loader.loadSfx('50Cal.mp3')
         
         self.shooting = 0
         self.decshooting = True
@@ -37,7 +39,7 @@ class EnemyBike(Bike):
         self.cevent.addOutPattern('%fn-out-%in')
         
         self.bullettrace = self.bike.attachNewNode(CollisionNode('aimtrace'))
-        self.bullettrace.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
+        self.bullettrace.node().addSolid(CollisionRay(0, 0, 0, 0, -1, .1))
         self.bullettrace.node().setFromCollideMask(frombikemask)
         self.bullettrace.node().setIntoCollideMask(intobikemask)
         self.bullettrace.show()
@@ -51,11 +53,11 @@ class EnemyBike(Bike):
         self.gravtrace.show()
         
         self.vistrace = self.bike.attachNewNode(CollisionNode('vistrace'))
-        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
-        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 1, 1, 0))
-        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, -1, 1, 0))
-        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 1, 1, .1))
-        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, -1, 1, .1))
+        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 0, -1, .15))
+        #self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 1, 1, 0))
+        #self.vistrace.node().addSolid(CollisionRay(0, 0, 0, -1, 1, 0))
+        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 1, -1, .15))
+        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, -1, -1, .15))
         self.vistrace.node().setFromCollideMask(frombikemask)
         self.vistrace.node().setIntoCollideMask(intobikemask)
         self.vistrace.show()
@@ -84,6 +86,21 @@ class EnemyBike(Bike):
         
         self.AImode = 'scan'
         self.target = None
+        
+        """
+        l = loader.loadModel("shield.egg")
+        l.reparentTo(render)
+        l.setPos(70.0, 70.0, 0.0)
+        l = loader.loadModel("shield.egg")
+        l.reparentTo(render)
+        l.setPos(70.0, -70.0, 0.0)
+        l = loader.loadModel("shield.egg")
+        l.reparentTo(render)
+        l.setPos(-70.0, 70.0, 0.0)
+        l = loader.loadModel("shield.egg")
+        l.reparentTo(render)
+        l.setPos(-70.0, -70.0, 0.0)
+        """
 		
     def update(self):
         #self.shoot()
@@ -105,19 +122,22 @@ class EnemyBike(Bike):
             if self.dectargeting:
                 self.targeting -= 1
                 if self.targeting == 0:
-                    self.setMode('seek')
+                    self.setMode('scan')
         if self.hp <= 1:
             self.setMode('flee')
         
-        print "shooting: " + str(self.shooting) + " (" + str(self.decshooting) + ")"
-        print "targeting: " + str(self.targeting) + " (" + str(self.dectargeting) + ")"
+        #print "shooting: " + str(self.shooting) + " (" + str(self.decshooting) + ")"
+        #print "targeting: " + str(self.targeting) + " (" + str(self.dectargeting) + ")"
             
     def shoot(self):
         
-        
         if self.shotClock >= 25:
             #create a bullet
+            self.singleShot.play()
+            #this may be the worst thing ever
+            self.bike.setH((self.bike.getH() - 180.0) % 360.0)
             self.bullet.createBullet(self.bike)
+            self.bike.setH((self.bike.getH() + 180.0) % 360.0)
             self.shotClock = 0
         else:
             self.shotClock += 1
@@ -125,26 +145,32 @@ class EnemyBike(Bike):
             
     def setMode(self, mode):
         self.AImode = mode
-        self.AIbehaviors.removeAi("all")
-        self.AIbehaviors.flee(Vec3(17.0, 17.0, 0.0), 2.5, 1.0, 1.0)
-        self.AIbehaviors.flee(Vec3(17.0, -17.0, 0.0), 2.5, 1.0, 1.0)
-        self.AIbehaviors.flee(Vec3(-17.0, 17.0, 0.0), 2.5, 1.0, 1.0)
-        self.AIbehaviors.flee(Vec3(-17.0, -17.0, 0.0), 2.5, 1.0, 1.0)
+        #self.AIbehaviors.removeAi("all")
+        
+        mag = 70.0
+        r1 = 10.0
+        r2 = 2.0
+        #self.AIbehaviors.flee(Vec3(mag, mag, 0.0), r1, r2, 1.0)
+        #self.AIbehaviors.flee(Vec3(mag, -mag, 0.0), r1, r2, 1.0)
+        #self.AIbehaviors.flee(Vec3(-mag, mag, 0.0), r1, r2, 1.0)
+        #self.AIbehaviors.flee(Vec3(-mag, -mag, 0.0), r1, r2, 1.0)
         print self.AImode
         if self.AImode == 'target':
-            self.AIchar.setMaxForce(200);
-            self.AIbehaviors.wander(0.5, 0, 16, 0.25)
-            self.AIbehaviors.pursue(self.target.bike, 0.75)
-            self.AIbehaviors.evade(self.target.bike, 1.0, 1.0, 1.0)
+            self.AIchar.setMaxForce(100);
+            self.AIbehaviors.wander(0.5, 0, 17, 0.25)
+            self.AIbehaviors.pursue(self.target.dummy, 0.5)
+            self.AIbehaviors.evade(self.target.dummy, 4.0, 2.5, 0.95)
+            
         elif self.AImode == 'flee':
-            self.AIchar.setMaxForce(250);
-            self.AIbehaviors.wander(1.0, 0, 16, 0.5)
-            self.AIbehaviors.evade(self.target.bike, 2.0, 2.0, 1.0)
+            self.AIchar.setMaxForce(100);
+            self.AIbehaviors.wander(1.0, 0, 17, 0.5)
+            self.AIbehaviors.pursue(self.target.dummy, 0.0)
+            self.AIbehaviors.evade(self.target.dummy, 3.0, 6.0, 1.0)
         elif self.AImode == 'scan':
-            self.AIchar.setMaxForce(150);
-            self.AIbehaviors.wander(2.0, 0, 16, 0.6)
-            self.AIbehaviors.pursue(self.target.bike, 0.4)
-            self.AIbehaviors.evade(self.target.bike, 2.0, 0.5, 1.0)
+            self.AIchar.setMaxForce(100);
+            self.AIbehaviors.wander(0.5, 0, 17, 0.35)
+            self.AIbehaviors.pursue(self.target.dummy, 0.5)
+            self.AIbehaviors.evade(self.target.dummy, 3.0, 2.5, 0.85)
         
         
             
@@ -165,7 +191,7 @@ class EnemyBike(Bike):
         #print self.physNode.getPos()
         #print (self.bike.getPos() - event.getIntoNodePath().getPos()).length()
         self.setMode('target')
-        self.targeting = 30
+        self.targeting = 5
         self.dectargeting = False
 
         
