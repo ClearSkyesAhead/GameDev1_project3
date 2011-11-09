@@ -140,7 +140,7 @@ class Bike(DirectObject):
         cNode.setIntoCollideMask(BitMask32(0x10)) # Player bike collides into enemy bike
         cNode.setFromCollideMask(BitMask32.allOff())
         self.cNodePath = self.bike.attachNewNode(cNode)
-        self.cNodePath.show()
+        #self.cNodePath.show()
         #self.cTrav.addCollider(self.cNodePath, cHandler)
         
         #setup the node as a pusher

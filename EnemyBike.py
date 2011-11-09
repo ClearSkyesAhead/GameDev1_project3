@@ -42,7 +42,7 @@ class EnemyBike(Bike):
         self.bullettrace.node().addSolid(CollisionRay(0, 0, 0, 0, -1, .1))
         self.bullettrace.node().setFromCollideMask(frombikemask)
         self.bullettrace.node().setIntoCollideMask(intobikemask)
-        self.bullettrace.show()
+        #self.bullettrace.show()
         #base.cTrav.addCollider(self.bullettrace, self.bike)
         base.cTrav.addCollider(self.bullettrace, self.cevent)
         
@@ -50,7 +50,7 @@ class EnemyBike(Bike):
         self.gravtrace.node().addSolid(CollisionRay(0, 0, 0, 0, 0, -1))
         self.gravtrace.node().setFromCollideMask(floormask)
         self.gravtrace.node().setIntoCollideMask(BitMask32.allOff())
-        self.gravtrace.show()
+        #self.gravtrace.show()
         
         self.vistrace = self.bike.attachNewNode(CollisionNode('vistrace'))
         self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 0, -1, .15))
@@ -60,7 +60,7 @@ class EnemyBike(Bike):
         self.vistrace.node().addSolid(CollisionRay(0, 0, 0, -1, -1, .15))
         self.vistrace.node().setFromCollideMask(frombikemask)
         self.vistrace.node().setIntoCollideMask(intobikemask)
-        self.vistrace.show()
+        #self.vistrace.show()
         #base.cTrav.addCollider(self.vistrace, self.bike)
         base.cTrav.addCollider(self.vistrace, self.cevent)
          
