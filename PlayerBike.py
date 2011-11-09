@@ -34,6 +34,10 @@ class PlayerBike(DirectObject):
         #set HP
         self.hp = 10
         
+        #invincible check
+        self.invin = False
+        self.invinCount = 0
+        
         #load all sound files
         self.singleShot = base.loader.loadSfx('M4A1.mp3')
         
@@ -46,8 +50,8 @@ class PlayerBike(DirectObject):
         
         taskMgr.add(self.bullet.update, "bulletTask")
         taskMgr.add(self.spreadshot.update, "bulletTask")
-        taskMgr.add(self.explode.update, "bulletTask")
-        taskMgr.add(self.wallshot.update, "bulletTask")
+        taskMgr.add(self.updatePowerup, "powerupTask")
+
     
         
         #load the bike actor and parent it to a physics node
@@ -126,7 +130,6 @@ class PlayerBike(DirectObject):
         self.moveMap[key] = value
         
     def setShoot(self, value):
-        
         self.shootCheck = value
         print("set shoot =", self.shootCheck)
     
@@ -164,11 +167,18 @@ class PlayerBike(DirectObject):
                 self.shotClock = 0
             else:
                 self.shotClock += 1
->>>>>>> dc024b1b67865c36ebc7ef621c1979509ec3bd54
         else:
             self.shotClock += 1
         return Task.cont
-        
+    
+    def updatePowerup(self, task):
+        #check powerup timers
+        if self.invin == True:
+            self.invinCount += 1
+        if self.invinCount == 30:
+            self.invin = False
+            self.invinCount = 0
+        return Task.cont
     def move(self, task):
         elapsed = task.time - self.prevTime
         

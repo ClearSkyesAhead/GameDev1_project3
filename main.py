@@ -65,7 +65,7 @@ class World(DirectObject):
         self.accept("space-up", self.p_bike.setShoot, [0])
         
         #powerup collisions
-        self.accept("p_bike-powerup1", self.powerupCollision)
+        self.accept("p_bike-powerup1", self.powerupCollision) 
         self.accept("p_bike-powerup2", self.powerupCollision)
         self.accept("p_bike-powerup3", self.powerupCollision)
         self.accept("p_bike-powerup4", self.powerupCollision)
@@ -113,12 +113,10 @@ class World(DirectObject):
         #base.cTrav.addCollider(self.p_bike.cNodePath, self.e_bikes[0].cevent)
                 
     def powerupCollision(self, cEntry):
-        #check which powerup
-        #activate it
-        #print(cEntry.getIntoNodePath())
         #check powerup1
         if cEntry.getIntoNodePath() == self.w_terrain.cPowerNode1Path:
             self.w_terrain.powerUp1 = False
+            self.p_bike.invin = True
             #print('I WIN')
         #check powerup2
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode2Path:
@@ -136,7 +134,7 @@ class World(DirectObject):
         
     def bulletCollision(self, cEntry):
         #check which bike is being hit
-        if cEntry.getFromNodePath() == self.p_bike.cNodePath:
+        if self.p_bike.invin == False and cEntry.getFromNodePath() == self.p_bike.cNodePath:
             print('player bike!')
             self.p_bike.hp -= 1
             if self.p_bike.hp <= 0:
