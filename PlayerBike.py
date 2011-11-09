@@ -205,7 +205,7 @@ class PlayerBike(DirectObject):
         if self.invin == True:
             self.invinCount += 1
             print self.invinCount 
-        if self.invinCount == 30:
+        if self.invinCount == 400:
             self.invin = False
             self.invinCount = 0
         if self.shotgun == True:
