@@ -18,10 +18,10 @@ class Bike(DirectObject):
         self.cTrav = cTrav
     
         #load the bike actor and parent it to a physics node
-        physNode = NodePath("PhysicsNode")
-        physNode.reparentTo(render)
-        actNode = ActorNode("bike-phys")
-        actNodePath = physNode.attachNewNode(actNode)
+        self.physNode = NodePath("PhysicsNode")
+        self.physNode.reparentTo(render)
+        self.actNode = ActorNode("bike-phys")
+        self.actNodePath = self.physNode.attachNewNode(self.actNode)
         #base.physicsMgr.attachPhysicalNode(actNode)
         
         #create empty list for bullets and a task for updating the positions
@@ -85,7 +85,7 @@ class Bike(DirectObject):
         cSphere = CollisionSphere((0,.2,1), 1)
         cNode = CollisionNode("e_bike")
         cNode.addSolid(cSphere)
-        cNodePath = self.bike.attachNewNode(cNode)
+        self.cNodePath = self.bike.attachNewNode(cNode)
         """
         
         #cHandler = CollisionHandlerEvent()
@@ -96,19 +96,19 @@ class Bike(DirectObject):
         #cNode.setIntoCollideMask(BitMask32.allOff())
         cNode.setIntoCollideMask(BitMask32(0x10)) # Player bike collides into enemy bike
         cNode.setFromCollideMask(BitMask32.allOff())
-        cNodePath = self.bike.attachNewNode(cNode)
-        cNodePath.show()
-        #self.cTrav.addCollider(cNodePath, cHandler)
+        self.cNodePath = self.bike.attachNewNode(cNode)
+        self.cNodePath.show()
+        #self.cTrav.addCollider(self.cNodePath, cHandler)
         
         #setup the node as a pusher
         pusher = CollisionHandlerPusher()
-        pusher.addCollider(cNodePath, self.bike)
+        pusher.addCollider(self.cNodePath, self.bike)
         
         #show the node
-        #cNodePath.show()
+        #self.cNodePath.show()
         
         #add the collider to the traverser
-        base.cTrav.addCollider(cNodePath, pusher)
+        base.cTrav.addCollider(self.cNodePath, pusher)
         
         #setup and parent spotlights to the player
         self.spotlight1 = Spotlight("headlight1")

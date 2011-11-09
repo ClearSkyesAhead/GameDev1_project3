@@ -15,40 +15,29 @@ import sys, math, random
 
 from panda3d.ai import *
 
-def visIn(event):
-    print "!"
-    print event
-    
-def visOut(event):
-    print "?"
-    print event
-
 class EnemyBike(Bike):
     def __init__(self, cTrav, cevent):
         #messenger.toggleVerbose()
         Bike.__init__(self, cTrav)
         self.bike.setPos(0, 0, 10)
         self.initAI()
+        self.hp = 10
         
         frombikemask = BitMask32(0x10)
         intobikemask = BitMask32.allOff()
         floormask = BitMask32(0x2)
         
         self.cevent = CollisionHandlerEvent()
+        self.cevent.addInPattern('%fn-into-%in')
+        self.cevent.addOutPattern('%fn-out-%in')
         
-        self.bullettracel = self.gun1.attachNewNode(CollisionNode('aimtrace'))
-        self.bullettracel.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
-        self.bullettracel.node().setFromCollideMask(frombikemask)
-        self.bullettracel.node().setIntoCollideMask(intobikemask)
-        self.bullettracel.show()
-        base.cTrav.addCollider(self.bullettracel, self.cevent)
-        
-        self.bullettracer = self.gun2.attachNewNode(CollisionNode('aimtrace'))
-        self.bullettracer.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
-        self.bullettracer.node().setFromCollideMask(frombikemask)
-        self.bullettracer.node().setIntoCollideMask(intobikemask)
-        self.bullettracer.show()
-        base.cTrav.addCollider(self.bullettracer, self.cevent)
+        self.bullettrace = self.gun1.attachNewNode(CollisionNode('aimtrace'))
+        self.bullettrace.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
+        self.bullettrace.node().setFromCollideMask(frombikemask)
+        self.bullettrace.node().setIntoCollideMask(intobikemask)
+        self.bullettrace.show()
+        #base.cTrav.addCollider(self.bullettrace, self.bike)
+        base.cTrav.addCollider(self.bullettrace, self.cevent)
         
         self.gravtrace = self.bike.attachNewNode(CollisionNode('colNode'))
         self.gravtrace.node().addSolid(CollisionRay(0, 0, 0, 0, 0, -1))
@@ -58,38 +47,15 @@ class EnemyBike(Bike):
         
         self.vistrace = self.bike.attachNewNode(CollisionNode('vistrace'))
         self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 0, 1, 0))
+        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 1, 1, 0))
+        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, -1, 1, 0))
+        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, 1, 1, .1))
+        self.vistrace.node().addSolid(CollisionRay(0, 0, 0, -1, 1, .1))
         self.vistrace.node().setFromCollideMask(frombikemask)
         self.vistrace.node().setIntoCollideMask(intobikemask)
         self.vistrace.show()
+        #base.cTrav.addCollider(self.vistrace, self.bike)
         base.cTrav.addCollider(self.vistrace, self.cevent)
-        
-        self.vistracel = self.bike.attachNewNode(CollisionNode('vistrace'))
-        self.vistracel.node().addSolid(CollisionRay(0, 0, 0, 1, 1, 0))
-        self.vistracel.node().setFromCollideMask(frombikemask)
-        self.vistracel.node().setIntoCollideMask(intobikemask)
-        self.vistracel.show()
-        base.cTrav.addCollider(self.vistracel, self.cevent)
-        
-        self.vistracer = self.bike.attachNewNode(CollisionNode('vistrace'))
-        self.vistracer.node().addSolid(CollisionRay(0, 0, 0, -1, 1, 0))
-        self.vistracer.node().setFromCollideMask(frombikemask)
-        self.vistracer.node().setIntoCollideMask(intobikemask)
-        self.vistracer.show()
-        base.cTrav.addCollider(self.vistracer, self.cevent)
-        
-        self.vistraceul = self.bike.attachNewNode(CollisionNode('vistrace'))
-        self.vistraceul.node().addSolid(CollisionRay(0, 0, 0, 1, 1, .1))
-        self.vistraceul.node().setFromCollideMask(frombikemask)
-        self.vistraceul.node().setIntoCollideMask(intobikemask)
-        self.vistraceul.show()
-        base.cTrav.addCollider(self.vistraceul, self.cevent)
-        
-        self.vistraceur = self.bike.attachNewNode(CollisionNode('vistrace'))
-        self.vistraceur.node().addSolid(CollisionRay(0, 0, 0, -1, 1, .1))
-        self.vistraceur.node().setFromCollideMask(frombikemask)
-        self.vistraceur.node().setIntoCollideMask(intobikemask)
-        self.vistraceur.show()
-        base.cTrav.addCollider(self.vistraceur, self.cevent)
          
         self.lifter = CollisionHandlerFloor()
         self.lifter.setMaxVelocity(9.8)
@@ -97,21 +63,21 @@ class EnemyBike(Bike):
         self.lifter.addCollider(self.gravtrace, self.bike)
         
         
-        self.cevent.addInPattern('%fn-into-%in')
-        self.cevent.addOutPattern('%fn-put-%in')
+        
         
         self.do = DirectObject()
-        self.do.accept('vistrace-into-p_bike', visIn)
-        self.do.accept('aimtrace-into-p_bike', visOut)
+        self.do.accept('vistrace-into-p_bike_push', self.visIn)
+        self.do.accept('vistrace-out-p_bike_push', self.visOut)
 		
     def initAI(self):
-        self.AIchar = AICharacter("Enemy Bike", self.bike, 100, 0.05, 10)
+        self.AIchar = AICharacter("Enemy Bike", self.bike, 100, 0.05, 100)
         self.AIbehaviors = self.AIchar.getAiBehaviors()
         
         self.AImode = 'scan'
+        self.target = None
         
         #self.AIbehaviors.pursue(self.p_bike.bike, 0.7)
-        #self.AIbehaviors.wander(1.0, 0, 30.0, 0.5)
+        self.AIbehaviors.wander(1.0, 0, 30.0, 0.5)
         #self.AIbehaviors.obstacleAvoidance(1.0)
         #self.e_bike.loop("run")
 		
@@ -131,4 +97,48 @@ class EnemyBike(Bike):
             self.shotClock = 0
         else:
             self.shotClock += 1
+            
+            
+    def setMode(self, mode):
+        self.AImode = mode
+        self.AIbehaviors.removeAi("all")
+        #self.AIbehaviors.obstacleAvoidance(1.0)
+        print self.AImode
+        if self.AImode == 'target':
+            self.AIchar.setMaxForce(400);
+            self.AIbehaviors.wander(0.5, 0, 500, 0.5)
+            self.AIbehaviors.pursue(self.target.bike, 1.5)
+        elif self.AImode == 'flee':
+            self.AIchar.setMaxForce(600);
+            self.AIbehaviors.wander(1.0, 0, 500, 1.0)
+            self.AIbehaviors.evade(self.target.bike, 10.0, 20.0, 1.5)
+        elif self.AImode == 'scan':
+            self.AIchar.setMaxForce(400);
+            self.AIbehaviors.wander(5.0, 0, 500, 1.5)
+            self.AIbehaviors.pursue(self.target.bike, 0.25)
+        
+
+            
+            
+    def aimIn(self, event):
+        print length(self.bike.getPos(), event.getFromNodePath().getPos())
+        #self.AImode = 'target'
+        #print event.getFromNodePath().getParent().AImode
+        #print event
+        
+    def aimOut(self, event):
+        print event
+
+    def visIn(self, event):
+        print self.physNode.getPos()
+        #print self.bike.getPos()
+        #print event.getIntoNodePath().getPos()
+        #print event.getFromNodePath().getPos()
+        print (self.bike.getPos() - event.getIntoNodePath().getPos()).length()
+        #print self.AImode
+        #print event.getFromNodePath().getParent().AImode
+        #print event
+        
+    def visOut(self, event):
+        print event
           

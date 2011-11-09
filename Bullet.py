@@ -11,7 +11,7 @@ import sys, math, random
 class Bullet(DirectObject):
     def __init__(self, cTrav):
         #create a constant speed and an overall bullet list to contain all bullets
-        self.speed = 70
+        self.speed = 100
         self.bulletList = []
         self.bulletTime = []
         self.prevTime = 0
@@ -25,8 +25,15 @@ class Bullet(DirectObject):
         
     def createBullet(self, bike):
         #load the model and set the pos and H to the bike's
-        self.bullet = loader.loadModel("temp_bullet.egg")
-        self.bullet.setPos(bike.getX(), bike.getY(), bike.getZ())
+#########self.bullet = loader.loadModel("temp_bullet.egg")
+
+        self.bullet = loader.loadModel("bullet.egg")
+        
+        #prevent bullet from spawning inside of player collision sphere
+        angle = deg2Rad(bike.getH())
+        dy = -math.cos(angle) * 5
+        dx = math.sin(angle) * 5
+        self.bullet.setPos(bike.getX() - dx, bike.getY() - dy, bike.getZ())
         self.bullet.setH(bike.getH())
         self.bullet.setScale(.25)
         self.bullet.reparentTo(render)
@@ -40,7 +47,7 @@ class Bullet(DirectObject):
         cSphere = CollisionSphere(0, 0, .75,1)
         cNodeBullet = CollisionNode("bullet")
         cNodeBullet.addSolid(cSphere)
-        cNodeBullet.setIntoCollideMask(BitMask32.allOff())
+        #cNodeBullet.setIntoCollideMask(BitMask32.allOff())
         #cNodeBullet.setCollideMask(0x1+0x2)
         cNodeBulletPath = self.bullet.attachNewNode(cNodeBullet)
         

@@ -23,12 +23,19 @@ class PlayerBike(DirectObject):
         self.cTrav = cTrav
         self.weapon = 3
         
+        #vars for jumping
         self.tempHeading = 0
         self.temp_vel = 0
         self.count = 0
         self.first_time = False
         self.jump = False
         self.dz = 0
+        
+        #set HP
+        self.hp = 10
+        
+        #load all sound files
+        self.singleShot = base.loader.loadSfx('M4A1.mp3')
         
         
         #create empty list for bullets and a task for updating the positions
@@ -44,8 +51,7 @@ class PlayerBike(DirectObject):
     
         
         #load the bike actor and parent it to a physics node
-        self.bike = Actor("motorcycle2.egg", {"move":"bike-move", "shoot":"bike-shoot"})
-        #self.bike = loader.loadModel('motorcycle2.egg')
+        self.bike = Actor("motorcycle2.egg", {"move":"moto2_moveRAnimation", "turnL":"moto2_blahblah.egg"})
         #self.bike.setScale(.5)
         #self.bike.setH(180)
         self.bike.reparentTo(render)
@@ -80,17 +86,17 @@ class PlayerBike(DirectObject):
         cNode.addSolid(cPushSphere)
         cNode.setIntoCollideMask(0x10)
         cNode.setFromCollideMask(0x1)
-        cNodePath = self.bike.attachNewNode(cNode)
+        self.cNodePath = self.bike.attachNewNode(cNode)
         
-        #cNodePath.show()
+        #self.cNodePath.show()
         
-        collisionPusher.addCollider(cNodePath, self.bike)
-        self.cTrav.addCollider(cNodePath, collisionPusher)
+        collisionPusher.addCollider(self.cNodePath, self.bike)
+        self.cTrav.addCollider(self.cNodePath, collisionPusher)
         
         #collision rays for faux-gravity
         #front wheel
         lifter = CollisionHandlerFloor()
-        lifter.setMaxVelocity(1)
+        lifter.setMaxVelocity(9.8)
         
         cRay1 = CollisionRay(0, 3, 1, 0, 0, -1)
         cRayNode1 = CollisionNode('playerRay')
@@ -134,44 +140,31 @@ class PlayerBike(DirectObject):
                 #check if able to shoot
                 if self.shotClock >= 25:
                     #print("Shooting a bullet!")
+                    self.singleShot.play()
                     self.bullet.createBullet(self.bike)
                     self.shotClock = 0
                 else:
                     self.shotClock += 1
-            #Weapon 1 - macinhe gun
-            #Nothing is changed about the bullet itself, it simply changes the cool down time.
-            elif self.weapon == 1:
-                if self.shotClock >= 7:
-                    #print("Shooting a bullet!")
-                    self.bullet.createBullet(self.bike)
-                    self.shotClock = 0
-                else:
-                    self.shotClock += 1    
             #Weapon 2 - Spreadshot/Shotgun
             elif self.weapon == 2:
                 if self.shotClock >= 40:
                     #print("Shooting a bullet!")
+                    self.singleShot.play()
                     self.spreadshot.createBullet(self.bike)
                     self.shotClock = 0
                 else:
                     self.shotClock += 1 
-            #Weapon 3 - explosion (Like spread but in every direction by 15 degree increments
-            elif self.weapon == 3:
-                if self.shotClock >= 250:
-                    #print("Shooting a bullet!")
-                    self.explode.createBullet(self.bike)
-                    self.shotClock = 0
-                else:
-                    self.shotClock += 1 
-            #Weapon 4 - Wall shot (Not sure how I feel about this one yet)
-            elif self.weapon == 4:
-                if self.shotClock >= 50:
-                    #print("Shooting a bullet!")
-                    self.wallshot.createBullet(self.bike)
-                    self.shotClock = 0
-                else:
-                    self.shotClock += 1 
 
+            #check if able to shoot
+            if self.shotClock >= 25:
+                #print("Shooting a bullet!")
+                #create a bullet
+                self.singleShot.play()
+                self.bullet.createBullet(self.bike)
+                self.shotClock = 0
+            else:
+                self.shotClock += 1
+>>>>>>> dc024b1b67865c36ebc7ef621c1979509ec3bd54
         else:
             self.shotClock += 1
         return Task.cont
@@ -188,10 +181,6 @@ class PlayerBike(DirectObject):
         prevR = self.bike.getR()
         
         #check key map
-        if self.moveMap['left']:
-            self.bike.setH(self.bike.getH() + elapsed * 150)
-        if self.moveMap['right']:
-            self.bike.setH(self.bike.getH() - elapsed * 150)
         
         #check if at jump height
         if prevZ >= 4.8:
@@ -212,7 +201,7 @@ class PlayerBike(DirectObject):
                 self.temp_vel = self.current_vel
                 
             #calculate dist for dy and dx normally, then do trig for dz
-            dist = self.current_vel * elapsed
+            dist = (self.current_vel + 11) * elapsed
             angle = deg2Rad(self.bike.getH())
             dy = dist * -math.cos(angle)
             dx = dist * math.sin(angle)
@@ -230,7 +219,7 @@ class PlayerBike(DirectObject):
             print('temp_vel', self.temp_vel)"""
             
             #use a count to determine when to decrease or increase the bike's Z
-            if self.count < 20:
+            if self.count < 25:
                 self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() + self.dz)
             else:
                 self.bike.setPos(self.bike.getX() - dx, self.bike.getY() - dy, self.bike.getZ() - self.dz)
@@ -241,6 +230,12 @@ class PlayerBike(DirectObject):
             self.first_time = False
             self.count = 0
             
+            #check if turning
+            if self.moveMap['left']:
+                self.bike.setH(self.bike.getH() + elapsed * 150)
+            if self.moveMap['right']:
+                self.bike.setH(self.bike.getH() - elapsed * 150)
+                
             #check keymap for forward motion
             #accelerate
             if self.moveMap['forward']:
@@ -289,11 +284,11 @@ class PlayerBike(DirectObject):
             #print('heading', self.bike.getH())
             if self.isMoving == False:
                 self.isMoving = True
-                #self.bike.loop("walk")
+                self.bike.loop("move")
         else:
             if self.isMoving:
                 self.isMoving = False
-                #self.bike.stop()
+                self.bike.stop()
                 #self.bike.pose("walk", 4)
         
         self.prevTime = task.time
