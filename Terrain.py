@@ -73,7 +73,7 @@ class Terrain(DirectObject):
         self.shield.setScale(0.5)
         self.shield.loop('rotate')
         
-        cPowerSphere1 = CollisionSphere((0,0,0),6)
+        cPowerSphere1 = CollisionSphere((0,0,0),8)
         cPowerNode1 = CollisionNode("powerup1")
         cPowerNode1.addSolid(cPowerSphere1)
         cPowerNode1.setIntoCollideMask(1)
@@ -89,7 +89,7 @@ class Terrain(DirectObject):
         self.shotgun.setScale(0.5)
         self.shotgun.loop('rotate')
         
-        cPowerSphere2 = CollisionSphere((0,0,0),3)
+        cPowerSphere2 = CollisionSphere((0,0,0),8)
         cPowerNode2 = CollisionNode("powerup2")
         cPowerNode2.addSolid(cPowerSphere2)
         cPowerNode2.setIntoCollideMask(1)
@@ -105,7 +105,7 @@ class Terrain(DirectObject):
         self.shotgun2.setScale(0.5)
         self.shotgun2.loop('rotate')
         
-        cPowerSphere3 = CollisionSphere((0,0,0),3)
+        cPowerSphere3 = CollisionSphere((0,0,0),8)
         cPowerNode3 = CollisionNode("powerup3")
         cPowerNode3.addSolid(cPowerSphere3)
         cPowerNode3.setIntoCollideMask(1)
@@ -121,7 +121,7 @@ class Terrain(DirectObject):
         self.health.setScale(0.5)
         self.health.loop('rotate')
         
-        cPowerSphere4 = CollisionSphere((0,0,0),3)
+        cPowerSphere4 = CollisionSphere((0,0,0),8)
         cPowerNode4 = CollisionNode("powerup4")
         cPowerNode4.addSolid(cPowerSphere4)
         cPowerNode4.setIntoCollideMask(1)
@@ -137,7 +137,7 @@ class Terrain(DirectObject):
         self.health2.setScale(0.5)
         self.health2.loop('rotate')
         
-        cPowerSphere5 = CollisionSphere((0,0,0),3)
+        cPowerSphere5 = CollisionSphere((0,0,0),8)
         cPowerNode5 = CollisionNode("powerup5")
         cPowerNode5.addSolid(cPowerSphere5)
         cPowerNode5.setIntoCollideMask(1)
@@ -180,74 +180,99 @@ class Terrain(DirectObject):
         if self.powerUp1 == False:
             #print('increasing count')
             self.powerUp1Count += 1
-        if self.powerUp1Count == 50:
+        if self.powerUp1Count == 500:
             #print('making a new one')
             self.powerUp1 = True
             self.powerUp1Count = 0
-            cPowerSphere1 = CollisionSphere((0,-.3,16.5),3)
+            self.shield = Actor('shield.egg', {'rotate':'shield_anim.egg'})
+            self.shield.reparentTo(render)
+            self.shield.setPos(0, -.3, 16.5)
+            self.shield.setScale(0.5)
+            self.shield.loop('rotate')
+            
+            cPowerSphere1 = CollisionSphere((0,0,0),8)
             cPowerNode1 = CollisionNode("powerup1")
             cPowerNode1.addSolid(cPowerSphere1)
             cPowerNode1.setIntoCollideMask(1)
-            self.cPowerNode1Path = render.attachNewNode(cPowerNode1)
-            self.cPowerNode1Path.show()
+            self.cPowerNode1Path = self.shield.attachNewNode(cPowerNode1)
         
         #check powerup2
         if self.powerUp2 == False:
             #print('increasing count')
             self.powerUp2Count += 1
-        if self.powerUp2Count == 50:
+        if self.powerUp2Count == 250:
             #print('making a new one')
             self.powerUp2 = True
             self.powerUp2Count = 0
-            cPowerSphere2 = CollisionSphere((.5,77,18.5),3)
+            self.shotgun = Actor('shotgun.egg', {'rotate':'shotgun_anim.egg'})
+            self.shotgun.reparentTo(render)
+            self.shotgun.setPos(.5, 77, 18.5)
+            self.shotgun.setScale(0.5)
+            self.shotgun.loop('rotate')
+            
+            cPowerSphere2 = CollisionSphere((0,0,0),8)
             cPowerNode2 = CollisionNode("powerup2")
             cPowerNode2.addSolid(cPowerSphere2)
             cPowerNode2.setIntoCollideMask(1)
-            self.cPowerNode2Path = render.attachNewNode(cPowerNode2)
-            self.cPowerNode2Path.show()
+            self.cPowerNode2Path = self.shotgun.attachNewNode(cPowerNode2)
             
         #check powerup3
         if self.powerUp3 == False:
             #print('increasing count')
             self.powerUp3Count += 1
-        if self.powerUp3Count == 50:
+        if self.powerUp3Count == 250:
             #print('making a new one')
             self.powerUp3 = True
             self.powerUp3Count = 0
-            cPowerSphere3 = CollisionSphere((.5,-77,18.5),3)
+            self.shotgun2 = Actor('shotgun.egg', {'rotate':'shotgun_anim.egg'})
+            self.shotgun2.reparentTo(render)
+            self.shotgun2.setPos(.5, -77, 18.5)
+            self.shotgun2.setScale(0.5)
+            self.shotgun2.loop('rotate')
+            
+            cPowerSphere3 = CollisionSphere((0,0,0),8)
             cPowerNode3 = CollisionNode("powerup3")
             cPowerNode3.addSolid(cPowerSphere3)
             cPowerNode3.setIntoCollideMask(1)
-            self.cPowerNode3Path = render.attachNewNode(cPowerNode3)
-            self.cPowerNode3Path.show()
+            self.cPowerNode3Path = self.shotgun2.attachNewNode(cPowerNode3)
             
         #check powerup4
         if self.powerUp4 == False:
             #print('increasing count')
             self.powerUp4Count += 1
-        if self.powerUp4Count == 50:
+        if self.powerUp4Count == 250:
             #print('making a new one')
             self.powerUp4 = True
             self.powerUp4Count = 0
-            cPowerSphere4 = CollisionSphere((77,-1,18.5),3)
+            self.health = Actor('health.egg', {'rotate':'health_anim.egg'})
+            self.health.reparentTo(render)
+            self.health.setPos(77, -1, 18.5)
+            self.health.setScale(0.5)
+            self.health.loop('rotate')
+            
+            cPowerSphere4 = CollisionSphere((0,0,0),8)
             cPowerNode4 = CollisionNode("powerup4")
             cPowerNode4.addSolid(cPowerSphere4)
             cPowerNode4.setIntoCollideMask(1)
-            self.cPowerNode4Path = render.attachNewNode(cPowerNode4)
-            self.cPowerNode4Path.show()
+            self.cPowerNode4Path = self.health.attachNewNode(cPowerNode4)
             
         #check powerup5
         if self.powerUp5 == False:
             #print('increasing count')
             self.powerUp5Count += 1
-        if self.powerUp5Count == 50:
+        if self.powerUp5Count == 250:
             #print('making a new one')
             self.powerUp5 = True
             self.powerUp5Count = 0
-            cPowerSphere5 = CollisionSphere((-77,-1,18.5),3)
+            self.health2 = Actor('health.egg', {'rotate':'health_anim.egg'})
+            self.health2.reparentTo(render)
+            self.health2.setPos(-77, -1, 18.5)
+            self.health2.setScale(0.5)
+            self.health2.loop('rotate')
+            
+            cPowerSphere5 = CollisionSphere((0,0,0),8)
             cPowerNode5 = CollisionNode("powerup5")
             cPowerNode5.addSolid(cPowerSphere5)
             cPowerNode5.setIntoCollideMask(1)
-            self.cPowerNode5Path = render.attachNewNode(cPowerNode5)
-            self.cPowerNode5Path.show()
+            self.cPowerNode5Path = self.health2.attachNewNode(cPowerNode5)
         return Task.cont
