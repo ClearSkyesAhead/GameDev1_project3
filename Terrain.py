@@ -149,7 +149,7 @@ class Terrain(DirectObject):
         #setup lights for outer box
         plight5 = PointLight('plight1')
         plight5.setColor(VBase4(1,1,1,1))
-        #plight5.setAttenuation(Point3(0,0,.01))
+        plight5.setAttenuation(Point3(0,0,.01))
         plnp5 = render.attachNewNode(plight5)
         plnp5.setPos(-37.5,39.5,13.5)
         render.setLight(plnp5)
