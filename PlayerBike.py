@@ -81,7 +81,24 @@ class PlayerBike(DirectObject):
         #setup a wall collision check
         self.wallCheck = False
         
-        #pusher collision sphere
+        #pusher collision spheres
+        #front
+        collisionPusher = CollisionHandlerPusher()
+        collisionPusher.setInPattern("p_bike-%in")
+        cPushSphere = CollisionSphere((0,3.5,2),2)
+        
+        cNode = CollisionNode("p_bike_push")
+        cNode.addSolid(cPushSphere)
+        cNode.setIntoCollideMask(0x10)
+        cNode.setFromCollideMask(0x1)
+        self.cNodePath = self.bike.attachNewNode(cNode)
+        
+        self.cNodePath.show()
+        
+        collisionPusher.addCollider(self.cNodePath, self.bike)
+        self.cTrav.addCollider(self.cNodePath, collisionPusher)
+        
+        """#middle
         collisionPusher = CollisionHandlerPusher()
         collisionPusher.setInPattern("p_bike-%in")
         cPushSphere = CollisionSphere((0,0,1),4.5)
@@ -92,10 +109,26 @@ class PlayerBike(DirectObject):
         cNode.setFromCollideMask(0x1)
         self.cNodePath = self.bike.attachNewNode(cNode)
         
-        #self.cNodePath.show()
+        self.cNodePath.show()
         
         collisionPusher.addCollider(self.cNodePath, self.bike)
         self.cTrav.addCollider(self.cNodePath, collisionPusher)
+        
+        #back
+        collisionPusher = CollisionHandlerPusher()
+        collisionPusher.setInPattern("p_bike-%in")
+        cPushSphere = CollisionSphere((0,0,1),4.5)
+        
+        cNode = CollisionNode("p_bike_push")
+        cNode.addSolid(cPushSphere)
+        cNode.setIntoCollideMask(0x10)
+        cNode.setFromCollideMask(0x1)
+        self.cNodePath = self.bike.attachNewNode(cNode)
+        
+        self.cNodePath.show()
+        
+        collisionPusher.addCollider(self.cNodePath, self.bike)
+        self.cTrav.addCollider(self.cNodePath, collisionPusher)"""
         
         #collision rays for faux-gravity
         #front wheel
