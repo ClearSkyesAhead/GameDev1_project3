@@ -42,6 +42,9 @@ class PlayerBike(DirectObject):
         self.shotgun = False
         self.p_up_timer = 0
         
+        #healing powerup
+        self.health_up = False
+        
         #load all sound files
         self.singleShot = base.loader.loadSfx('M4A1.mp3')
         
@@ -210,6 +213,11 @@ class PlayerBike(DirectObject):
         if self.p_up_timer == 500:
             self.shotgun = False
             self.weapon = 0
+        if self.health_up == True:
+            self.hp += 2
+            if self.hp > 10:
+                self.hp = 10
+            self.health_up = False
         return Task.cont
     def move(self, task):
         elapsed = task.time - self.prevTime

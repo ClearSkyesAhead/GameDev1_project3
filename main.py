@@ -37,6 +37,14 @@ class World(DirectObject):
         #disable mouse
         base.disableMouse()
         
+        self.dead = False
+        self.deadCount = 0
+        taskMgr.add(self.gameOverDead, 'deadTask')
+        
+        self.win = False
+        self.winCount = 0
+        taskMgr.add(self.gameOverWin, 'winTask')
+        
         #load and play background sound
         backgroundSound = base.loader.loadSfx('Modern_Battlefield.mp3')
         backgroundSound.setLoop(True)
@@ -82,24 +90,6 @@ class World(DirectObject):
         render.setLight(self.ambientLightNP)
         render.setShaderAuto()
         
-        """#2d attempt
-        #will need the health bars as egg or bam file then reparent to render2d
-        dr = base.win.makeDisplayRegion()
-        dr.setSort(20)
-        
-        #KEEP THIS BLOCK
-        myCamera2d = NodePath(Camera('myCam2d'))
-        lens = OrthographicLens()
-        lens.setFilmSize(2, 2)
-        lens.setNearFar(-1000, 1000)
-        myCamera2d.node().setLens(lens)
-
-        myRender2d = NodePath('myRender2d')
-        myRender2d.setDepthTest(False)
-        myRender2d.setDepthWrite(False)
-        myCamera2d.reparentTo(myRender2d)
-        dr.setCamera(myCamera2d)"""
-        
         self.playerHealth = OnscreenImage(image = 'PlayerHealthBar.png')
         self.playerHealth.setX(-1)
         self.playerHealth.setZ(-1.95)
@@ -113,7 +103,23 @@ class World(DirectObject):
         self.initAI()
         self.e_bikes = [self.addEnemy()]
         base.cTrav.addCollider(self.p_bike.cNodePath1, self.e_bikes[0].cevent)
-                
+        
+    def gameOverDead(self, task):
+        if self.dead == True:
+            self.deadCount += 1
+        if self.deadCount > 200:
+            self.gameOver = OnscreenImage(image = 'gameOver.png')
+            self.gameOver.setScale(1.35)
+        return Task.cont
+        
+    def gameOverWin(self, task):
+        if self.win == True:
+            self.winCount += 1
+        if self.winCount > 200:
+            self.gameOverWin = OnscreenImage(image = 'win.png')
+            self.gameOverWin.setScale(1.35)
+        return Task.cont
+        
     def powerupCollision(self, cEntry):
         #check powerup1
         if cEntry.getIntoNodePath() == self.w_terrain.cPowerNode1Path:
@@ -125,21 +131,19 @@ class World(DirectObject):
             self.w_terrain.powerUp2 = False
             self.p_bike.shotgun = True
             self.p_bike.p_up_timer = 0
-            print('shotty')
         #check powerup3
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode3Path:
             self.w_terrain.powerUp3 = False
-            print('shotty squared')
             self.p_bike.shotgun = True
             self.p_bike.p_up_timer = 0
         #check power4
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode4Path:
             self.w_terrain.powerUp4 = False
-            print('MEDIC!!')
+            self.p_bike.health_up = True
         #check powerup5
         elif cEntry.getIntoNodePath() == self.w_terrain.cPowerNode5Path:
             self.w_terrain.powerUp5 = False
-            print('Get some!')
+            self.p_bike.health_up = True
         cEntry.getIntoNodePath().remove()
         
     def bulletCollision(self, cEntry):
@@ -149,9 +153,42 @@ class World(DirectObject):
             self.p_bike.hp -= 1
             self.playerHealth.getX() - .1
             if self.p_bike.hp <= 0:
-                print('Game Over. You Lose')
-                #kill player bike
-                #go to end screen
+                #kill player bike and reset camera
+                taskMgr.remove("moveTask")
+                taskMgr.remove("bulletTask")
+                taskMgr.remove("shootTask")
+                taskMgr.remove("powerupTask")
+                x = base.camera.getX() + self.p_bike.bike.getX()
+                y = base.camera.getY() + self.p_bike.bike.getY()
+                h = self.p_bike.bike.getH()
+                
+                angle = deg2Rad(self.p_bike.bike.getH())
+                dy = -math.cos(angle)
+                dx = math.sin(angle)
+                
+                dx = -dx * 32
+                dy = -dy * 32
+                
+                base.camera.reparentTo(render)
+                base.camera.setPos(0,0,0)
+                base.camera.setPosHpr( self.p_bike.bike.getX() - dx, self.p_bike.bike.getY() - dy, 7, self.p_bike.bike.getH(), -8, 0)
+                
+                
+                
+                x = self.p_bike.bike.getX()
+                y = self.p_bike.bike.getY()
+                z = self.p_bike.bike.getZ()
+                h = self.p_bike.bike.getH()
+                
+                self.p_bike.bike.delete()
+                self.death_player = Actor("moto2_deadActor.egg", {"death":"moto2_deadAnim.egg"})
+                self.death_player.reparentTo(render)
+                self.death_player.setPos(x,y,z)
+                self.death_player.setH(h)
+                self.animcontrol = self.death_player.getAnimControl('death')
+                self.death_player.play("death")
+                self.dead = True
+                
         else:
             for enemy in self.e_bikes:
                 if cEntry.getFromNodePath() == enemy.cNodePath:
@@ -160,7 +197,13 @@ class World(DirectObject):
                     if enemy.hp <= 0:
                         print('Game Over. You Win!')
                         #kill enemy bike
-                        #go to end screen
+                        enemy.delete()
+                        self.death_enemy = Actor("moto1_deadActor.egg", {"death":"moto1_deadAnim.egg"})
+                        self.death_enemy.reparentTo(render)
+                        self.death_enemy.setPos(x,y,z)
+                        self.death_enemy.setH(h)
+                        self.death_enemy.play("death")
+                        self.win = True
                     break
         #destroy the bullet
         for i in range(len(self.p_bike.bullet.bulletList)):
@@ -179,20 +222,6 @@ class World(DirectObject):
                     enemy.bullet.bulletList.remove(enemy.bullet.bulletList[i])
                     cEntry.getIntoNodePath().getParent().remove()
                     break
-        
-    def testCollision(self, cEntry):
-        #check if in collision
-        print("test")
-        #remove test sphere
-        cEntry.getIntoNodePath().remove()
-        #find the right bullet in the list to remove and the right time index
-        for i in range(len(self.p_bike.bullet.bulletList)):
-            if cEntry.getFromNodePath().getParent() == self.p_bike.bullet.bulletList[i]:
-                print('erased')
-                self.p_bike.bullet.bulletTime.remove(self.p_bike.bullet.bulletTime[i])
-                self.p_bike.bullet.bulletList.remove(self.p_bike.bullet.bulletList[i])
-                cEntry.getFromNodePath().getParent().remove()
-                break
         
     def initAI(self):
         self.AIworld = AIWorld(render)
