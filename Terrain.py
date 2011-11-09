@@ -30,13 +30,38 @@ class Terrain(DirectObject):
         
         taskMgr.add(self.powerUpUpdate, "powerUpTask")
         
-        #setup polygons for walls
-        wall1 = CollisionPolygon(Point3(84,-77,0), Point3(84,-77,77), Point3(84,77,77), Point3(84,77,0))
+        #setup walls
+        #wall1
+        wall1 = CollisionPlane(Plane(Vec3(-1, 0, 0), Point3(82, -77, 77)))
         cNodeWall1 = CollisionNode("wall1")
         cNodeWall1.addSolid(wall1)
         cNodeWall1.setIntoCollideMask(1)
         cNodePathWall1 = render.attachNewNode(cNodeWall1)
         cNodePathWall1.show()
+        
+        #wall 2
+        wall2 = CollisionPlane(Plane(Vec3(1, 0, 0), Point3(-82, -77, 77)))
+        cNodeWall2 = CollisionNode("wall2")
+        cNodeWall2.addSolid(wall2)
+        cNodeWall2.setIntoCollideMask(1)
+        cNodePathWall2 = render.attachNewNode(cNodeWall2)
+        cNodePathWall2.show()
+        
+        #wall3
+        wall3 = CollisionPlane(Plane(Vec3(0, -1, 0), Point3(82, 82, 77)))
+        cNodeWall3 = CollisionNode("wall3")
+        cNodeWall3.addSolid(wall3)
+        cNodeWall3.setIntoCollideMask(1)
+        cNodePathWall3 = render.attachNewNode(cNodeWall3)
+        cNodePathWall3.show()
+        
+        #wall4
+        wall4 = CollisionPlane(Plane(Vec3(0, 1, 0), Point3(82, -82, 77)))
+        cNodeWall4 = CollisionNode("wall4")
+        cNodeWall4.addSolid(wall4)
+        cNodeWall4.setIntoCollideMask(1)
+        cNodePathWall4 = render.attachNewNode(cNodeWall4)
+        cNodePathWall4.show()
         
         
         #setup power up collision spheres
@@ -93,7 +118,7 @@ class Terrain(DirectObject):
         #setup lights for outer box
         plight5 = PointLight('plight1')
         plight5.setColor(VBase4(1,1,1,1))
-        plight5.setAttenuation(Point3(0,0,.01))
+        #plight5.setAttenuation(Point3(0,0,.01))
         plnp5 = render.attachNewNode(plight5)
         plnp5.setPos(-37.5,39.5,13.5)
         render.setLight(plnp5)
