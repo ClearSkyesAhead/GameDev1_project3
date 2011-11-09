@@ -182,7 +182,7 @@ class Bike(DirectObject):
     def setShoot(self, value):
         
         self.shootCheck = value
-        print("set shoot =", self.shootCheck)
+        #print("set shoot =", self.shootCheck)
     
     def shoot(self):
         if self.shotClock >= 25:

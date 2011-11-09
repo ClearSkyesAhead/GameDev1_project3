@@ -169,7 +169,7 @@ class PlayerBike(DirectObject):
         
     def setShoot(self, value):
         self.shootCheck = value
-        print("set shoot =", self.shootCheck)
+        #print("set shoot =", self.shootCheck)
     
     def shoot(self, task):
         #check if space bar is pressed
@@ -204,14 +204,14 @@ class PlayerBike(DirectObject):
         #check powerup timers
         if self.invin == True:
             self.invinCount += 1
-            print self.invinCount 
+            #print self.invinCount 
         if self.invinCount == 400:
             self.invin = False
             self.invinCount = 0
         if self.shotgun == True:
             self.weapon = 1
             self.p_up_timer += 1
-            print self.p_up_timer
+            #print self.p_up_timer
         if self.p_up_timer == 500:
             self.shotgun = False
             self.weapon = 0
@@ -237,7 +237,7 @@ class PlayerBike(DirectObject):
         #check key map
         
         #check if at jump height
-        if prevZ >= 4.00:
+        if prevZ >= 2.00:
             #set jump check
             self.jump = True
             

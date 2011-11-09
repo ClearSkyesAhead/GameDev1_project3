@@ -80,8 +80,11 @@ class World(DirectObject):
         self.accept("arrow_left-up", self.p_bike.setDirection, ["left", 0])
         
         #handle shooting
-        self.accept("space", self.p_bike.setShoot, [1])
-        self.accept("space-up", self.p_bike.setShoot, [0])
+        #self.accept("space", self.p_bike.setShoot, [1])
+        #self.accept("space-up", self.p_bike.setShoot, [0])
+        
+        self.accept("z", self.p_bike.setShoot, [1])
+        self.accept("z-up", self.p_bike.setShoot, [0])
         
         #powerup collisions
         self.accept("p_bike-powerup1", self.powerupCollision) 
@@ -160,10 +163,10 @@ class World(DirectObject):
     def bulletCollision(self, cEntry):
         #check which bike is being hit
         if self.p_bike.invin == False and (cEntry.getFromNodePath() == self.p_bike.cNodePath1 or cEntry.getFromNodePath() == self.p_bike.cNodePath1 or cEntry.getFromNodePath() == self.p_bike.cNodePath3):
-            print('player bike!')
+            #print('player bike!')
             self.p_bike.hp -= 1
             self.playerHealth.setX(self.playerHealth.getX() - .1)
-            print('player hp:', self.p_bike.hp)
+            #print('player hp:', self.p_bike.hp)
             if self.p_bike.hp <= 0:
                 #kill player bike and reset camera
                 taskMgr.remove("moveTask")
@@ -204,26 +207,26 @@ class World(DirectObject):
         #UNCOMMENT WHEN ENEMY BIKES ARE FIXED
         else:
             for enemy in self.e_bikes:
-                print('in enemy list')
-                print(cEntry.getFromNodePath())
-                print(cEntry.getFromNodePath().getParent())
-                print(cEntry.getFromNodePath().getParent())
-                print(enemy.cNodePath)
-                print(cEntry.getIntoNodePath())
-                print(cEntry.getIntoNodePath().getParent())
+                #print('in enemy list')
+                #print(cEntry.getFromNodePath())
+                #print(cEntry.getFromNodePath().getParent())
+                #print(cEntry.getFromNodePath().getParent())
+                #print(enemy.cNodePath)
+                #print(cEntry.getIntoNodePath())
+                #print(cEntry.getIntoNodePath().getParent())
                 if cEntry.getFromNodePath() == enemy.cNodePath1 or cEntry.getFromNodePath() == enemy.cNodePath2 or cEntry.getFromNodePath() == enemy.cNodePath3:
-                    print('enemy hit')
+                    #print('enemy hit')
                     enemy.hp -= 1
                     self.enemyHealth.setX(self.enemyHealth.getX() + .1)
-                    print('enemy hp:', enemy.hp)
+                    #print('enemy hp:', enemy.hp)
                     if enemy.hp <= 0:
-                        print('Game Over. You Win!')
+                        #print('Game Over. You Win!')
                         #kill enemy bike
                         x = enemy.cNodePath.getParent().getX()
                         y = enemy.cNodePath.getParent().getY()
                         z = enemy.cNodePath.getParent().getZ()
                         h = enemy.cNodePath.getParent().getH()
-                        print(x,y,z,h)
+                        #print(x,y,z,h)
                         enemy.cNodePath.getParent().remove()
                         
                         self.death_enemy = Actor("moto1_deadActor.egg", {"death":"moto1_deadAnim.egg"})
@@ -236,7 +239,7 @@ class World(DirectObject):
         #destroy the bullet
         for i in range(len(self.p_bike.bullet.bulletList)):
             if cEntry.getIntoNodePath().getParent() == self.p_bike.bullet.bulletList[i]:
-                print('erased')
+                #print('erased')
                 self.p_bike.bullet.bulletTime.remove(self.p_bike.bullet.bulletTime[i])
                 self.p_bike.bullet.bulletList.remove(self.p_bike.bullet.bulletList[i])
                 cEntry.getIntoNodePath().getParent().remove()
@@ -246,7 +249,7 @@ class World(DirectObject):
         for enemy in self.e_bikes:
             for i in range(len(enemy.bullet.bulletList)):
                 if cEntry.getIntoNodePath().getParent() == enemy.bullet.bulletList[i]:
-                    print('erased')
+                    #print('erased')
                     enemy.bullet.bulletTime.remove(enemy.bullet.bulletTime[i])
                     enemy.bullet.bulletList.remove(enemy.bullet.bulletList[i])
                     cEntry.getIntoNodePath().getParent().remove()

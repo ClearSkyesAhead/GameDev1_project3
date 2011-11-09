@@ -155,7 +155,7 @@ class EnemyBike(Bike):
         #self.AIbehaviors.flee(Vec3(mag, -mag, 0.0), r1, r2, 1.0)
         #self.AIbehaviors.flee(Vec3(-mag, mag, 0.0), r1, r2, 1.0)
         #self.AIbehaviors.flee(Vec3(-mag, -mag, 0.0), r1, r2, 1.0)
-        print self.AImode
+        #print self.AImode
         if self.AImode == 'target':
             #self.AIchar.setMaxForce(100);
             self.AIbehaviors.wander(0.5, 0, 17, 0.25)
