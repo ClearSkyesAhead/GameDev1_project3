@@ -83,6 +83,10 @@ class EnemyBike(Bike):
 		
     def update(self):
         self.shoot()
+        if self.AImode == 'flee':
+            if random.randint(1, 60) == 1:
+                self.lightsToggle()
+        
         """if self.lights:
             self.lightsOff()
         else:

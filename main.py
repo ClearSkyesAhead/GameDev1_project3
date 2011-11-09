@@ -110,9 +110,9 @@ class World(DirectObject):
         self.enemyHealth.setZ(-1.95)
         
         
-        #self.initAI()
-        #self.e_bikes = [self.addEnemy()]
-        #base.cTrav.addCollider(self.p_bike.cNodePath, self.e_bikes[0].cevent)
+        self.initAI()
+        self.e_bikes = [self.addEnemy()]
+        base.cTrav.addCollider(self.p_bike.cNodePath1, self.e_bikes[0].cevent)
                 
     def powerupCollision(self, cEntry):
         #check powerup1
@@ -142,7 +142,7 @@ class World(DirectObject):
         
     def bulletCollision(self, cEntry):
         #check which bike is being hit
-        if self.p_bike.invin == False and cEntry.getFromNodePath() == self.p_bike.cNodePath1:
+        if self.p_bike.invin == False and (cEntry.getFromNodePath() == self.p_bike.cNodePath1 or cEntry.getFromNodePath() == self.p_bike.cNodePath1 or cEntry.getFromNodePath() == self.p_bike.cNodePath3):
             print('player bike!')
             self.p_bike.hp -= 1
             self.playerHealth.getX() - .1
@@ -152,7 +152,7 @@ class World(DirectObject):
                 #go to end screen
         else:
             for enemy in self.e_bikes:
-                if cEntry.getFromNodePath() == enemy.Bike.cNodePath:
+                if cEntry.getFromNodePath() == enemy.cNodePath:
                     enemy.hp -= 1
                     self.enemyHealth.getX() + .1
                     if enemy.hp <= 0:
@@ -174,7 +174,7 @@ class World(DirectObject):
                 if cEntry.getIntoNodePath().getParent() == enemy.bullet.bulletList[i]:
                     print('erased')
                     enemy.bullet.bulletTime.remove(enemy.bullet.bulletTime[i])
-                    enemy.p_bike.bullet.bulletList.remove(enemy.bullet.bulletList[i])
+                    enemy.bullet.bulletList.remove(enemy.bullet.bulletList[i])
                     cEntry.getIntoNodePath().getParent().remove()
                     break
         
@@ -194,7 +194,11 @@ class World(DirectObject):
         
     def initAI(self):
         self.AIworld = AIWorld(render)
-        self.AIworld.addObstacle(self.w_terrain.wall_terrain)
+        #self.AIworld.addObstacle(self.w_terrain.wall_terrain)
+        self.AIworld.addObstacle(self.w_terrain.cNodePathWall1)
+        self.AIworld.addObstacle(self.w_terrain.cNodePathWall2)
+        self.AIworld.addObstacle(self.w_terrain.cNodePathWall3)
+        self.AIworld.addObstacle(self.w_terrain.cNodePathWall4)
         #AI World update        
         taskMgr.add(self.AIUpdate,"AIUpdate")
     
@@ -203,6 +207,7 @@ class World(DirectObject):
         for i in self.e_bikes:
             i.update()
             i.bike.setHpr(i.bike.getH(), 0, i.bike.getR())
+            i.bike.setY(max(0.0, i.bike.getY()))
         return Task.cont
         
     def addEnemy(self):
@@ -210,7 +215,7 @@ class World(DirectObject):
         enemy.target = self.p_bike
         enemy.setMode('scan')
         self.AIworld.addAiChar(enemy.AIchar)
-        base.cTrav.addCollider(self.p_bike.cNodePath, enemy.cevent)
+        base.cTrav.addCollider(self.p_bike.cNodePath1, enemy.cevent)
         
         return enemy
         

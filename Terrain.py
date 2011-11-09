@@ -36,38 +36,38 @@ class Terrain(DirectObject):
         cNodeWall1 = CollisionNode("wall1")
         cNodeWall1.addSolid(wall1)
         cNodeWall1.setIntoCollideMask(1)
-        cNodePathWall1 = render.attachNewNode(cNodeWall1)
-        cNodePathWall1.show()
+        self.cNodePathWall1 = render.attachNewNode(cNodeWall1)
+        #self.cNodePathWall1.show()
         
         #wall 2
         wall2 = CollisionPlane(Plane(Vec3(1, 0, 0), Point3(-82, -77, 77)))
         cNodeWall2 = CollisionNode("wall2")
         cNodeWall2.addSolid(wall2)
         cNodeWall2.setIntoCollideMask(1)
-        cNodePathWall2 = render.attachNewNode(cNodeWall2)
-        cNodePathWall2.show()
+        self.cNodePathWall2 = render.attachNewNode(cNodeWall2)
+        #self.cNodePathWall2.show()
         
         #wall3
         wall3 = CollisionPlane(Plane(Vec3(0, -1, 0), Point3(82, 82, 77)))
         cNodeWall3 = CollisionNode("wall3")
         cNodeWall3.addSolid(wall3)
         cNodeWall3.setIntoCollideMask(1)
-        cNodePathWall3 = render.attachNewNode(cNodeWall3)
-        cNodePathWall3.show()
+        self.cNodePathWall3 = render.attachNewNode(cNodeWall3)
+        #self.cNodePathWall3.show()
         
         #wall4
         wall4 = CollisionPlane(Plane(Vec3(0, 1, 0), Point3(82, -82, 77)))
         cNodeWall4 = CollisionNode("wall4")
         cNodeWall4.addSolid(wall4)
         cNodeWall4.setIntoCollideMask(1)
-        cNodePathWall4 = render.attachNewNode(cNodeWall4)
-        cNodePathWall4.show()
+        self.cNodePathWall4 = render.attachNewNode(cNodeWall4)
+        #self.cNodePathWall4.show()
         
         
         #setup power up collision spheres and the associated model
         #powerup1 collision sphere (invincibility)
-        #self.shield = Actor('shield.egg', {'rotate':'SOMETHING'})
-        self.shield = loader.loadModel('shield.egg')
+        self.shield = Actor('shield.egg', {'rotate':'SOMETHING'})
+        #self.shield = loader.loadModel('shield.egg')
         self.shield.reparentTo(render)
         self.shield.setPos(0, -.3, 16.5)
         self.shield.setScale(0.5)

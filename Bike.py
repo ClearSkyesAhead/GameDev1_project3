@@ -73,21 +73,55 @@ class Bike(DirectObject):
         #setup a moving dictionary
         #self.moveMap = {"left":0, "right":0, "forward":0}
         
-        #setup a shoot check
-        #self.shootCheck = 0
         
+        ###
         
+        #pusher collision spheres
+        #front
+        collisionPusher = CollisionHandlerPusher()
+        collisionPusher.setInPattern("e_bike-%in")
+        cPushSphere = CollisionSphere((0,3.5,2),2)
         
-        #setup collision spheres on bike
-        #base.cTrav = CollisionTraverser()
-        #self.cHandler = CollisionHandlerEvent()
+        cNode1 = CollisionNode("e_bike_push")
+        cNode1.addSolid(cPushSphere)
+        cNode1.setIntoCollideMask(0x10)
+        cNode1.setFromCollideMask(0x0)
+        self.cNodePath1 = self.bike.attachNewNode(cNode1)
         
-        """
-        cSphere = CollisionSphere((0,.2,1), 1)
-        cNode = CollisionNode("e_bike")
-        cNode.addSolid(cSphere)
-        self.cNodePath = self.bike.attachNewNode(cNode)
-        """
+        #self.cNodePath1.show()
+        
+        collisionPusher.addCollider(self.cNodePath1, self.bike)
+        self.cTrav.addCollider(self.cNodePath1, collisionPusher)
+        
+        #middle
+        cPushSphere = CollisionSphere((0,0,2),2)
+        
+        cNode2 = CollisionNode("e_bike_push")
+        cNode2.addSolid(cPushSphere)
+        cNode2.setIntoCollideMask(0x10)
+        cNode2.setFromCollideMask(0x0)
+        self.cNodePath2 = self.bike.attachNewNode(cNode2)
+        
+        #self.cNodePath2.show()
+        
+        collisionPusher.addCollider(self.cNodePath2, self.bike)
+        self.cTrav.addCollider(self.cNodePath2, collisionPusher)
+        
+        #back
+        cPushSphere = CollisionSphere((0,-2.5,2),2)
+        
+        cNode3 = CollisionNode("e_bike_push")
+        cNode3.addSolid(cPushSphere)
+        cNode3.setIntoCollideMask(0x10)
+        cNode3.setFromCollideMask(0x0)
+        self.cNodePath3 = self.bike.attachNewNode(cNode3)
+        
+        #self.cNodePath3.show()
+        
+        collisionPusher.addCollider(self.cNodePath3, self.bike)
+        self.cTrav.addCollider(self.cNodePath3, collisionPusher)
+        
+        ###
         
         #cHandler = CollisionHandlerEvent()
         #cHandler.setInPattern("e_bike-%in")
@@ -182,13 +216,17 @@ class Bike(DirectObject):
     def setupCollisions(self):
         pass
         
+    def lightsToggle(self):
+        if self.lights:
+            self.lightsOff()
+        else:
+            self.lightsOn()
+        
     def lightsOff(self):
         self.lights = False
         render.clearLight(self.spotnode1)
-        render.clearLight(self.spotnode2)
         
     def lightsOn(self):
         self.lights = True
         render.setLight(self.spotnode1)
-        render.setLight(self.spotnode2)
         

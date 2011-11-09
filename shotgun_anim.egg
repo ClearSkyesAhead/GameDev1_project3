@@ -1,0 +1,38 @@
+<CoordinateSystem> { Y-Up }
+
+<Comment> {
+  "maya2egg2012 -p -keep-uvs -round-uvs -tbnall -a chan -sf 0 -ef 96 -cs y-up -uo cm -trans all -o C:/Users/nevilc/Documents/RPI/GameDevI/Project3/GameDev1_project3/MotorcycleMayhem/scenes/shotgun_anim.egg C:/Users/nevilc/Documents/RPI/GameDevI/Project3/GameDev1_project3/MotorcycleMayhem/scenes/PowerupModels_temp.mb"
+}
+<Table> {
+  <Bundle> PowerupModels_temp {
+    <Table> "<skeleton>" {
+      <Table> Shotgun1 {
+        <Xfm$Anim_S$> xform {
+          <Scalar> fps { 24 }
+          <Char*> order { srpht }
+          <S$Anim> h {
+            <V> {
+              0 0 0.118828 0.471952 1.05433 1.86094 2.88672 4.12664
+              5.57567 7.22876 9.08088 11.127 13.362 15.781 18.3788
+              21.1505 24.091 27.1952 30.4581 33.8747 37.44 41.1489
+              44.9963 48.9772 53.0866 57.3195 61.6708 66.1354 70.7084
+              75.3847 80.1592 85.027 89.9829 95.0219 100.139 105.329
+              110.588 115.909 121.288 126.72 132.2 137.723 143.283
+              148.877 154.498 160.141 165.803 171.477 177.158 -177.158
+              -171.477 -165.803 -160.141 -154.498 -148.877 -143.283
+              -137.723 -132.2 -126.72 -121.288 -115.909 -110.588
+              -105.329 -100.139 -95.0219 -89.9829 -85.027 -80.1592
+              -75.3847 -70.7084 -66.1354 -61.6708 -57.3195 -53.0866
+              -48.9772 -44.9963 -41.1488 -37.44 -33.8747 -30.4581
+              -27.1952 -24.091 -21.1505 -18.3788 -15.781 -13.362 -11.127
+              -9.08088 -7.22876 -5.57567 -4.12664 -2.88672 -1.86094
+              -1.05433 -0.471951 -0.118828 0
+            }
+          }
+        }
+      }
+    }
+    <Table> morph {
+    }
+  }
+}
