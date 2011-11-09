@@ -17,8 +17,18 @@ from PlayerBike import PlayerBike
 from Terrain import Terrain
 from EnemyBike import EnemyBike
 
+
 class World(DirectObject):
     def __init__(self):
+        self.start = False
+        self.mainScreen = OnscreenImage(image = 'mainScreen.png')
+        #self.mainScreen.setScale(1.25)
+        self.accept("mouse1", self.begin)
+    def begin(self):
+        self.start = True
+        self.mainScreen.destroy()
+        self.__init__1()
+    def __init__1(self):
         #load physics
         base.enableParticles()
         
@@ -100,9 +110,9 @@ class World(DirectObject):
         self.enemyHealth.setZ(-1.95)
         
         
-        self.initAI()
-        self.e_bikes = [self.addEnemy()]
-        base.cTrav.addCollider(self.p_bike.cNodePath1, self.e_bikes[0].cevent)
+        #self.initAI()
+        #self.e_bikes = [self.addEnemy()]
+        #base.cTrav.addCollider(self.p_bike.cNodePath1, self.e_bikes[0].cevent)
         
     def gameOverDead(self, task):
         if self.dead == True:
@@ -188,8 +198,9 @@ class World(DirectObject):
                 self.animcontrol = self.death_player.getAnimControl('death')
                 self.death_player.play("death")
                 self.dead = True
-                
-        else:
+        
+        #UNCOMMENT WHEN ENEMY BIKES ARE FIXED
+        """else:
             for enemy in self.e_bikes:
                 if cEntry.getFromNodePath() == enemy.cNodePath:
                     enemy.hp -= 1
@@ -204,7 +215,7 @@ class World(DirectObject):
                         self.death_enemy.setH(h)
                         self.death_enemy.play("death")
                         self.win = True
-                    break
+                    break"""
         #destroy the bullet
         for i in range(len(self.p_bike.bullet.bulletList)):
             if cEntry.getIntoNodePath().getParent() == self.p_bike.bullet.bulletList[i]:
@@ -213,7 +224,8 @@ class World(DirectObject):
                 self.p_bike.bullet.bulletList.remove(self.p_bike.bullet.bulletList[i])
                 cEntry.getIntoNodePath().getParent().remove()
                 break
-        #cycle through the enemy bullets
+        #UNCOMMENT WHEN ENEMY BIKES ARE FIXED
+        """#cycle through the enemy bullets
         for enemy in self.e_bikes:
             for i in range(len(enemy.bullet.bulletList)):
                 if cEntry.getIntoNodePath().getParent() == enemy.bullet.bulletList[i]:
@@ -221,7 +233,7 @@ class World(DirectObject):
                     enemy.bullet.bulletTime.remove(enemy.bullet.bulletTime[i])
                     enemy.bullet.bulletList.remove(enemy.bullet.bulletList[i])
                     cEntry.getIntoNodePath().getParent().remove()
-                    break
+                    break"""
         
     def initAI(self):
         self.AIworld = AIWorld(render)
@@ -249,6 +261,8 @@ class World(DirectObject):
         base.cTrav.addCollider(self.p_bike.cNodePath1, enemy.cevent)
         
         return enemy
-        
+
+
+
 w = World()
 run()
