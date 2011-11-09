@@ -34,6 +34,7 @@ class Bike(DirectObject):
         #self.bike = Actor("temp_bike.egg", {"move":"bike-move", "shoot":"bike-shoot"})
         self.bike = Actor("motorcycle1.egg", {"move":"bike-move", "shoot":"bike-shoot"})
         self.bike.reparentTo(render)
+        self.bike.setScale(.5)
         
         #load the gun actors
         self.gun1 = Actor("temp_gun.egg", {"shoot":"gun-shoot"})

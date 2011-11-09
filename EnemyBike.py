@@ -105,17 +105,19 @@ class EnemyBike(Bike):
         #self.AIbehaviors.obstacleAvoidance(1.0)
         print self.AImode
         if self.AImode == 'target':
-            self.AIchar.setMaxForce(400);
+            self.AIchar.setMaxForce(200);
             self.AIbehaviors.wander(0.5, 0, 500, 0.5)
             self.AIbehaviors.pursue(self.target.bike, 1.5)
+            self.AIbehaviors.evade(self.target.bike, 10.0, 20.0, 10.0)
         elif self.AImode == 'flee':
-            self.AIchar.setMaxForce(600);
+            self.AIchar.setMaxForce(300);
             self.AIbehaviors.wander(1.0, 0, 500, 1.0)
-            self.AIbehaviors.evade(self.target.bike, 10.0, 20.0, 1.5)
+            self.AIbehaviors.evade(self.target.bike, 20.0, 40.0, 1.5)
         elif self.AImode == 'scan':
-            self.AIchar.setMaxForce(400);
+            self.AIchar.setMaxForce(150);
             self.AIbehaviors.wander(5.0, 0, 500, 1.5)
             self.AIbehaviors.pursue(self.target.bike, 0.25)
+            self.AIbehaviors.evade(self.target.bike, 10.0, 20.0, 10.0)
         
 
             

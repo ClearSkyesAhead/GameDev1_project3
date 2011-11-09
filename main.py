@@ -109,7 +109,6 @@ class World(DirectObject):
         
         #self.initAI()
         #self.e_bikes = [self.addEnemy()]
-        #self.e_bikes[0].AIbehaviors.pursue(self.p_bike.bike, 0.7)
         #base.cTrav.addCollider(self.p_bike.cNodePath, self.e_bikes[0].cevent)
                 
     def powerupCollision(self, cEntry):
@@ -184,7 +183,7 @@ class World(DirectObject):
         
     def initAI(self):
         self.AIworld = AIWorld(render)
-        self.AIworld.addObstacle(self.w_terrain.terrain)
+        self.AIworld.addObstacle(self.w_terrain.wall_terrain)
         #AI World update        
         taskMgr.add(self.AIUpdate,"AIUpdate")
     
