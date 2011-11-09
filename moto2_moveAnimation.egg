@@ -4,14 +4,14 @@
   "maya2egg2012 -cs y-up -a model -cn moto2 -o moto2_moveAnimation.egg moto2_moveAnimation.mb"
 }
 <Texture> "motorcycle2:lambert6SG" {
-  "../images/body2.tif"
+  "images/body2.tif"
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
   <Scalar> minfilter { linear_mipmap_linear }
   <Scalar> magfilter { linear }
 }
 <Texture> "motorcycle2:lambert4SG" {
-  "../images/body2.tif"
+  "images/body2.tif"
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
   <Scalar> minfilter { linear_mipmap_linear }
