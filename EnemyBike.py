@@ -111,7 +111,8 @@ class EnemyBike(Bike):
         if (self.bike.getPos() - self.prev).length() > 0.01:
             self.bike.loop("move")
         else:
-            self.bike.stop()
+            #self.bike.stop()
+            pass
         self.prev = self.bike.getPos()
         
         if self.shooting > 0:
@@ -156,18 +157,18 @@ class EnemyBike(Bike):
         #self.AIbehaviors.flee(Vec3(-mag, -mag, 0.0), r1, r2, 1.0)
         print self.AImode
         if self.AImode == 'target':
-            self.AIchar.setMaxForce(100);
+            #self.AIchar.setMaxForce(100);
             self.AIbehaviors.wander(0.5, 0, 17, 0.25)
             self.AIbehaviors.pursue(self.target.dummy, 0.5)
             self.AIbehaviors.evade(self.target.dummy, 4.0, 2.5, 0.95)
             
         elif self.AImode == 'flee':
-            self.AIchar.setMaxForce(100);
+            #self.AIchar.setMaxForce(100);
             self.AIbehaviors.wander(1.0, 0, 17, 0.5)
             self.AIbehaviors.pursue(self.target.dummy, 0.0)
             self.AIbehaviors.evade(self.target.dummy, 3.0, 6.0, 1.0)
         elif self.AImode == 'scan':
-            self.AIchar.setMaxForce(100);
+            #self.AIchar.setMaxForce(100);
             self.AIbehaviors.wander(0.5, 0, 17, 0.35)
             self.AIbehaviors.pursue(self.target.dummy, 0.5)
             self.AIbehaviors.evade(self.target.dummy, 3.0, 2.5, 0.85)
