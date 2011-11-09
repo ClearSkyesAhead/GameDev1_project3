@@ -219,7 +219,13 @@ class World(DirectObject):
                     if enemy.hp <= 0:
                         print('Game Over. You Win!')
                         #kill enemy bike
-                        enemy.delete()
+                        x = enemy.cNodePath.getParent().getX()
+                        y = enemy.cNodePath.getParent().getY()
+                        z = enemy.cNodePath.getParent().getZ()
+                        h = enemy.cNodePath.getParent().getH()
+                        print(x,y,z,h)
+                        enemy.cNodePath.getParent().remove()
+                        
                         self.death_enemy = Actor("moto1_deadActor.egg", {"death":"moto1_deadAnim.egg"})
                         self.death_enemy.reparentTo(render)
                         self.death_enemy.setPos(x,y,z)
